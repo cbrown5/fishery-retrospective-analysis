@@ -1,0 +1,232 @@
+﻿country,stocklong,country,mean.5yr,trend.50yr.coef,Value,FAO group,dollar_per_tonne
+Argentina,Argentine anchoita Northern Argentina,Argentina,13.27125613,-0.015551806,7.128816664,"Herrings, sardines, anchovies",660
+Argentina,Argentine anchoita Southern Argentina,Argentina,8.263356568,-0.001302169,6.167893778,"Herrings, sardines, anchovies",660
+Argentina,Argentine hake Northern Argentina,Argentina,13.27125613,-0.015551806,5.105945474,"Cods, hakes, haddocks",1700
+Argentina,Argentine hake Southern Argentina,Argentina,8.263356568,-0.001302169,6.865526045,"Cods, hakes, haddocks",1700
+Argentina,Patagonian grenadier Southern Argentina,Argentina,8.687087593,-0.000889735,6.375195163,Miscellaneous demersal fishes,2930
+Argentina,Southern blue whiting Southern Argentina,Argentina,8.687087593,-0.000889735,6.061456919,"Cods, hakes, haddocks",1700
+Australia,Bight_redfish SE Australia,Australia,16.9679637,0.007987843,2.295761213,Miscellaneous demersal fishes,2930
+Australia,Blue Grenadier SE Australia,Australia,15.52306669,0.008452788,4.596327,Miscellaneous demersal fishes,2930
+Australia,Blue_warehou_east SE Australia,Australia,15.2604496,0.009014906,0.66055738,Miscellaneous demersal fishes,2930
+Australia,Blue_warehou_west SE Australia,Australia,19.42399315,0.034096097,0.379014659,Miscellaneous demersal fishes,2930
+Australia,Deepwater_Flathead SE Australia,Australia,15.2604496,0.009014906,2.646999457,Miscellaneous demersal fishes,2930
+Australia,Eastern_gemfish SE Australia,Australia,20.88773862,0.026865753,1.804022964,Miscellaneous demersal fishes,2930
+Australia,Gummy shark (BS),Australia,15.79191364,0.007841057,1.112716357,"Sharks, rays, chimaeras",1100
+Australia,Gummy shark (SA),Australia,18.38305899,0.014346744,1.306448884,"Sharks, rays, chimaeras",1100
+Australia,Gummy_shark (TAS),Australia,14.58302312,0.004121676,-0.114409333,"Sharks, rays, chimaeras",1100
+Australia,Morwong _east,Australia,16.02293991,0.012285718,2.041218705,Miscellaneous demersal fishes,2930
+Australia,Morwong_West,Australia,17.63635933,0.007566889,1.577923716,Miscellaneous demersal fishes,2930
+Australia,Orange Roughy SE Australia,Australia,15.52306669,0.008452788,3.220940532,Miscellaneous demersal fishes,2930
+Australia,Pink_Ling_East,Australia,15.52306669,0.008452788,1.478321886,Miscellaneous demersal fishes,2930
+Australia,Pink_Ling_West,Australia,17.63635933,0.007566889,1.853830574,Miscellaneous demersal fishes,2930
+Australia,Redfish SE Australia,Australia,21.84207194,0.025036003,1.313046826,Miscellaneous demersal fishes,2930
+Australia,School Whiting SE Australia,Australia,15.52306669,0.008452788,2.367358883,Miscellaneous coastal fishes,3050
+Australia,School_shark SE Australia,Australia,15.52306669,0.008452788,-0.779955524,"Sharks, rays, chimaeras",1100
+Australia,Silver_Warehou SE Australia,Australia,16.2425055,0.017791538,3.048041951,Miscellaneous demersal fishes,2930
+Australia,Tiger_flathead SE Australia,Australia,15.87245329,0.008663612,3.332114792,Miscellaneous demersal fishes,2930
+Canada,Atlantic cod Southern Gulf of St. Lawrence,Canada,7.392414168,0.03219276,3.934762492,"Cods, hakes, haddocks",1700
+Canada,Atlantic cod Southern Labrador-Eastern Newfoundland,Canada,4.000810725,0.014590318,5.737217251,"Cods, hakes, haddocks",1700
+Canada,Herring Southern Gulf of St. Lawrence (Fall spawners),Canada,7.392414168,0.03219276,4.179604406,"Herrings, sardines, anchovies",660
+Canada,Herring Southern Gulf of St. Lawrence (Spring spawners),Canada,7.392414168,0.03219276,2.689071235,"Herrings, sardines, anchovies",660
+Canada,Mackerel Northwest Atlantic (NAFO Subareas 3 and 4),Canada,8.26613,0.027922314,2.079441542,Miscellaneous pelagic fishes,850
+Canada,Pacific herring Central Coast,Canada,10.93726041,0.0219658,2.779067688,"Herrings, sardines, anchovies",660
+Canada,Pacific herring Prince Rupert District,Canada,9.974719343,0.018267352,2.446685437,"Herrings, sardines, anchovies",660
+Canada,Pacific herring Queen Charlotte Islands,Canada,10.5354497,0.021346429,1.991429664,"Herrings, sardines, anchovies",660
+Canada,Pacific herring Strait of Georgia,Canada,11.04818816,0.009227744,4.113853029,"Herrings, sardines, anchovies",660
+Canada,Pacific herring West Coast of Vancouver Island,Canada,11.24012104,0.015455593,2.077690009,"Herrings, sardines, anchovies",660
+Canada,Rock sole Hecate Strait,Canada,10.19620065,0.02020864,3.727619282,"Flounders, halibuts, soles",3050
+Canada,Winter flounder Southern Gulf of St. Lawrence,Canada,7.392414168,0.03219276,4.895224443,"Flounders, halibuts, soles",3050
+Multinational Tuna Commission,Albacore tuna South Pacific Ocean,Multinational Tuna Commission,27.85701838,0.010135838,5.575949103,"Tunas, bonitos, billfishes",1950
+Multinational Tuna Commission,Atlantic bluefin tuna Eastern Atlantic,Multinational Tuna Commission,17.19373892,0.016817138,6.810693566,"Tunas, bonitos, billfishes",1950
+Multinational Tuna Commission,Atlantic bluefin tuna Western Atlantic,Multinational Tuna Commission,22.19674436,0.020793241,3.317815773,"Tunas, bonitos, billfishes",1950
+Multinational Tuna Commission,Bigeye tuna Indian Ocean,Multinational Tuna Commission,27.22701914,0.011222411,6.934883946,"Tunas, bonitos, billfishes",1950
+Multinational Tuna Commission,Skipjack tuna Central Western Pacific Ocean,Multinational Tuna Commission,28.89061468,0.010017983,8.741136423,"Tunas, bonitos, billfishes",1950
+Multinational Tuna Commission,Yellowfin tuna Central Western Pacific Ocean,Multinational Tuna Commission,28.89061468,0.010017983,7.503840747,"Tunas, bonitos, billfishes",1950
+Multinational_ICES Arctic Fisheries Working Group,Atlantic cod North-East Arctic,Multinational_ICES Arctic Fisheries Working Group,5.263072746,0.019145966,7.807306687,"Cods, hakes, haddocks",1700
+Multinational_ICES Arctic Fisheries Working Group,Capelin Barents Sea,Multinational_ICES Arctic Fisheries Working Group,2.109003202,0.576172562,7.003792467,Miscellaneous pelagic fishes,850
+Multinational_ICES Arctic Fisheries Working Group,Golden redfish North-East Arctic,Multinational_ICES Arctic Fisheries Working Group,2.363815781,0.017289242,4.138361448,Miscellaneous demersal fishes,2930
+Multinational_ICES Arctic Fisheries Working Group,Greenland halibut North-East Arctic,Multinational_ICES Arctic Fisheries Working Group,2.363815781,0.017289242,7.591760802,"Flounders, halibuts, soles",3050
+Multinational_ICES Arctic Fisheries Working Group,Haddock North-East Arctic,Multinational_ICES Arctic Fisheries Working Group,2.363815781,0.017289242,6.788633848,"Cods, hakes, haddocks",1700
+Multinational_ICES Arctic Fisheries Working Group,Pollock North-East Arctic,Multinational_ICES Arctic Fisheries Working Group,2.363815781,0.017289242,6.448810277,"Cods, hakes, haddocks",1700
+Multinational_ICES Baltic Fisheries Assessment Working Group,Atlantic cod Eastern Baltic,Multinational_ICES,9.143680669,0.034626972,5.693732139,"Cods, hakes, haddocks",1700
+Multinational_ICES Baltic Fisheries Assessment Working Group,Atlantic cod Kattegat,Multinational_ICES,10.4212593,0.026903996,1.324950731,"Cods, hakes, haddocks",1700
+Multinational_ICES Baltic Fisheries Assessment Working Group,Atlantic cod Western Baltic,Multinational_ICES,9.790320782,0.032482502,3.731579684,"Cods, hakes, haddocks",1700
+Multinational_ICES Baltic Fisheries Assessment Working Group,Herring Bothnian Bay,Multinational_ICES,6.467743333,0.629748958,1.665175317,"Herrings, sardines, anchovies",660
+Multinational_ICES Baltic Fisheries Assessment Working Group,Herring Bothnian Sea,Multinational_ICES,7.077980673,0.028217792,6.443049591,"Herrings, sardines, anchovies",660
+Multinational_ICES Baltic Fisheries Assessment Working Group,Herring Eastern Baltic,Multinational_ICES,9.143680669,0.034626972,5.849785769,"Herrings, sardines, anchovies",660
+Multinational_ICES Baltic Fisheries Assessment Working Group,Herring Gulf of Riga East of Gotland,Multinational_ICES,8.74737989,0.2703007,4.085404721,"Herrings, sardines, anchovies",660
+Multinational_ICES North-Western Working Group,Atlantic cod Faroe Plateau,Multinational_ICES,9.785745401,0.013698598,4.056123349,"Cods, hakes, haddocks",1700
+Multinational_ICES North-Western Working Group,Atlantic cod Iceland Grounds,Multinational_ICES,4.482861862,0.03778639,6.98081985,"Cods, hakes, haddocks",1700
+Multinational_ICES North-Western Working Group,Haddock Faroe Plateau,Multinational_ICES,9.785745401,0.013698598,3.731579684,"Cods, hakes, haddocks",1700
+Multinational_ICES North-Western Working Group,Haddock Iceland Grounds,Multinational_ICES,4.482861862,0.03778639,4.831508628,"Cods, hakes, haddocks",1700
+Multinational_ICES North-Western Working Group,Herring Iceland (Summer spawners),Multinational_ICES,7.461459209,0.017131979,4.987161938,"Herrings, sardines, anchovies",660
+Multinational_ICES North-Western Working Group,Pollock Faroe Plateau,Multinational_ICES,8.699676067,0.015697628,4.703974255,"Cods, hakes, haddocks",1700
+Multinational_ICES Other Working Groups,Anchovy Bay of Biscay,Multinational_ICES,15.76332508,0.025352936,4.209457369,"Herrings, sardines, anchovies",660
+Multinational_ICES Other Working Groups,Blue whiting Northeast Atlantic,Multinational_ICES,11.02270004,0.015360026,9.185176398,"Cods, hakes, haddocks",1700
+Multinational_ICES Other Working Groups,Fourspotted megrim ICES 8c-9a,Multinational_ICES,15.83548818,0.021083762,3.088812697,"Flounders, halibuts, soles",3050
+Multinational_ICES Other Working Groups,Hake ICES 3a-4-6-7-8abd,Multinational_ICES,13.02391365,0.012630667,6.227623035,"Cods, hakes, haddocks",1700
+Multinational_ICES Other Working Groups,Hake ICES 8c-9a,Multinational_ICES,15.83548818,0.021083762,3.674653747,"Cods, hakes, haddocks",1700
+Multinational_ICES Other Working Groups,Herring ICES 22-24-3a,Multinational_ICES,11.75161014,0.011900603,4.228875455,"Herrings, sardines, anchovies",660
+Multinational_ICES Other Working Groups,Herring ICES 5a-7bc,Multinational_ICES,11.3298818,0.012328155,4.100823528,"Herrings, sardines, anchovies",660
+Multinational_ICES Other Working Groups,Herring Irish Sea,Multinational_ICES,11.366857,0.013830731,2.697999865,"Herrings, sardines, anchovies",660
+Multinational_ICES Other Working Groups,Herring West of Scotland,Multinational_ICES,11.22335234,0.011160911,4.209457369,"Herrings, sardines, anchovies",660
+Multinational_ICES Other Working Groups,Mackerel ICES Northeast Atlantic,Multinational_ICES,15.28542068,0.016402227,7.696939648,Miscellaneous pelagic fishes,850
+Multinational_ICES Other Working Groups,Megrim ICES 8c-9a,Multinational_ICES,15.83548818,0.021083762,1.909542505,"Flounders, halibuts, soles",3050
+Multinational_ICES Other Working Groups,Sprat North Sea,Multinational_ICES,10.59512743,0.024500523,5.598199712,"Herrings, sardines, anchovies",660
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Atlantic cod Irish Sea,Multinational_ICES,11.366857,0.013830731,2.832919183,"Cods, hakes, haddocks",1700
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Atlantic cod West of Scotland,Multinational_ICES,10.5110207,0.013105356,1.409033848,"Cods, hakes, haddocks",1700
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Common sole Celtic Sea,Multinational_ICES,13.5997029,0.016521194,1.937157672,"Flounders, halibuts, soles",3050
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Common sole Eastern English Channel,Multinational_ICES,11.76961099,0.032644868,3.65351131,"Flounders, halibuts, soles",3050
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Common sole Irish Sea,Multinational_ICES,11.366857,0.013830731,1.843402702,"Flounders, halibuts, soles",3050
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Common sole North Sea,Multinational_ICES,10.55239733,0.024369031,5.053694784,"Flounders, halibuts, soles",3050
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Common sole Western English Channel,Multinational_ICES,12.05914519,0.032731316,2.372017868,"Flounders, halibuts, soles",3050
+Multinational_ICES Working Group on Celtic Seas Ecosystems,European plaice Celtic Sea,Multinational_ICES,13.5997029,0.016521194,1.686398954,"Flounders, halibuts, soles",3050
+Multinational_ICES Working Group on Celtic Seas Ecosystems,European plaice Eastern English Channel,Multinational_ICES,11.76961099,0.032644868,4.858183171,"Flounders, halibuts, soles",3050
+Multinational_ICES Working Group on Celtic Seas Ecosystems,European plaice Irish Sea,Multinational_ICES,11.366857,0.013830731,4.088829382,"Flounders, halibuts, soles",3050
+Multinational_ICES Working Group on Celtic Seas Ecosystems,European plaice North Sea,Multinational_ICES,10.55239733,0.024369031,7.840194913,"Flounders, halibuts, soles",3050
+Multinational_ICES Working Group on Celtic Seas Ecosystems,European plaice Western English Channel,Multinational_ICES,12.05914519,0.032731316,2.703439589,"Flounders, halibuts, soles",3050
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Haddock Irish Sea,Multinational_ICES,11.366857,0.013830731,3.49149502,"Cods, hakes, haddocks",1700
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Haddock Rockall Bank,Multinational_ICES,10.9930239,0.012606474,3.396687226,"Cods, hakes, haddocks",1700
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Haddock West of Scotland,Multinational_ICES,11.22335234,0.011160911,4.050392675,"Cods, hakes, haddocks",1700
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Whiting Celtic Sea,Multinational_ICES,13.5997029,0.016521194,4.566377381,"Cods, hakes, haddocks",1700
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Whiting West of Scotland,Multinational_ICES,11.22335234,0.011160911,3.333988632,"Cods, hakes, haddocks",1700
+Multinational_Other Organisations,Atlantic cod NAFO 5Zjm,Multinational_Other Organisations,5.091882464,0.015500109,2.803360381,"Cods, hakes, haddocks",1700
+Multinational_Other Organisations,Chilean jack mackerel Chilean EEZ and offshore,Multinational_Other Organisations,11.165778,0.001652538,7.462100057,Miscellaneous pelagic fishes,850
+Multinational_Other Organisations,Pacific halibut North Pacific,Multinational_Other Organisations,5.183902327,0.011849879,5.542909249,"Flounders, halibuts, soles",3050
+Multinational_Other Organisations,Peruvian anchoveta North-Central Peruvian coast,Multinational_Other Organisations,21.0544222,-0.000545412,8.377793184,"Herrings, sardines, anchovies",660
+Multinational_Other Organisations,Walleye pollock Northern Sea of Okhotsk,Multinational_Other Organisations,3.931126726,0.13243224,9.09677966,"Cods, hakes, haddocks",1700
+New Zealand,Australian salmon New Zealand,New Zealand,18.32716792,0.012812823,4.385022144,Miscellaneous coastal fishes,3050
+New Zealand,Hoki Eastern New Zealand,New Zealand,16.19795895,0.017980121,6.642030374,Miscellaneous demersal fishes,2930
+New Zealand,Hoki Western New Zealand,New Zealand,15.61086136,-0.001209676,6.873319102,Miscellaneous demersal fishes,2930
+New Zealand,Ling New Zealand Areas LIN 72,New Zealand,15.31007185,0.007605357,2.285693225,Miscellaneous demersal fishes,2930
+New Zealand,Ling New Zealand Areas LIN 7WC-WCSI,New Zealand,15.98322048,0.00204249,4.888919535,Miscellaneous demersal fishes,2930
+New Zealand,Orange roughy New Zealand Mid East Coast,New Zealand,12.08203685,-0.005187977,3.65000868,Miscellaneous demersal fishes,2930
+New Zealand,Paua New Zealand Area PAU 5B (Stewart Island),New Zealand,11.53969107,-0.003643688,2.255493485,"Abalones, winkles, conchs",6050
+New Zealand,Paua New Zealand Area PAU 5D (Otago),New Zealand,11.13059249,-0.011942152,1.562346305,"Abalones, winkles, conchs",6050
+New Zealand,Paua New Zealand Area PAU 7 (Marlborough),New Zealand,15.89303316,0.005191252,1.54329811,"Abalones, winkles, conchs",6050
+New Zealand,Smooth oreo Chatham Rise,New Zealand,14.5643678,0.007457922,4.596936381,Miscellaneous demersal fishes,2930
+New Zealand,Smooth oreo West end of Chatham Rise,New Zealand,13.48572439,0.00122994,4.435093356,Miscellaneous demersal fishes,2930
+New Zealand,Southern blue whiting Campbell Island Rise,New Zealand,8.054660937,-0.004839897,5.778889947,"Cods, hakes, haddocks",1700
+New Zealand,Southern hake Chatham Rise,New Zealand,13.48572439,0.00122994,3.703521731,"Cods, hakes, haddocks",1700
+New Zealand,Southern hake Sub-Antarctic,New Zealand,9.987477636,-0.003712721,4.111693201,"Cods, hakes, haddocks",1700
+New Zealand,Trevally New Zealand Areas TRE 7,New Zealand,17.42032193,0.008284448,3.524152206,Miscellaneous coastal fishes,3050
+South Africa,Anchovy South Africa,South Africa,19.15655174,0.024570951,7.195337346,"Herrings, sardines, anchovies",660
+South Africa,Cape horse mackerel South Africa South coast,South Africa,18.73159493,0.019493779,5.960592883,Miscellaneous pelagic fishes,850
+South Africa,Deep water cape hake South Africa,South Africa,18.47655943,0.011869197,5.682558838,"Cods, hakes, haddocks",1700
+South Africa,Patagonian toothfish South Africa Subantarctic Prince Edward Islands,South Africa,6.490785867,0.007526213,4.124631255,Miscellaneous demersal fishes,2930
+South Africa,Sardine South Africa,South Africa,22.04358585,0.015010105,5.410484663,"Herrings, sardines, anchovies",660
+South Africa,Shallow water cape hake South Africa,South Africa,17.62744225,-0.004126292,5.550631295,"Cods, hakes, haddocks",1700
+South Africa,South African abalone South Africa,South Africa,17.62744225,-0.004126292,3.417070731,"Abalones, winkles, conchs",6050
+South Africa,Southern spiny lobster South Africa South coast,South Africa,17.62744225,-0.004126292,2.674700221,"Lobsters, spiny-rock lobsters",12500
+USA,Acadian redfish Gulf of Maine / Georges Bank,USA,10.16653888,0.018364124,6.846411649,Miscellaneous demersal fishes,2930
+USA,Alaska plaice Bering Sea and Aleutian Islands,USA,5.183902327,0.011849879,6.363889801,"Flounders, halibuts, soles",3050
+USA,American plaice Gulf of Maine / Georges Bank,USA,10.16653888,0.018364124,3.391147046,"Flounders, halibuts, soles",3050
+USA,Arrowtooth flounder Bering Sea and Aleutian Islands,USA,5.183902327,0.011849879,7.273647612,"Flounders, halibuts, soles",3050
+USA,Arrowtooth flounder Gulf of Alaska,USA,9.618819343,0.01890851,8.023224685,"Flounders, halibuts, soles",3050
+USA,Arrowtooth flounder Pacific Coast,USA,12.58719748,0.000613722,5.130017051,"Flounders, halibuts, soles",3050
+USA,Atka mackerel Bering Sea and Aleutian Islands,USA,5.183902327,0.011849879,6.223468727,Miscellaneous demersal fishes,2930
+USA,Atlantic butterfish Gulf of Maine / Cape Hatteras,USA,14.99093123,0.033910738,5.212059887,Miscellaneous demersal fishes,2930
+USA,Atlantic cod_Eastern Georges Bank,USA,12.35437945,0.025644008,2.357385729,Miscellaneous demersal fishes,2930
+USA,Atlantic cod Georges Bank,USA,12.35437945,0.025644008,3.082279168,Miscellaneous demersal fishes,2930
+USA,Atlantic cod Gulf of Maine,USA,10.16653888,0.018364124,2.97462099,Miscellaneous demersal fishes,2930
+USA,Atlantic surfclam_Mid-Atlantic Coast,USA,14.39279232,0.03264172,7.228388452,"Clams, cockles, arkshells",1400
+USA,Atlantic wolffish_Gulf of Maine / Georges Bank,USA,10.16653888,0.018364124,0.619608277,Miscellaneous demersal fishes,2930
+USA,Big skate_Gulf of Alaska,USA,8.607598373,0.020312394,3.938368885,"Sharks, rays, chimaeras",1100
+USA,Bigeye tuna_Atlantic,USA,27.34287389,0.018333134,6.451962052,"Tunas, bonitos, billfishes",1950
+USA,Black sea bass_Mid-Atlantic Coast,USA,23.74233941,0.00456698,4.590570629,Miscellaneous coastal fishes,3050
+USA,Blackspotted and Rougheye Rockfish Complex_Gulf of Alaska,USA,6.908077704,0.013691012,3.672567129,Miscellaneous demersal fishes,2930
+USA,Blue king crab_Pribilof Islands,USA,4.552913729,0.008570821,-0.319860971,"Crabs, sea-spiders",4220
+USA,Blue king crab_Saint Matthew Island,USA,3.31758525,0.013016785,1.500994873,"Crabs, sea-spiders",4220
+USA,Bluefish_Atlantic Coast,USA,14.39279232,0.03264172,5.593115125,Miscellaneous coastal fishes,3050
+USA,Bottomfish Multi-species Complex_Guam,USA,28.87262814,0.011778209,-1.827209252,Marine fishes not identified,1500
+USA,Bottomfish Multi-species Complex_Main Hawaiian Islands Deep 7,USA,25.87122354,0.008344423,2.571289373,Marine fishes not identified,1500
+USA,Bottomfish Multi-species Complex_Northern Mariana Islands,USA,28.73163343,0.010496789,-0.445821995,Marine fishes not identified,1500
+USA,Brown shrimp_Gulf of Mexico,USA,26.3005455,0.013888179,3.91031351,"Shrimps, prawns",4500
+USA,Cabezon_California,USA,13.74322654,-0.006371596,0.614061388,Miscellaneous coastal fishes,3050
+USA,Cabezon_Oregon,USA,12.21942088,0.00345721,-0.649800376,Miscellaneous coastal fishes,3050
+USA,California scorpionfish_Southern California,USA,16.09452992,0.024815977,0.95675992,Miscellaneous coastal fishes,3050
+USA,Canary rockfish_Pacific Coast,USA,10.7840693,0.023481394,2.912655678,Miscellaneous demersal fishes,2930
+USA,Cowcod_Southern California,USA,16.09452992,0.024815977,-1.279558807,Miscellaneous demersal fishes,2930
+USA,Dover sole Pacific Coast,USA,12.57062829,-0.010898758,6.969602682,"Flounders, halibuts, soles",3050
+USA,Dover sole_Gulf of Alaska,USA,8.607598373,0.020312394,4.88873881,"Flounders, halibuts, soles",3050
+USA,Dusky rockfish_Gulf of Alaska,USA,8.607598373,0.020312394,4.135947851,Miscellaneous coastal fishes,3050
+USA,English sole_Pacific Coast,USA,12.80182236,-0.006521697,4.728692719,"Flounders, halibuts, soles",3050
+USA,Flathead sole_Bering Sea / Aleutian Islands,USA,6.030324491,0.014287811,6.032513396,"Flounders, halibuts, soles",3050
+USA,Flathead sole_Gulf of Alaska,USA,8.275158769,0.020105207,5.415652302,"Flounders, halibuts, soles",3050
+USA,Gag Gulf of Mexico,USA,26.3005455,0.013888179,3.549904702,Miscellaneous coastal fishes,3050
+USA,Gag Southern Atlantic coast,USA,26.66562142,0.002188743,1.658418535,Miscellaneous coastal fishes,3050
+USA,Golden king crab_Eastern Aleutian Islands,USA,6.770509644,0.013533967,4.022459118,"Crabs, sea-spiders",4220
+USA,Golden king crab_Western Aleutian Islands,USA,5.88747824,0.014566348,3.258725187,"Crabs, sea-spiders",4220
+USA,Goosefish_Gulf of Maine / Northern Georges Bank,USA,10.81385254,0.022548938,5.149631719,Miscellaneous demersal fishes,2930
+USA,Goosefish_Southern Georges Bank / Mid-Atlantic,USA,12.31150601,0.026242787,5.757749677,Miscellaneous demersal fishes,2930
+USA,Greater amberjack_Gulf of Mexico,USA,26.3005455,0.013888179,0.048409139,Miscellaneous pelagic fishes,850
+USA,Greenland halibut_Bering Sea / Aleutian Islands,USA,5.677944652,0.013339074,4.9145318,"Flounders, halibuts, soles",3050
+USA,Haddock_Eastern Georges Bank,USA,12.83124721,0.031927245,4.608266388,"Cods, hakes, haddocks",1700
+USA,Haddock_Georges Bank,USA,12.35437945,0.025644008,6.171772829,"Cods, hakes, haddocks",1700
+USA,Haddock_Gulf of Maine,USA,10.16653888,0.018364124,4.368240161,"Cods, hakes, haddocks",1700
+USA,Herring Northwestern Atlantic Coast,USA,10.81385254,0.022548938,6.019031075,"Herrings, sardines, anchovies",660
+USA,Kamchatka flounder_Bering Sea / Aleutian Islands,USA,5.677944652,0.013339074,4.960577026,"Flounders, halibuts, soles",3050
+USA,Kelp greenling_Oregon,USA,12.21942088,0.00345721,-0.070286993,Miscellaneous coastal fishes,3050
+USA,Lingcod_Southern Pacific Coast,USA,14.95119709,0.001556152,3.001957854,Miscellaneous coastal fishes,3050
+USA,Longnose skate_Pacific Coast,USA,12.69918271,0.00358723,2.117130344,"Sharks, rays, chimaeras",1100
+USA,Longspine thornyhead_Pacific Coast,USA,12.69918271,0.00358723,4.429527191,Miscellaneous demersal fishes,2930
+USA,Mutton snapper Southern Atlantic coast and Gulf of Mexico,USA,26.66562142,0.002188743,1.953098536,Miscellaneous coastal fishes,3050
+USA,Northern rock sole_Bering Sea / Aleutian Islands,USA,5.677944652,0.013339074,7.121369086,"Flounders, halibuts, soles",3050
+USA,Northern rockfish_Bering Sea / Aleutian Islands,USA,5.677944652,0.013339074,5.753166748,Miscellaneous demersal fishes,2930
+USA,Northern rockfish_Western / Central Gulf of Alaska,USA,6.916453932,0.014136839,4.73166318,Miscellaneous demersal fishes,2930
+USA,Other Flatfish Complex_Bering Sea / Aleutian Islands,USA,5.677944652,0.013339074,5.724613984,"Flounders, halibuts, soles",3050
+USA,Other Skates Complex_Bering Sea / Aleutian Islands,USA,5.677944652,0.013339074,4.788790899,"Sharks, rays, chimaeras",1100
+USA,Pacific chub mackerel_Pacific Coast,USA,12.69918271,0.00358723,3.817786169,Miscellaneous pelagic fishes,850
+USA,Pacific cod_Aleutian Islands,USA,6.180397204,0.014507572,4.891464296,"Cods, hakes, haddocks",1700
+USA,Pacific cod_Bering Sea,USA,3.66225086,0.014031137,6.216736631,"Cods, hakes, haddocks",1700
+USA,Pacific cod_Gulf of Alaska,USA,9.160030198,0.022260091,4.182705653,"Cods, hakes, haddocks",1700
+USA,Pacific hake_Pacific Coast,USA,12.69918271,0.00358723,7.679824104,"Cods, hakes, haddocks",1700
+USA,Pacific halibut_Pacific Coast / Alaska,USA,11.8501423,0.005434018,5.495999434,"Flounders, halibuts, soles",3050
+USA,Pacific ocean perch_Bering Sea / Aleutian Islands,USA,5.677944652,0.013339074,7.05977174,Miscellaneous demersal fishes,2930
+USA,Pacific ocean perch_Gulf of Alaska,USA,9.160030198,0.022260091,6.240331399,Miscellaneous demersal fishes,2930
+USA,Pacific ocean perch_Pacific Coast,USA,12.69918271,0.00358723,3.426309418,Miscellaneous demersal fishes,2930
+USA,Pacific sardine Pacific Coast,USA,12.69918271,0.00358723,3.760409105,"Herrings, sardines, anchovies",660
+USA,Pacific sardine_Northern Subpopulation,USA,12.69918271,0.00358723,2.900378193,"Herrings, sardines, anchovies",660
+USA,Petrale sole_Pacific Coast,USA,12.69918271,0.00358723,3.564183202,"Flounders, halibuts, soles",3050
+USA,Pink shrimp_Gulf of Mexico,USA,26.3005455,0.013888179,4.189642681,"Shrimps, prawns",4500
+USA,Pollock_Gulf of Maine / Georges Bank,USA,10.16653888,0.018364124,5.715711046,"Cods, hakes, haddocks",1700
+USA,Red king crab_Bristol Bay,USA,5.255643972,0.017035134,4.458253651,"Crabs, sea-spiders",4220
+USA,Red king crab_Norton Sound,USA,3.406411838,1.256621987,2.211529856,"Crabs, sea-spiders",4220
+USA,Red porgy_Southern Atlantic Coast,USA,26.66562142,0.002188743,0.833505306,Miscellaneous coastal fishes,3050
+USA,Rex sole Gulf of Alaska,USA,9.160030198,0.022260091,4.955967893,"Flounders, halibuts, soles",3050
+USA,Rougheye rockfish Bering Sea and Aleutian Islands,USA,5.183902327,0.011849879,2.990367911,Miscellaneous demersal fishes,2930
+USA,Rougheye rockfish Gulf of Alaska,USA,9.160030198,0.022260091,3.671987586,Miscellaneous demersal fishes,2930
+USA,Sablefish_Eastern Bering Sea / Aleutian Islands / Gulf of Alaska,USA,2.537762372,0.338223698,5.416766847,Miscellaneous demersal fishes,2930
+USA,Sablefish_Pacific Coast,USA,12.69918271,0.00358723,5.098129554,Miscellaneous demersal fishes,2930
+USA,Sculpin Complex_Gulf of Alaska,USA,9.160030198,0.022260091,4.541338615,Miscellaneous demersal fishes,2930
+USA,Scup_Atlantic Coast,USA,14.39279232,0.03264172,6.310654553,Miscellaneous coastal fishes,3050
+USA,Sea scallop_Northwestern Atlantic Coast,USA,10.81385254,0.022548938,6.676245579,"Scallops, pectens",2650
+USA,Shortraker rockfish_Bering Sea / Aleutian Islands,USA,5.677944652,0.013339074,4.227661869,Miscellaneous demersal fishes,2930
+USA,Shortspine thornyhead_Gulf of Alaska,USA,9.160030198,0.022260091,5.553442027,Miscellaneous demersal fishes,2930
+USA,Shortspine thornyhead_Pacific Coast,USA,12.69918271,0.00358723,5.994325575,Miscellaneous demersal fishes,2930
+USA,Snow crab_Bering Sea,USA,3.66225086,0.014031137,5.997509999,"Crabs, sea-spiders",4220
+USA,Snowy grouper Southern Atlantic coast,USA,26.66562142,0.002188743,0.196347729,Miscellaneous demersal fishes,2930
+USA,Southern Tanner crab_Bering Sea,USA,3.66225086,0.014031137,5.34309954,"Crabs, sea-spiders",4220
+USA,Spanish mackerel Southern Atlantic coast,USA,27.52899358,0.005822384,1.134751335,Miscellaneous pelagic fishes,850
+USA,Spiny dogfish_Atlantic Coast,USA,14.39279232,0.03264172,4.852839312,"Sharks, rays, chimaeras",1100
+USA,Striped bass Gulf of Maine / Cape Hatteras,USA,14.99093123,0.033910738,5.200842345,Miscellaneous coastal fishes,3050
+USA,Summer flounder_Mid-Atlantic Coast,USA,23.74233941,0.00456698,4.789908819,"Flounders, halibuts, soles",3050
+USA,Swordfish_North Atlantic,USA,19.11414929,0.018903442,4.696061526,"Tunas, bonitos, billfishes",1950
+USA,Tanner crab Bering Sea and Aleutian Islands,USA,5.183902327,0.011849879,5.406521336,"Crabs, sea-spiders",4220
+USA,Tilefish_Mid-Atlantic Coast,USA,23.74233941,0.00456698,3.184911513,Miscellaneous demersal fishes,2930
+USA,Walleye pollock_Aleutian Islands,USA,6.180397204,0.014507572,4.998850121,"Cods, hakes, haddocks",1700
+USA,Walleye pollock_Bogoslof,USA,6.043701601,0.014689185,6.575569443,"Cods, hakes, haddocks",1700
+USA,Walleye pollock_Eastern Bering Sea,USA,2.537762372,0.338223698,8.761942684,"Cods, hakes, haddocks",1700
+USA,Walleye pollock_Western / Central / West Yakutat Gulf of Alaska,USA,9.170206815,0.023490862,6.286272917,"Cods, hakes, haddocks",1700
+USA,White hake_Gulf of Maine / Georges Bank,USA,10.16653888,0.018364124,3.558354965,"Cods, hakes, haddocks",1700
+USA,White shrimp_Gulf of Mexico,USA,26.3005455,0.013888179,7.087147185,"Shrimps, prawns",4500
+USA,Widow rockfish_Pacific Coast,USA,12.69918271,0.00358723,5.44065642,Miscellaneous demersal fishes,2930
+USA,Winter flounder_Georges Bank,USA,12.35437945,0.025644008,2.365954181,"Flounders, halibuts, soles",3050
+USA,Winter flounder_Gulf of Maine,USA,10.16653888,0.018364124,1.942977281,"Flounders, halibuts, soles",3050
+USA,Winter flounder_Southern New England / Mid-Atlantic,USA,10.62801693,0.017259085,2.46572383,"Flounders, halibuts, soles",3050
+USA,Witch flounder_Northwestern Atlantic Coast,USA,10.81385254,0.022548938,1.724176318,"Flounders, halibuts, soles",3050
+USA,Yelloweye rockfish_Pacific Coast,USA,12.69918271,0.00358723,0.359010066,Miscellaneous demersal fishes,2930
+USA,Yellowfin sole_Bering Sea / Aleutian Islands,USA,5.677944652,0.013339074,7.744127485,"Flounders, halibuts, soles",3050
+USA,Yellowtail flounder_Cape Cod / Gulf of Maine,USA,10.16653888,0.018364124,1.168045063,"Flounders, halibuts, soles",3050
+USA,Yellowtail flounder_Georges Bank,USA,12.35437945,0.025644008,2.509257741,"Flounders, halibuts, soles",3050
+USA,Yellowtail flounder_Southern New England / Mid-Atlantic,USA,10.62801693,0.017259085,-0.890622985,"Flounders, halibuts, soles",3050
