@@ -32,7 +32,7 @@ unique(pcdat$finish2.x)
 
 pal <- c("#E69F00", "#56B4E9", "#009E73")
 pal <- rev(colorRampPalette(pal)(12))
-# pal <- viridis_pal()(12)
+pal <- viridis_pal()(12)
 # pal <- RColorBrewer::brewer.pal(9, "BuPu")
 # pal <- colorRampPalette(pal)(14)[3:14]
 pal[12] <- "black"

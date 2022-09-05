@@ -1,0 +1,231 @@
+﻿Region,stocklong
+Northern Argentina,Argentine anchoita Northern Argentina
+Southern Argentina,Argentine anchoita Southern Argentina
+Northern Argentina,Argentine hake Northern Argentina
+Southern Argentina,Argentine hake Southern Argentina
+Southern Argentina,Patagonian grenadier Southern Argentina
+Southern Argentina,Southern blue whiting Southern Argentina
+SE Australia,Bight_redfish SE Australia
+SE Australia,Blue Grenadier SE Australia
+SE Australia,Blue_warehou_east SE Australia
+SW Australia,Blue_warehou_west SE Australia
+SE Australia,Deepwater_Flathead SE Australia
+SE Australia,Eastern_gemfish SE Australia
+Bass Strait,Gummy shark (BS)
+South Australia,Gummy shark (SA)
+Tasmania,Gummy_shark (TAS)
+SE Australia,Morwong _east
+SW Australia,Morwong_West
+SE Australia,Orange Roughy SE Australia
+SE Australia,Pink_Ling_East
+SW Australia,Pink_Ling_West
+SE Australia,Redfish SE Australia
+SE Australia,School Whiting SE Australia
+SE Australia,School_shark SE Australia
+SE Australia,Silver_Warehou SE Australia
+SE Australia,Tiger_flathead SE Australia
+Central Coast  ,Pacific herring Central Coast
+Southern Gulf,Atlantic cod Southern Gulf of St. Lawrence
+Southern Labrador,Atlantic cod Southern Labrador-Eastern Newfoundland
+Gulf St Lawrence (Fall),Herring Southern Gulf of St. Lawrence (Fall spawners)
+S Gulf St Lawrence (Spring),Herring Southern Gulf of St. Lawrence (Spring spawners)
+Northwest Atlantic ,Mackerel Northwest Atlantic (NAFO Subareas 3 and 4)
+Prince Rupert District  ,Pacific herring Prince Rupert District
+Queen Charlotte Islands  ,Pacific herring Queen Charlotte Islands
+Strait of Georgia  ,Pacific herring Strait of Georgia
+West Vancouver Island ,Pacific herring West Coast of Vancouver Island
+Hecate Strait  ,Rock sole Hecate Strait
+S Gulf St Lawrence ,Winter flounder Southern Gulf of St. Lawrence
+Barents Sea ,Capelin Barents Sea
+North-East Arctic,Golden redfish North-East Arctic
+North-East Arctic,Greenland halibut North-East Arctic
+North-East Arctic,Pollock North-East Arctic
+Eastern Baltic,Atlantic cod Eastern Baltic
+Kattegat ,Atlantic cod Kattegat
+Western Baltic,Atlantic cod Western Baltic
+Bothnian Bay,Herring Bothnian Bay
+Bothnian Sea,Herring Bothnian Sea
+Eastern Baltic,Herring Eastern Baltic
+Gulf of Riga,Herring Gulf of Riga East of Gotland
+North-East Arctic,Atlantic cod North-East Arctic
+North-East Arctic,Haddock North-East Arctic
+Irish Sea,Atlantic cod Irish Sea
+West of,Atlantic cod West of Scotland
+Celtic Sea,Common sole Celtic Sea
+Eastern English,Common sole Eastern English Channel
+Irish Sea,Common sole Irish Sea
+North Sea,Common sole North Sea
+Western English,Common sole Western English Channel
+Celtic Sea,European plaice Celtic Sea
+Eastern English,European plaice Eastern English Channel
+Irish Sea,European plaice Irish Sea
+North Sea,European plaice North Sea
+Western English,European plaice Western English Channel
+Rockall Bank ,Haddock Rockall Bank
+West of Scotland,Haddock West of Scotland
+Celtic Sea,Whiting Celtic Sea
+Irish Sea ,Haddock Irish Sea
+West of Scotland,Whiting West of Scotland
+Europe non EU,Atlantic cod Faroe Plateau
+Iceland Grounds,Atlantic cod Iceland Grounds
+Faroe Plateau ,Haddock Faroe Plateau
+Iceland Grounds,Haddock Iceland Grounds
+Europe non EU,Herring Iceland (Summer spawners)
+Europe non EU,Pollock Faroe Plateau
+Bay of Biscay,Anchovy Bay of Biscay
+Northeast Atlantic,Blue whiting Northeast Atlantic
+ICES 8c-9a,Fourspotted megrim ICES 8c-9a
+ICES 3a-4-6-7-8abd,Hake ICES 3a-4-6-7-8abd
+ICES 8c-9a,Hake ICES 8c-9a
+ICES 22-24-3a,Herring ICES 22-24-3a
+ICES 5a-7bc,Herring ICES 5a-7bc
+Irish Sea,Herring Irish Sea
+West of Scotland,Herring West of Scotland
+European Union,Mackerel ICES Northeast Atlantic
+ICES 8c-9a,Megrim ICES 8c-9a
+European Union,Sprat North Sea
+Pacific Ocean,Albacore tuna South Pacific Ocean
+Eastern Atlantic,Atlantic bluefin tuna Eastern Atlantic
+Western Atlantic,Atlantic bluefin tuna Western Atlantic
+Indian Ocean,Bigeye tuna Indian Ocean
+Central Western Pacific Ocean,Skipjack tuna Central Western Pacific Ocean
+Central Western Pacific Ocean,Yellowfin tuna Central Western Pacific Ocean
+New Zealand,Australian salmon New Zealand
+Eastern New Zealand,Hoki Eastern New Zealand
+Western New Zealand,Hoki Western New Zealand
+New Zealand Areas LIN 72,Ling New Zealand Areas LIN 72
+New Zealand Areas LIN 7WC,Ling New Zealand Areas LIN 7WC-WCSI
+New Zealand,Orange roughy New Zealand Mid East Coast
+New Zealand Area PAU 5B,Paua New Zealand Area PAU 5B (Stewart Island)
+New Zealand Area PAU 5D,Paua New Zealand Area PAU 5D (Otago)
+New Zealand Area PAU 7,Paua New Zealand Area PAU 7 (Marlborough)
+Chatham Rise,Smooth oreo Chatham Rise
+West end,Smooth oreo West end of Chatham Rise
+New Zealand,Southern blue whiting Campbell Island Rise
+Chatham Rise,Southern hake Chatham Rise
+Sub-Antarctic,Southern hake Sub-Antarctic
+New Zealand,Trevally New Zealand Areas TRE 7
+Canada East Coast,Atlantic cod NAFO 5Zjm
+US Alaska,Pacific halibut North Pacific
+North-Central Peruvian coast,Peruvian anchoveta North-Central Peruvian coast
+Chilean EEZ,Chilean jack mackerel Chilean EEZ and offshore
+Northern Seaof Okhotsk,Walleye pollock Northern Sea of Okhotsk
+South Africa,Anchovy South Africa
+South Africa,Cape horse mackerel South Africa South coast
+South Africa,Deep water cape hake South Africa
+South Africa,Patagonian toothfish South Africa Subantarctic Prince Edward Islands
+South Africa,Sardine South Africa
+South Africa,Shallow water cape hake South Africa
+South Africa,South African abalone South Africa
+South Africa,Southern spiny lobster South Africa South coast
+US East Coast,Acadian redfish Gulf of Maine / Georges Bank
+US Alaska,Alaska plaice Bering Sea and Aleutian Islands
+Gulf of Maine,American plaice Gulf of Maine / Georges Bank
+Bering Sea,Arrowtooth flounder Bering Sea and Aleutian Islands
+Gulf of Alaska,Arrowtooth flounder Gulf of Alaska
+US West Coast,Arrowtooth flounder Pacific Coast
+US Alaska,Atka mackerel Bering Sea and Aleutian Islands
+Georges Bank,Atlantic cod Georges Bank
+US West Coast,Dover sole Pacific Coast
+Gulf of Mexico,Gag Gulf of Mexico
+Atlantic Coast,Gag Southern Atlantic coast
+Northwestern Atlantic Coast,Herring Northwestern Atlantic Coast
+US Southeast and Gulf,Mutton snapper Southern Atlantic coast and Gulf of Mexico
+US West Coast,Pacific sardine Pacific Coast
+Gulf of Alaska,Rex sole Gulf of Alaska
+Bering Sea,Rougheye rockfish Bering Sea and Aleutian Islands
+Gulf of Alaska,Rougheye rockfish Gulf of Alaska
+US Southeast and Gulf,Snowy grouper Southern Atlantic coast
+US Southeast and Gulf,Spanish mackerel Southern Atlantic coast
+US East Coast,Striped bass Gulf of Maine / Cape Hatteras
+US Alaska,Tanner crab Bering Sea and Aleutian Islands
+Gulf of Maine,Atlantic cod Gulf of Maine
+Gulf of Maine,Atlantic butterfish Gulf of Maine / Cape Hatteras
+Mid-Atlantic Coast,Atlantic surfclam_Mid-Atlantic Coast
+Gulf of Maine,Atlantic wolffish_Gulf of Maine / Georges Bank
+Gulf of Alaska,Big skate_Gulf of Alaska
+Atlantic,Bigeye tuna_Atlantic
+Mid-Atlantic Coast,Black sea bass_Mid-Atlantic Coast
+Gulf of Alaska,Blackspotted and Rougheye Rockfish Complex_Gulf of Alaska
+Pribilof Islands,Blue king crab_Pribilof Islands
+Saint Matthew Island,Blue king crab_Saint Matthew Island
+Atlantic Coast,Bluefish_Atlantic Coast
+Guam,Bottomfish Multi-species Complex_Guam
+Main Hawaiian Islands,Bottomfish Multi-species Complex_Main Hawaiian Islands Deep 7
+Northern Mariana Islands,Bottomfish Multi-species Complex_Northern Mariana Islands
+Gulf of Mexico,Brown shrimp_Gulf of Mexico
+California,Cabezon_California
+Oregon,Cabezon_Oregon
+Southern California,California scorpionfish_Southern California
+Pacific Coast,Canary rockfish_Pacific Coast
+Southern California,Cowcod_Southern California
+Gulf of Alaska,Dover sole_Gulf of Alaska
+Gulf of Alaska,Dusky rockfish_Gulf of Alaska
+Pacific Coast,English sole_Pacific Coast
+Bering Sea / Aleutian Islands,Flathead sole_Bering Sea / Aleutian Islands
+Gulf of Alaska,Flathead sole_Gulf of Alaska
+Eastern Aleutian Islands,Golden king crab_Eastern Aleutian Islands
+Western Aleutian Islands,Golden king crab_Western Aleutian Islands
+Gulf of Maine,Goosefish_Gulf of Maine / Northern Georges Bank
+Southern Georges Bank,Goosefish_Southern Georges Bank / Mid-Atlantic
+Gulf of Mexico,Greater amberjack_Gulf of Mexico
+Bering Sea / Aleutian Islands,Greenland halibut_Bering Sea / Aleutian Islands
+Eastern Georges Bank,Haddock_Eastern Georges Bank
+Georges Bank,Haddock_Georges Bank
+Gulf of Maine,Haddock_Gulf of Maine
+Bering Sea / Aleutian Islands,Kamchatka flounder_Bering Sea / Aleutian Islands
+Oregon,Kelp greenling_Oregon
+Southern Pacific Coast,Lingcod_Southern Pacific Coast
+Pacific Coast,Longnose skate_Pacific Coast
+Pacific Coast,Longspine thornyhead_Pacific Coast
+Bering Sea / Aleutian Islands,Northern rock sole_Bering Sea / Aleutian Islands
+Bering Sea / Aleutian Islands,Northern rockfish_Bering Sea / Aleutian Islands
+Gulf of Alaska,Northern rockfish_Western / Central Gulf of Alaska
+Bering Sea / Aleutian Islands,Other Flatfish Complex_Bering Sea / Aleutian Islands
+Bering Sea / Aleutian Islands,Other Skates Complex_Bering Sea / Aleutian Islands
+Pacific Coast,Pacific chub mackerel_Pacific Coast
+Aleutian Islands,Pacific cod_Aleutian Islands
+Bering Sea,Pacific cod_Bering Sea
+Gulf of Alaska,Pacific cod_Gulf of Alaska
+Pacific Coast,Pacific hake_Pacific Coast
+Pacific Coast / Alaska,Pacific halibut_Pacific Coast / Alaska
+Bering Sea / Aleutian Islands,Pacific ocean perch_Bering Sea / Aleutian Islands
+Gulf of Alaska,Pacific ocean perch_Gulf of Alaska
+Pacific Coast,Pacific ocean perch_Pacific Coast
+Northern Subpopulation,Pacific sardine_Northern Subpopulation
+Pacific Coast,Petrale sole_Pacific Coast
+Gulf of Mexico,Pink shrimp_Gulf of Mexico
+Gulf of Maine,Pollock_Gulf of Maine / Georges Bank
+Bristol Bay,Red king crab_Bristol Bay
+Norton Sound,Red king crab_Norton Sound
+Southern Atlantic Coast,Red porgy_Southern Atlantic Coast
+Eastern Bering Sea,Sablefish_Eastern Bering Sea / Aleutian Islands / Gulf of Alaska
+Pacific Coast,Sablefish_Pacific Coast
+Gulf of Alaska,Sculpin Complex_Gulf of Alaska
+Atlantic Coast,Scup_Atlantic Coast
+Northwestern Atlantic Coast,Sea scallop_Northwestern Atlantic Coast
+Bering Sea / Aleutian Islands,Shortraker rockfish_Bering Sea / Aleutian Islands
+Gulf of Alaska,Shortspine thornyhead_Gulf of Alaska
+Pacific Coast,Shortspine thornyhead_Pacific Coast
+Bering Sea,Snow crab_Bering Sea
+Bering Sea,Southern Tanner crab_Bering Sea
+Atlantic Coast,Spiny dogfish_Atlantic Coast
+Mid-Atlantic Coast,Summer flounder_Mid-Atlantic Coast
+North Atlantic,Swordfish_North Atlantic
+Mid-Atlantic Coast,Tilefish_Mid-Atlantic Coast
+Aleutian Islands,Walleye pollock_Aleutian Islands
+Bogoslof,Walleye pollock_Bogoslof
+Eastern Bering Sea,Walleye pollock_Eastern Bering Sea
+West Yakutat Gulf of Alaska,Walleye pollock_Western / Central / West Yakutat Gulf of Alaska
+Gulf of Maine,White hake_Gulf of Maine / Georges Bank
+Gulf of Mexico,White shrimp_Gulf of Mexico
+Pacific Coast,Widow rockfish_Pacific Coast
+Georges Bank,Winter flounder_Georges Bank
+Gulf of Maine,Winter flounder_Gulf of Maine
+Southern New England,Winter flounder_Southern New England / Mid-Atlantic
+Northwestern Atlantic Coast,Witch flounder_Northwestern Atlantic Coast
+Pacific Coast,Yelloweye rockfish_Pacific Coast
+Bering Sea / Aleutian Islands,Yellowfin sole_Bering Sea / Aleutian Islands
+Cape Cod / Gulf of Maine,Yellowtail flounder_Cape Cod / Gulf of Maine
+Georges Bank,Yellowtail flounder_Georges Bank
+Southern New England,Yellowtail flounder_Southern New England / Mid-Atlantic

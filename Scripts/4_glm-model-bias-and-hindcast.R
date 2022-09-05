@@ -18,6 +18,7 @@ library(forcats)
 dat <- read.csv("Outputs/2022-02-11_glm-data.csv")
 load("Outputs/2022-02-11_processesed-assessment-data.rda")
 datcovar <- read.csv("Data/stock-covariates.csv")
+regions <- read.csv("Data/regions.csv")
 theme_set(theme_classic())
 
 dat2 <- 
@@ -27,12 +28,12 @@ dat2 <-
   left_join(select(dat_MRA, stocklong, Brel_MRA, SSB_MRA, tsyear, Year_MRA = finish2)) %>%
   mutate(stock_value = log(SSB_MRA * dollar_per_tonne/1000000), 
          lnBrel_MRA = log(Brel_MRA),
-         Delta_Brel = d.B.B0,
-         Delta_B = d.B..ln.B.B.recent.,
-         Delta_B1 = d.B0..ln.B0.B0.recent.,
          start.year = tsyear -start.diff,
          trend.50yr.coef.cap = ifelse(trend.50yr.coef>0.05, 0.05,
-                                      trend.50yr.coef)*100)
+                                      trend.50yr.coef)*100) %>%
+  rename(Delta_Brel = d.B.B0,
+         Delta_B = d.B..ln.B.B.recent.,
+         Delta_B1 = d.B0..ln.B0.B0.recent.)
 nrow(dat2)
 
 #Write data for supplemental file 
@@ -45,6 +46,47 @@ response_vars <- c("Delta_Brel",
 
 ivar <- response_vars[1]
   
+#
+# Summaries by stocks 
+#
+
+dat_MRA_MRY <- filter(dat_MRA, tsyear == finish2) %>%
+  select(stocklong, Brel_MRA)
+dat_MRA_years <- dat_MRA %>% group_by(stocklong) %>%
+  summarize(Year = min(tsyear),
+            max_year_MRA = max(tsyear)) %>%
+  mutate(Years = max_year_MRA - Year)
+
+dat_by_stock <- dat2 %>% group_by(stocklong,
+                                  country.1) %>%
+  left_join(regions) %>% # add region names 
+  # Summaries for supp table 1
+  summarize(Region = Region[1],
+            N = n(),
+            mean(Delta_Brel),
+            mean(Delta_B),
+            mean(Delta_B1),
+            sd(Delta_Brel),
+            sd(Delta_B),
+            sd(Delta_B1)) %>%
+  left_join(dat_MRA_MRY) %>% # add B/B1 for most recent year of the MRA
+  left_join(dat_MRA_years) %>% # add year and years variables
+  arrange(country.1)
+
+#Save table for table S1, reorder columns
+write.csv(dat_by_stock[,c(1,2,3,12,14,4,11,5,6,7,8,9,10)], 
+          "Outputs/stock-summaries.csv")
+
+sum(dat_by_stock$`mean(Delta_Brel)` > 0)
+sum(dat_by_stock$`mean(Delta_Brel)` < 0)
+sum(exp(dat_by_stock$`mean(Delta_Brel)`)  > 1.5)
+sum(exp(dat_by_stock$`mean(Delta_Brel)`)  > 2)
+exp(mean((dat_by_stock$`mean(Delta_Brel)`)))
+exp(sd((dat_by_stock$`mean(Delta_Brel)`))/sqrt(230))
+
+exp(mean(dat_by_stock$`mean(Delta_B)`))
+exp(mean(dat_by_stock$`mean(Delta_B1)`))
+
 #
 # GLMM Delta_Brel
 #
@@ -135,13 +177,14 @@ for (i in 1:length(mout)){
     signif(2) %>%
     data.frame() %>%
     tibble::rownames_to_column("Parameter")
-  sm1effects$Parameter[8] <- "SD Group"
-  sm1effects$Parameter[9] <- "SD Stock"
-  sm_all <- c(sm_all, sm1effects)
+  sm1effects$Parameter[sm1effects$Parameter == "sd(Intercept)"]  <- "SD Stock"
+  sm1effects$model_formula <- as.character(sm1$formula$formula)[3]
+  sm1effects$model_number <- i
+  sm_all <- c(sm_all, list(sm1effects))
 }
 sm_all <- do.call("rbind", sm_all)
 write.csv(sm_all,
-          paste0("Outputs/",ivar,"/_all_models_effects.csv"))
+          paste0("Outputs/",ivar,"/all_models_effects.csv"))
 
 #save model file to look at later
 # note this model is re-run in script 6

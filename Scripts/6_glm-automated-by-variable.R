@@ -15,7 +15,7 @@ library(patchwork)
 
 runmodels <- FALSE #set to true to rerun models,
 # set to false to load files
-saveplots <- TRUE
+saveplots <- FALSE
 
 dat2 <- read.csv("Outputs/glm-covariates-merged.csv")
 
@@ -79,12 +79,13 @@ for (ivar in response_vars){
   #Table of params
   #
   sm1 <- summary(m1)
-  sm1effects <- rbind(sm1$fixed, sm1$random$Group,
+  sm1effects <- rbind(sm1$fixed,
                       sm1$random$stocklong) %>%
     signif(2) %>%
     data.frame() %>%
     tibble::rownames_to_column("Parameter")
-  sm1effects$Parameter[8] <- "SD Group"
+  
+  ###
   sm1effects$Parameter[9] <- "SD Stock"
   write.csv(sm1effects,
             paste0("Outputs/",ivar,"/effects.csv"))
@@ -279,4 +280,18 @@ ggsave("Outputs/fixed-effects-deltas.png",
        gallfix,
        width = 8, height =3)
 
+#
+# Table of all parameters
+#
+
+small <- NULL
+for (ivar in response_vars){
+  dtemp <- read.csv(paste0("Outputs/",ivar,"/effects.csv"))
+  dtemp$response <- ivar
+  small <- c(small, list(dtemp))
+}
+
+small <- do.call("rbind", small)
+
+write.csv(small, "Outputs/effects-all-response-vars.csv")
 
