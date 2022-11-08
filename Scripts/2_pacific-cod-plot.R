@@ -54,17 +54,22 @@ g1 <- ggplot(pcdat) +
             color = "black", size = 0.9, 
             linetype = 5) +
   theme_classic() +
-  scale_y_continuous(labels = comma) +
   xlab("Year") + 
   ylab("Spawning stock biomass \n
        ('000s tonnes)")  +
   xlim(1972, 2020) +
+  # scale_y_continuous(breaks = seq(0, 500, by = 100),
+                     # labels= comma,
+                     # limits = c(0, 600)) +
+  scale_y_log10(breaks = c(50, 100, 200, 400))  +
+  guides(color = guide_legend(ncol = 3))+
   theme(axis.title.y = element_text(lineheight = 0.5),
-        legend.position = c(0.8, 0.8),
-        legend.text=element_text(size=8,
+        legend.position = c(0.8, 0.95),
+        legend.text=element_text(size=6,
                                  lineheight = 0.1),
-        legend.key.size = unit(0.5, 'cm')) +
-  guides(color = guide_legend(ncol = 2))
+        legend.key.size = unit(0.5, 'cm'),
+        legend.spacing.y = unit(0.1, 'cm'),
+        legend.background = element_rect(fill='transparent'))
 g1
 
 #
@@ -75,7 +80,7 @@ g2 <- ggplot(pcdat) +
   aes(x = tsyear, y = Brel, color = factor(finish2.x),
       group = finish2.x) + 
   geom_hline(yintercept = 1, color = "grey60", linetype = 3) +
-  geom_hline(yintercept = 0.5, color = "grey60", linetype = 2) +
+  geom_hline(yintercept = 0.4, color = "grey60", linetype = 2) +
   # geom_hline(yintercept = 0.1, color = "grey60") +
   geom_line() + 
   scale_color_manual("", values = pal) + 
@@ -84,7 +89,9 @@ g2 <- ggplot(pcdat) +
   geom_line(data = filter(pcdat, finish2.x == 2014), 
                                                   color = "black", size = 0.9, 
                                                   linetype = 5) +
-  scale_y_log10(breaks = c(0.2, 0.5, 1, 3)) + 
+  # scale_y_continuous(breaks = c(0, 0.25, 0.5, 1, 2, 4),
+                     # limits = c(0, 4)) +
+  scale_y_log10(breaks = c(0.25, 0.5, 1,2, 3)) +
   theme_classic() +
   xlab("Year") + 
   ylab(expression('Depletion (B/B'[1]*')')) +

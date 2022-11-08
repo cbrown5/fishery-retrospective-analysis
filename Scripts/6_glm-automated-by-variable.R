@@ -55,6 +55,16 @@ for (ivar in response_vars){
                  trend.50yr.coef.cap +
                  mean.5yr +
                 (1|stocklong)")
+
+  #non-linear version  
+  # form1 <- paste(ivar, " ~
+  #                stock_value +
+  #                t2(year.diff,lnBrel_MRA) +
+  #                start.diff +
+  #                trend.50yr.coef.cap +
+  #                mean.5yr +
+  #               (1|stocklong)")
+  
   
   
   if (runmodels){
@@ -195,6 +205,10 @@ for (ivar in response_vars){
     cbind(newdata)
   
   pdat$status <- exp(pdat$lnBrel_MRA)
+  
+  #
+  #Figure 4 in the paper
+  #
   g1 <- ggplot(pdat) + 
     aes(x = year.diff, y = exp(`50%`), fill = factor(status),
         group = status)+
@@ -205,9 +219,31 @@ for (ivar in response_vars){
                 color = NA, alpha = 0.7)+
     ylab(response_names[ivar == response_vars]) +
     xlab("Obsolescence (yrs)") +
-    scale_y_log10(breaks = c(0.6, 0.8, 1, 1.2,1.5, 2, 3)) +
+    scale_y_continuous(breaks = seq(0.5, 4, by = 0.5),
+                       labels = seq(0.5, 4, by = 0.5),
+                       limits = c(0.5, 5)) +
+    # scale_y_log10(breaks = c(0.6, 0.8, 1, 1.2,1.5, 2, 3),
+                  # labels = seq(0.5, 4, by = 0.5),
+                  # limits = c(0.5, 4)) +
     scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "#BFBFBF", "black"))
-  # scale_fill_manual("B/B1", values = c("red", "grey", "darkblue"))
+  
+  
+  g1 <- ggplot(pdat) + 
+    aes(x = year.diff, y = (`50%`), fill = factor(status),
+        group = status)+
+    geom_hline(yintercept = 0) +
+    geom_line() +
+    geom_ribbon(aes(ymin = (`2.5%`),
+                    ymax = (`97.5%`)), 
+                color = NA, alpha = 0.7)+
+    ylab(response_names[ivar == response_vars]) +
+    xlab("Obsolescence (yrs)") +
+    scale_y_continuous(breaks = seq(-0.5, 1.5, by = 0.5),
+                       labels = seq(-0.5, 1.5, by = 0.5),
+                       limits = c(-0.75, 1.5)) +
+    scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "#BFBFBF", "black"))
+  
+  
   
   
   gpreds <- c(gpreds, list(g1))
@@ -265,7 +301,7 @@ gall <- gpreds[[1]] + gpreds[[2]] +
   plot_annotation(tag_levels ="A") + 
   plot_layout(guides='collect') 
 
-ggsave("Outputs/Obsolesence-deltas.png",
+ggsave("Outputs/Obsolesence-deltas-same-scale-log-yaxis.png",
        gall,
        width = 8, height =3)
 

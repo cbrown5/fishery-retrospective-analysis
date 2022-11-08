@@ -1,0 +1,232 @@
+country,region,stocklong,Common.name,Species.name,dollar_per_tonne,Lat,long,SSTmeanBO,HADISSTmean.5yr,HADISSTtrend.50yr.coef
+Argentina,Northern Argentina,Argentine anchoita Northern Argentina,Argentine anchoita,Engraulis anchoita,660,-40,-57,11.898706,13.24519474,-0.015020978
+Argentina,Southern Argentina,Argentine anchoita Southern Argentina,Argentine anchoita,Engraulis anchoita,660,-52,-65,7.246979,8.213708758,-0.001375735
+Argentina,Northern Argentina,Argentine hake Northern Argentina,Argentine hake,Merluccius hubbsi,1650,-40,-57,11.898706,13.24519474,-0.015020978
+Argentina,Southern Argentina,Argentine hake Southern Argentina,Argentine hake,Merluccius hubbsi,1650,-52,-65,7.246979,8.213708758,-0.001375735
+Argentina,Southern Argentina,Patagonian grenadier Southern Argentina,Patagonian grenadier,Macruronus magellanicus,2850,-51,-67,8.11576,8.639146964,-0.001341015
+Argentina,Southern Argentina,Southern blue whiting Southern Argentina,Southern blue whiting,Micromesistius australis,1650,-51,-67,8.11576,8.639146964,-0.001341015
+Australia,SE Australia,Bight_redfish SE Australia,Bight_redfish,Centroberyx gerrardi,2850,-36,136,17.311855,16.77658903,0.007149259
+Australia,SE Australia,Blue Grenadier SE Australia,Blue Grenadier,Macruronus novaezelandiae,2850,-39,143,15.764741,15.39568578,0.007713888
+Australia,SE Australia,Blue_warehou_east SE Australia,Blue_warehou_east,Seriolella brama,2850,-39,141,15.672922,15.09975651,0.008028939
+Australia,SE Australia,Blue_warehou_west SE Australia,Blue_warehou_west,Seriolella brama,2850,-37,150,18.308109,19.51163932,0.033646672
+Australia,SE Australia,Deepwater_Flathead SE Australia,Deepwater_Flathead,Neoplatycephalus conatus,2850,-39,141,15.672922,15.09975651,0.008028939
+Australia,SE Australia,Eastern_gemfish SE Australia,Eastern_gemfish,Rexea solandri,2850,-35,152,20.864452,20.98073155,0.025906847
+Australia,Bass Strait,Gummy shark (BS),Gummy shark (BS),Mustelus antarcticus,1200,-40,146,15.395543,15.74176192,0.006972993
+Australia,SA,Gummy shark (SA),Gummy shark (SA),Mustelus antarcticus,1200,-33,132,18.368248,18.23957232,0.014498067
+Australia,Tasmania,Gummy_shark (TAS),Gummy_shark (TAS),Mustelus antarcticus,1200,-42,145,14.61556,14.50984818,0.003272575
+Australia,East,Morwong _east,Morwong _east,Nemadactylus macropterus,2850,-39,147,15.578845,16.01713219,0.011494133
+Australia,West,Morwong_West,Morwong_West,Nemadactylus macropterus,2850,-34.1,122,18.506983,17.27995518,0.006971672
+Australia,SE Australia,Orange Roughy SE Australia,Orange Roughy,Hoplostethus atlanticus,2850,-39,143,15.764741,15.39568578,0.007713888
+Australia,East,Pink_Ling_East,Pink_Ling_East,Genypterus blacodes,2850,-39,143,15.764741,15.39568578,0.007713888
+Australia,West,Pink_Ling_West,Pink_Ling_West,Genypterus blacodes,2850,-34.1,122,18.506983,17.27995518,0.006971672
+Australia,SE Australia,Redfish SE Australia,Redfish,Centroberyx affinis,2850,-33,153,22.129042,21.94604766,0.024126389
+Australia,SE Australia,School Whiting SE Australia,School Whiting,Sillago flindersi,2950,-39,143,15.764741,15.39568578,0.007713888
+Australia,SE Australia,School_shark SE Australia,School_shark,Galeorhinus galeus,1200,-39,143,15.764741,15.39568578,0.007713888
+Australia,SE Australia,Silver_Warehou SE Australia,Silver_Warehou,Seriolella punctata,2850,-39,148,15.984219,16.27882938,0.017061907
+Australia,SE Australia,Tiger_flathead SE Australia,Tiger_flathead,Neoplatycephalus richardsoni,2850,-39,146,15.622576,15.82224239,0.007874493
+Canada,Southern Gulf,Atlantic cod Southern Gulf of St. Lawrence,Atlantic cod,Gadus morhua,1650,47,-63,7.645947,7.672121386,0.033628981
+Canada,Southern Labrador-Eastern,Atlantic cod Southern Labrador-Eastern Newfoundland,Atlantic cod,Gadus morhua,1650,50,-52,4.347144,3.929268277,0.015035458
+Canada,Gulf of St. Lawrence (Fall spawners),Herring Southern Gulf of St. Lawrence (Fall spawners),Herring,Clupea harengus,660,47,-63,7.645947,7.672121386,0.033628981
+Canada,Southern Gulf of St. Lawrence (Spring spawners),Herring Southern Gulf of St. Lawrence (Spring spawners),Herring,Clupea harengus,660,47,-63,7.645947,7.672121386,0.033628981
+Canada,Northwest Atlantic Atlantic (NAFO Subareas 3 and 4),Mackerel Northwest Atlantic (NAFO Subareas 3 and 4),Mackerel,Scomber scombrus,640,45,-55,8.722437,8.344715981,0.028696154
+Canada,Central Coast    ,Pacific herring Central Coast,Pacific herring,Clupea pallasii,660,51,-129,10.364174,11.56220088,0.022619281
+Canada,Prince Rupert District   ,Pacific herring Prince Rupert District,Pacific herring,Clupea pallasii,660,54,-131,9.38833,10.61514516,0.019059628
+Canada,Queen Charlotte Islands   ,Pacific herring Queen Charlotte Islands,Pacific herring,Clupea pallasii,660,52,-130,10.283585,11.19997414,0.021913424
+Canada,Strait of Georgia   ,Pacific herring Strait of Georgia,Pacific herring,Clupea pallasii,660,49,-124,11.627494,11.53079755,0.009512658
+Canada,West Coast of Vancouver Island ,Pacific herring West Coast of Vancouver Island,Pacific herring,Clupea pallasii,660,49,-126,10.635183,11.81042803,0.016184653
+Canada,Hecate Strait    ,Rock sole Hecate Strait,Rock sole,Lepidopsetta bilineata,2700,53,-131,9.794548,10.87806768,0.020786529
+Canada,Southern Gulf of St. Lawrence ,Winter flounder Southern Gulf of St. Lawrence,Winter flounder,Pseudopleuronectes americanus,2700,47,-63,7.645947,7.672121386,0.033628981
+Multinational Tuna Commission,Pacific Ocean,Albacore tuna South Pacific Ocean,Albacore tuna,Thunnus alalunga,1500,-16,164,27.756111,27.80392408,0.010082752
+Multinational Tuna Commission,tuna Eastern Atlantic,Atlantic bluefin tuna Eastern Atlantic,Atlantic bluefin,Thunnus thynnus,1500,41,-20,17.323713,17.38775511,0.016415139
+Multinational Tuna Commission,tuna Western Atlantic,Atlantic bluefin tuna Western Atlantic,Atlantic bluefin,Thunnus thynnus,1500,38,-60,22.442097,22.60031687,0.020492867
+Multinational Tuna Commission,Indian Ocean,Bigeye tuna Indian Ocean,Bigeye tuna,Thunnus obesus,1500,-14,64,27.046091,27.27150618,0.012518704
+Multinational Tuna Commission,Central Western Pacific Ocean,Skipjack tuna Central Western Pacific Ocean,Skipjack tuna,Katsuwonus pelamis,1500,-14,178,28.691221,28.9093983,0.011033975
+Multinational Tuna Commission,Central Western Pacific Ocean,Yellowfin tuna Central Western Pacific Ocean,Yellowfin tuna,Thunnus albacares,1500,-14,178,28.691221,28.9093983,0.011033975
+Multinational_ICES Arctic Fisheries Working Group,North-East Arctic,Atlantic cod North-East Arctic,Atlantic cod,Gadus morhua,1650,73,30,5.644317,5.515034819,0.019038553
+Multinational_ICES Arctic Fisheries Working Group,Barents Sea ,Capelin Barents Sea,Capelin,Mallotus villosus,640,75,37,1.995526,2.263382725,0.014343773
+Multinational_ICES Arctic Fisheries Working Group,North-East Arctic,Golden redfish North-East Arctic,Golden redfish,Sebastes norvegicus,2850,75,24,1.639399,2.511891351,0.015570908
+Multinational_ICES Arctic Fisheries Working Group,North-East Arctic,Greenland halibut North-East Arctic,Greenland halibut,Reinhardtius hippoglossoides,2700,75,24,1.639399,2.511891351,0.015570908
+Multinational_ICES Arctic Fisheries Working Group,North-East Arctic,Haddock North-East Arctic,Haddock,Melanogrammus aeglefinus,1650,75,24,1.639399,2.511891351,0.015570908
+Multinational_ICES Arctic Fisheries Working Group,North-East Arctic,Pollock North-East Arctic,Pollock,Pollachius virens,1650,75,24,1.639399,2.511891351,0.015570908
+Multinational_ICES Baltic Fisheries Assessment Working Group,Eastern Baltic,Atlantic cod Eastern Baltic,Atlantic cod,Gadus morhua,1650,57,20,9.599751,9.65679607,0.035080641
+Multinational_ICES Baltic Fisheries Assessment Working Group,Kattegat ,Atlantic cod Kattegat,Atlantic cod,Gadus morhua,1650,58,7,10.27815,10.70370831,0.027019372
+Multinational_ICES Baltic Fisheries Assessment Working Group,Western Baltic,Atlantic cod Western Baltic,Atlantic cod,Gadus morhua,1650,55,16,9.984743,10.40981157,0.033760662
+Multinational_ICES Baltic Fisheries Assessment Working Group,Bothnian Bay,Herring Bothnian Bay,Herring,Clupea harengus,660,64,22,6.080144,6.673305094,0.034075732
+Multinational_ICES Baltic Fisheries Assessment Working Group,Bothnian Sea,Herring Bothnian Sea,Herring,Clupea harengus,660,62,19,6.983858,7.286770821,0.031052458
+Multinational_ICES Baltic Fisheries Assessment Working Group,Eastern Baltic,Herring Eastern Baltic,Herring,Clupea harengus,660,57,20,9.599751,9.65679607,0.035080641
+Multinational_ICES Baltic Fisheries Assessment Working Group,Gulf of Riga East of Gotland,Herring Gulf of Riga East of Gotland,Herring,Clupea harengus,660,57,23.5,8.857903,9.119427037,0.022303843
+Multinational_ICES North-Western Working Group,Europe non EU,Atlantic cod Faroe Plateau,Atlantic cod,Gadus morhua,1650,61,-9,9.784511,9.731179794,0.014587299
+Multinational_ICES North-Western Working Group,Iceland Grounds,Atlantic cod Iceland Grounds,Atlantic cod,Gadus morhua,1650,67,-17,5.048924,4.581704293,0.035991409
+Multinational_ICES North-Western Working Group,Faroe Plateau ,Haddock Faroe Plateau,Haddock,Melanogrammus aeglefinus,1650,61,-9,9.784511,9.731179794,0.014587299
+Multinational_ICES North-Western Working Group,Iceland Grounds,Haddock Iceland Grounds,Haddock,Melanogrammus aeglefinus,1650,67,-17,5.048924,4.581704293,0.035991409
+Multinational_ICES North-Western Working Group,Europe non EU,Herring Iceland (Summer spawners),Herring,Clupea harengus,660,64,-26,8.411496,7.394592063,0.017817263
+Multinational_ICES North-Western Working Group,Europe non EU,Pollock Faroe Plateau,Pollock,Pollachius virens,1650,62,-5,9.059379,8.680658754,0.016668259
+Multinational_ICES Other Working Groups,Bay of Biscay,Anchovy Bay of Biscay,Anchovy,Engraulis encrasicolus,660,45,-3,16.395962,15.92055984,0.025931322
+Multinational_ICES Other Working Groups,Northeast Atlantic,Blue whiting Northeast Atlantic,Blue whiting,Micromesistius poutassou,1650,58,-11,11.455741,10.91800224,0.016208862
+Multinational_ICES Other Working Groups,ICES 8c-9a,Fourspotted megrim ICES 8c-9a,Fourspotted megrim,Lepidorhombus boscii,2700,43,-9,15.167494,15.91819819,0.020914969
+Multinational_ICES Other Working Groups,ICES 3a-4-6-7-8abd,Hake ICES 3a-4-6-7-8abd,Hake,Merluccius merluccius,1650,51,-12,13.417347,13.06402634,0.013085796
+Multinational_ICES Other Working Groups,ICES 8c-9a,Hake ICES 8c-9a,Hake,Merluccius merluccius,1650,43,-9,15.167494,15.91819819,0.020914969
+Multinational_ICES Other Working Groups,ICES 22-24-3a,Herring ICES 22-24-3a,Herring,Clupea harengus,660,55,-13,12.179549,11.69098214,0.012782041
+Multinational_ICES Other Working Groups,ICES 5a-7bc,Herring ICES 5a-7bc,Herring,Clupea harengus,660,57,-9,11.597918,11.26275619,0.013032585
+Multinational_ICES Other Working Groups,Irish Sea,Herring Irish Sea,Herring,Clupea harengus,660,54,-5,11.340114,11.51299246,0.014824128
+Multinational_ICES Other Working Groups,West of Scotland,Herring West of Scotland,Herring,Clupea harengus,660,57,-8,11.068542,11.18429871,0.011831101
+Multinational_ICES Other Working Groups,European Union,Mackerel ICES Northeast Atlantic,Mackerel,Scomber scombrus,640,45,-15,15.466797,15.35151709,0.016025858
+Multinational_ICES Other Working Groups,ICES 8c-9a,Megrim ICES 8c-9a,Megrim,Lepidorhombus whiffiagonis,2700,43,-9,15.167494,15.91819819,0.020914969
+Multinational_ICES Other Working Groups,European Union,Sprat North Sea,Sprat,Sprattus sprattus,660,56,3,10.646554,10.88288747,0.024691053
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Irish Sea,Atlantic cod Irish Sea,Atlantic cod,Gadus morhua,1650,54,-5,11.340114,11.51299246,0.014824128
+Multinational_ICES Working Group on Celtic Seas Ecosystems,West of,Atlantic cod West of Scotland,Atlantic cod,Gadus morhua,1650,59,-6,10.725993,10.46396386,0.013944148
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Celtic Sea,Common sole Celtic Sea,Common sole,Solea solea,2700,49,-7,13.692043,13.76226912,0.017578249
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Eastern English,Common sole Eastern English Channel,Common sole,Solea solea,2700,52,2,12.135018,12.20642463,0.033304412
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Irish Sea,Common sole Irish Sea,Common sole,Solea solea,2700,54,-5,11.340114,11.51299246,0.014824128
+Multinational_ICES Working Group on Celtic Seas Ecosystems,North Sea,Common sole North Sea,Common sole,Solea solea,2700,56,2,10.748322,10.78477177,0.024589538
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Western English Channel,Common sole Western English Channel,Common sole,Solea solea,2700,50,3,12.516065,12.54894768,0.03349846
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Celtic Sea,European plaice Celtic Sea,European plaice,Pleuronectes platessa,2700,49,-7,13.692043,13.76226912,0.017578249
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Eastern English,European plaice Eastern English Channel,European plaice,Pleuronectes platessa,2700,52,2,12.135018,12.20642463,0.033304412
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Irish Sea,European plaice Irish Sea,European plaice,Pleuronectes platessa,2700,54,-5,11.340114,11.51299246,0.014824128
+Multinational_ICES Working Group on Celtic Seas Ecosystems,North Sea,European plaice North Sea,European plaice,Pleuronectes platessa,2700,56,2,10.748322,10.78477177,0.024589538
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Western English Channel,European plaice Western English Channel,European plaice,Pleuronectes platessa,2700,50,3,12.516065,12.54894768,0.03349846
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Irish Sea ,Haddock Irish Sea,Haddock,Melanogrammus aeglefinus,1650,54,-5,11.340114,11.51299246,0.014824128
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Rockall Bank ,Haddock Rockall Bank,Haddock,Melanogrammus aeglefinus,1650,57,-14,11.15564,10.87320426,0.013506196
+Multinational_ICES Working Group on Celtic Seas Ecosystems,West of Scotland,Haddock West of Scotland,Haddock,Melanogrammus aeglefinus,1650,57,-8,11.068542,11.18429871,0.011831101
+Multinational_ICES Working Group on Celtic Seas Ecosystems,Celtic Sea,Whiting Celtic Sea,Whiting,Merlangius merlangus,1650,49,-7,13.692043,13.76226912,0.017578249
+Multinational_ICES Working Group on Celtic Seas Ecosystems,West of Scotland,Whiting West of Scotland,Whiting,Merlangius merlangus,1650,57,-8,11.068542,11.18429871,0.011831101
+Multinational_Other Organisations,Canada East Coast,Atlantic cod NAFO 5Zjm,Atlantic cod,Gadus morhua,1650,48,-51,5.231346,5.005872373,0.016434332
+Multinational_Other Organisations,Chilean EEZ,Chilean jack mackerel Chilean EEZ and offshore,Chilean jack mackerel,Trachurus murphyi,640,-47,-77,10.318651,11.30034437,0.002121472
+Multinational_Other Organisations,US Alaska,Pacific halibut North Pacific,Pacific halibut,Hippoglossus stenolepis,2700,56,-167,5.214809,6.073719672,0.014417116
+New Zealand,New Zealand,Australian salmon New Zealand,Australian salmon,Arripis trutta,2950,-37,177,18.143652,18.40554191,0.012518179
+New Zealand,Eastern New Zealand,Hoki Eastern New Zealand,Hoki,Macruronus novaezelandiae,2850,-39.4,177,15.74624,16.19989026,0.017084841
+New Zealand,Western New Zealand,Hoki Western New Zealand,Hoki,Macruronus novaezelandiae,2850,-42,171,15.168824,15.64052855,-0.001754964
+New Zealand,New Zealand Areas LIN 72,Ling New Zealand Areas LIN 72,Ling,Genypterus blacodes,2850,-41,174.8,14.804671,15.44641544,0.006406418
+New Zealand,New Zealand Areas LIN 7WC-WCSI,Ling New Zealand Areas LIN 7WC-WCSI,Ling,Genypterus blacodes,2850,-41,172,15.261242,16.04514006,0.001141842
+New Zealand,New Zealand,Orange roughy New Zealand Mid East Coast,Orange Roughy,Hoplostethus atlanticus,2850,-45,173,10.494077,12.22206887,-0.004239354
+New Zealand,New Zealand Area PAU 5B (Stewart,Paua New Zealand Area PAU 5B (Stewart Island),Paua,Haliotis spp.,6000,-47,168.3,12.040868,11.70469184,-0.00278687
+New Zealand,New Zealand Area PAU 5D (Otago),Paua New Zealand Area PAU 5D (Otago),Paua,Haliotis spp.,6000,-46.1,170.3,11.577382,11.31934559,-0.010791055
+New Zealand,New Zealand Area PAU 7 (Marlborough),Paua New Zealand Area PAU 7 (Marlborough),Paua,Haliotis spp.,6000,-41,173.5,15.014369,16.01407576,0.00377587
+New Zealand,Chatham Rise,Smooth oreo Chatham Rise,Smooth oreo,Pseudocyttus maculatus,2850,-43,179,14.017885,14.60157685,0.00670455
+New Zealand,West end,Smooth oreo West end of Chatham Rise,Smooth oreo,Pseudocyttus maculatus,2850,-44,179,11.945695,13.56094281,0.000949273
+New Zealand,New Zealand,Southern blue whiting Campbell Island Rise,Southern blue whiting,Micromesistius australis,1650,-53,170,7.922322,8.125557621,-0.004353084
+New Zealand,Chatham Rise,Southern hake Chatham Rise,Southern hake,Merluccius australis,1650,-44,179,11.945695,13.56094281,0.000949273
+New Zealand,Sub-Antarctic,Southern hake Sub-Antarctic,Southern hake,Merluccius australis,1650,-50,168,8.881527,10.11542788,-0.002979705
+New Zealand,New Zealand,Trevally New Zealand Areas TRE 7,Trevally,Pseudocaranx dentex,2950,-38,174.7,16.790091,17.50603685,0.007826597
+Other,North-Central Peruvian coast,Peruvian anchoveta North-Central Peruvian coast,Peruvian anchoveta,Engraulis ringens,660,-8,-80,19.460684,21.1966856,0.00098588
+Other,Northern Seaof Okhotsk,Walleye pollock Northern Sea of Okhotsk,Walleye pollock,Theragra chalcogramma,1650,56,148,4.007561,4.015369282,0.015623943
+South Africa,South Africa,Anchovy South Africa,Anchovy,Engraulis encrasicolus,660,-35,22,18.544159,19.10218477,0.024266768
+South Africa,South Africa,Cape horse mackerel South Africa South coast,Cape horse mackerel,Trachurus capensis,640,-35,21,18.119358,18.71860892,0.019118596
+South Africa,South Africa,Deep water cape hake South Africa,Deep water cape hake,Merluccius paradoxus,1650,-36,19,18.961395,18.50706968,0.011116176
+South Africa,South Africa,Patagonian toothfish South Africa Subantarctic Prince Edward Islands,Patagonian toothfish,Dissostichus eleginoides,2850,-47,38,5.600413,6.552822391,0.007052942
+South Africa,South Africa,Sardine South Africa,Sardine,Sardinops sagax,660,-33,29,23.280361,21.95927416,0.013890898
+South Africa,South Africa,Shallow water cape hake South Africa,Shallow water cape hake,Merluccius capensis,1650,-34,18,16.551966,17.72855328,-0.004482441
+South Africa,South Africa,South African abalone South Africa,South African abalone,Haliotis spp.,6000,-34,18,16.551966,17.72855328,-0.004482441
+South Africa,South Africa,Southern spiny lobster South Africa South coast,Southern spiny lobster,Palinurus gilchristi,12400,-34,18,16.551966,17.72855328,-0.004482441
+USA,US East Coast,Acadian redfish Gulf of Maine / Georges Bank,Acadian redfish,Sebastes fasciatus,2850,43,-68,10.592442,10.28017723,0.01830493
+USA,US Alaska,Alaska plaice Bering Sea and Aleutian Islands,Alaska plaice,Pleuronectes quadrituberculatus,2700,56,-167,5.214809,6.073719672,0.014417116
+USA,Gulf of Maine / Georges Bank,American plaice Gulf of Maine / Georges Bank,American plaice,Hippoglossoides platessoides,2700,43,-68,10.592442,10.28017723,0.01830493
+USA,Bering Sea,Arrowtooth flounder Bering Sea and Aleutian Islands,Arrowtooth flounder,Atheresthes stomias,2700,56,-167,5.214809,6.073719672,0.014417116
+USA,Gulf of Alaska,Arrowtooth flounder Gulf of Alaska,Arrowtooth flounder,Atheresthes stomias,2700,60,-146,8.226282,10.37764924,0.020497116
+USA,US West Coast,Arrowtooth flounder Pacific Coast,Arrowtooth flounder,Atheresthes stomias,2700,44,-124.3,11.493767,13.09129294,0.001430543
+USA,US Alaska,Atka mackerel Bering Sea and Aleutian Islands,Atka mackerel,Pleurogrammus monopterygius,2850,56,-167,5.214809,6.073719672,0.014417116
+USA,US East Coast,Atlantic butterfish Gulf of Maine / Cape Hatteras,Atlantic butterfish,Peprilus triacanthus,2850,39,-73,16.123133,15.27599568,0.033644994
+USA,Georges Bank,Atlantic cod Georges Bank,Atlantic cod,Gadus morhua,1650,41,-69,11.669976,12.55703757,0.026714165
+USA,Gulf of Maine,Atlantic cod Gulf of Maine,Atlantic cod,Gadus morhua,1650,43,-68,10.592442,10.28017723,0.01830493
+USA,Mid-Atlantic Coast,Atlantic surfclam_Mid-Atlantic Coast,Atlantic surfclam,Spisula solidissima,1300,40,-73,14.434428,14.63907894,0.032282171
+USA,Gulf of Maine / Georges Bank,Atlantic wolffish_Gulf of Maine / Georges Bank,Atlantic wolffish,Anarhichas lupus,2850,43,-68,10.592442,10.28017723,0.01830493
+USA,Gulf of Alaska,Big skate_Gulf of Alaska,Big skate,Raja binoculata,1200,59,-149,7.962892,9.317140365,0.021758823
+USA,Atlantic,Bigeye tuna_Atlantic,Bigeye tuna,Thunnus obesus,1500,11,-13,27.820194,27.49657456,0.019377901
+USA,Mid-Atlantic Coast,Black sea bass_Mid-Atlantic Coast,Black sea bass,Centropristis striata,2950,32,-79,25.453394,24.26335958,0.005154014
+USA,Gulf of Alaska,Blackspotted and Rougheye Rockfish Complex_Gulf of Alaska,Blackspotted and Rougheye Rockfish Complex,Sebastes?spp.,2850,56,-156,6.554131,7.732154731,0.016148171
+USA,Pribilof Islands,Blue king crab_Pribilof Islands,Blue king crab,Paralithodes platypus,4150,57,-170,3.490314,5.447523586,0.01101562
+USA,Saint Matthew Island,Blue king crab_Saint Matthew Island,Blue king crab,Paralithodes platypus,4150,60,-173,2.193108,4.017227985,0.01510037
+USA,Western Atlantic,Bluefin tuna_Western Atlantic,Bluefin tuna,Thunnus thynnus,1500,30,-61,24.331787,24.67134533,0.022106855
+USA,Atlantic Coast,Bluefish_Atlantic Coast,Bluefish,Pomatomus saltatrix,2950,40,-73,14.434428,14.63907894,0.032282171
+USA,Guam,Bottomfish Multi-species Complex_Guam,Bottomfish Multi-species Complex,Bottomfish Multi-species Complex,2480,13,145,28.968922,28.85076971,0.011873185
+USA,Main Hawaiian Islands Deep 7,Bottomfish Multi-species Complex_Main Hawaiian Islands Deep 7,Bottomfish Multi-species Complex,Bottomfish Multi-species Complex,2480,20,-157,25.54295,26.26613337,0.010672134
+USA,Northern Mariana Islands,Bottomfish Multi-species Complex_Northern Mariana Islands,Bottomfish Multi-species Complex,Bottomfish Multi-species Complex,2480,15,145,28.903852,28.72515386,0.010496841
+USA,Gulf of Mexico,Brown shrimp_Gulf of Mexico,Brown shrimp,Farfantepenaeus aztecus,4100,25,-91,26.447464,26.75147823,0.014300605
+USA,California,Cabezon_California,Cabezon,Scorpaenichthys marmoratus,2950,37,-123,13.212118,14.39875081,-0.00659161
+USA,Oregon,Cabezon_Oregon,Cabezon,Scorpaenichthys marmoratus,2950,46,-124,11.685364,12.76578863,0.004362311
+USA,Southern California,California scorpionfish_Southern California,California scorpionfish,Scorpaena guttata,2950,34,-119,16.411892,16.70499554,0.025531658
+USA,Pacific Coast,Canary rockfish_Pacific Coast,Canary rockfish,Sebastes pinniger,2850,52,-128,9.956499,11.37650213,0.024154022
+USA,Southern California,Cowcod_Southern California,Cowcod,Sebastes levis,2850,34,-119,16.411892,16.70499554,0.025531658
+USA,US West Coast,Dover sole Pacific Coast,Dover sole,Microstomus pacificus,2700,41,-124.3,11.460131,13.11074491,-0.00933744
+USA,Gulf of Alaska,Dover sole_Gulf of Alaska,Dover sole,Microstomus pacificus,2700,59,-149,7.962892,9.317140365,0.021758823
+USA,Gulf of Alaska,Dusky rockfish_Gulf of Alaska,Dusky rockfish,Sebastes ciliatus,2950,59,-149,7.962892,9.317140365,0.021758823
+USA,Pacific Coast,English sole_Pacific Coast,English sole,Parophrys vetulus,2700,41,-125,12.027153,13.35054534,-0.004935027
+USA,Bering Sea / Aleutian Islands,Flathead sole_Bering Sea / Aleutian Islands,Flathead sole,Hippoglossoides elassodon,2700,53,-172,5.407485,6.577237829,0.015616679
+USA,Gulf of Alaska,Flathead sole_Gulf of Alaska,Flathead sole,Hippoglossoides elassodon,2700,59,-150,7.743983,8.953689718,0.021351497
+USA,Gulf of Mexico,Gag Gulf of Mexico,Gag,Mycteroperca microlepis,2950,25,-91,26.447464,26.75147823,0.014300605
+USA,Atlantic Coast,Gag Southern Atlantic coast,Gag,Mycteroperca microlepis,2950,26,-80,27.220562,26.98265139,0.002638476
+USA,Eastern Aleutian Islands,Golden king crab_Eastern Aleutian Islands,Golden king crab,Lithodes aequispina,4150,56,-158,6.313449,7.610501222,0.016073399
+USA,Western Aleutian Islands,Golden king crab_Western Aleutian Islands,Golden king crab,Lithodes aequispina,4150,52,-180,5.193651,6.152035407,0.01504786
+USA,Gulf of Maine / Northern Georges Bank,Goosefish_Gulf of Maine / Northern Georges Bank,Goosefish,Lophius americanus,2850,42,-67,10.796224,10.96770225,0.02282847
+USA,Southern Georges Bank / Mid-Atlantic,Goosefish_Southern Georges Bank / Mid-Atlantic,Goosefish,Lophius americanus,2850,41,-68,11.656908,12.50845563,0.02711617
+USA,Gulf of Mexico,Greater amberjack_Gulf of Mexico,Greater amberjack,Seriola dumerili,640,25,-91,26.447464,26.75147823,0.014300605
+USA,Bering Sea / Aleutian Islands,Greenland halibut_Bering Sea / Aleutian Islands,Greenland halibut,Reinhardtius hippoglossoides,2700,55,-168,5.452521,6.46812108,0.015490059
+USA,Eastern Georges Bank,Haddock_Eastern Georges Bank,Haddock,Melanogrammus aeglefinus,1650,41,-66,14.022491,13.08948353,0.032282879
+USA,Georges Bank,Haddock_Georges Bank,Haddock,Melanogrammus aeglefinus,1650,41,-69,11.669976,12.55703757,0.026714165
+USA,Gulf of Maine,Haddock_Gulf of Maine,Haddock,Melanogrammus aeglefinus,1650,43,-68,10.592442,10.28017723,0.01830493
+USA,Northwestern Atlantic Coast,Herring Northwestern Atlantic Coast,Herring,Clupea harengus,660,42,-67,10.796224,10.96770225,0.02282847
+USA,Bering Sea / Aleutian Islands,Kamchatka flounder_Bering Sea / Aleutian Islands,Kamchatka flounder,Atheresthes evermanni,2700,55,-168,5.452521,6.46812108,0.015490059
+USA,Oregon,Kelp greenling_Oregon,Kelp greenling,Hexagrammos decagrammus,2950,46,-124,11.685364,12.76578863,0.004362311
+USA,Southern Pacific Coast,Lingcod_Southern Pacific Coast,Lingcod,Ophiodon elongatus,2950,35,-121,13.556124,15.54129601,0.001420397
+USA,Pacific Coast,Longnose skate_Pacific Coast,Longnose skate,Beringraja rhina,1200,44,-125,12.160025,13.23429146,0.004451984
+USA,Pacific Coast,Longspine thornyhead_Pacific Coast,Longspine thornyhead,Sebastolobus altivelis,2850,44,-125,12.160025,13.23429146,0.004451984
+USA,US Southeast and Gulf,Mutton snapper Southern Atlantic coast and Gulf of Mexico,Mutton snapper,Lutjanus analis,2950,26,-80,27.220562,26.98265139,0.002638476
+USA,Bering Sea / Aleutian Islands,Northern rock sole_Bering Sea / Aleutian Islands,Northern rock sole,Lepidopsetta polyxystra,2700,55,-168,5.452521,6.46812108,0.015490059
+USA,Bering Sea / Aleutian Islands,Northern rockfish_Bering Sea / Aleutian Islands,Northern rockfish,Sebastes polyspinis,2850,55,-168,5.452521,6.46812108,0.015490059
+USA,Western / Central Gulf of Alaska,Northern rockfish_Western / Central Gulf of Alaska,Northern rockfish,Sebastes polyspinis,2850,55,-157,6.811694,7.746683423,0.016233193
+USA,Bering Sea / Aleutian Islands,Other Flatfish Complex_Bering Sea / Aleutian Islands,Other Flatfish Complex,Pleuronectiformes,2700,55,-168,5.452521,6.46812108,0.015490059
+USA,Bering Sea / Aleutian Islands,Other Skates Complex_Bering Sea / Aleutian Islands,Other Skates Complex,Rajidae,1200,55,-168,5.452521,6.46812108,0.015490059
+USA,Pacific Coast,Pacific chub mackerel_Pacific Coast,Pacific chub mackerel,Scomber japonicus,640,44,-125,12.160025,13.23429146,0.004451984
+USA,Aleutian Islands,Pacific cod_Aleutian Islands,Pacific cod,Gadus macrocephalus,1650,52,-173,5.632728,6.672518849,0.015772876
+USA,Bering Sea,Pacific cod_Bering Sea,Pacific cod,Gadus macrocephalus,1650,60,-177,3.313078,4.205911585,0.015954403
+USA,Gulf of Alaska,Pacific cod_Gulf of Alaska,Pacific cod,Gadus macrocephalus,1650,59,-140,8.871789,9.891486446,0.023649348
+USA,Pacific Coast,Pacific hake_Pacific Coast,Pacific hake,Merluccius productus,1650,44,-125,12.160025,13.23429146,0.004451984
+USA,Pacific Coast / Alaska,Pacific halibut_Pacific Coast / Alaska,Pacific halibut,Hippoglossus stenolepis,2700,47,-125,11.801855,12.4061886,0.0062042
+USA,Bering Sea / Aleutian Islands,Pacific ocean perch_Bering Sea / Aleutian Islands,Pacific ocean perch,Sebastes alutus,2850,55,-168,5.452521,6.46812108,0.015490059
+USA,Gulf of Alaska,Pacific ocean perch_Gulf of Alaska,Pacific ocean perch,Sebastes alutus,2850,59,-140,8.871789,9.891486446,0.023649348
+USA,Pacific Coast,Pacific ocean perch_Pacific Coast,Pacific ocean perch,Sebastes alutus,2850,44,-125,12.160025,13.23429146,0.004451984
+USA,US West Coast,Pacific sardine Pacific Coast,Pacific sardine,Sardinops sagax,660,43,-125,11.846217,13.21467204,0.001600358
+USA,Northern Subpopulation,Pacific sardine_Northern Subpopulation,Pacific sardine,Sardinops sagax,660,36,-122,13.176954,14.81401763,-0.00497508
+USA,Pacific Coast,Petrale sole_Pacific Coast,Petrale sole,Eopsetta jordani,2700,44,-125,12.160025,13.23429146,0.004451984
+USA,Gulf of Mexico,Pink shrimp_Gulf of Mexico,Pink shrimp,Farfantepenaeus duorarum,4100,25,-91,26.447464,26.75147823,0.014300605
+USA,Gulf of Maine / Georges Bank,Pollock_Gulf of Maine / Georges Bank,Pollock,Pollachius virens,1650,43,-68,10.592442,10.28017723,0.01830493
+USA,Bristol Bay,Red king crab_Bristol Bay,Red king crab,Paralithodes camtschaticus,4150,58,-160,4.047843,6.213126007,0.019660533
+USA,Norton Sound,Red king crab_Norton Sound,Red king crab,Paralithodes camtschaticus,4150,64,-164,3.457354,3.985779472,0.022851946
+USA,Southern Atlantic Coast,Red porgy_Southern Atlantic Coast,Red porgy,Pagrus pagrus,2950,26,-80,27.220562,26.98265139,0.002638476
+USA,Gulf of Alaska,Rex sole Gulf of Alaska,Rex sole,Glyptocephalus zachirus,2700,59,-140,8.871789,9.891486446,0.023649348
+USA,Bering Sea,Rougheye rockfish Bering Sea and Aleutian Islands,Rougheye rockfish,Sebastes aleutianus,2850,56,-167,5.214809,6.073719672,0.014417116
+USA,Gulf of Alaska,Rougheye rockfish Gulf of Alaska,Rougheye rockfish,Sebastes aleutianus,2850,59,-140,8.871789,9.891486446,0.023649348
+USA,Eastern Bering Sea / Aleutian Islands / Gulf of Alaska,Sablefish_Eastern Bering Sea / Aleutian Islands / Gulf of Alaska,Sablefish,Anoplopoma fimbria,2850,62,-174,2,3.285648499,0.015249658
+USA,Pacific Coast,Sablefish_Pacific Coast,Sablefish,Anoplopoma fimbria,2850,44,-125,12.160025,13.23429146,0.004451984
+USA,Gulf of Alaska,Sculpin Complex_Gulf of Alaska,Sculpin Complex,Cottidae?,2850,59,-140,8.871789,9.891486446,0.023649348
+USA,Atlantic Coast,Scup_Atlantic Coast,Scup,Stenotomus chrysops,2950,40,-73,14.434428,14.63907894,0.032282171
+USA,Northwestern Atlantic Coast,Sea scallop_Northwestern Atlantic Coast,Sea scallop,Pectinidae,2500,42,-67,10.796224,10.96770225,0.02282847
+USA,Bering Sea / Aleutian Islands,Shortraker rockfish_Bering Sea / Aleutian Islands,Shortraker rockfish,Sebastes borealis,2850,55,-168,5.452521,6.46812108,0.015490059
+USA,Gulf of Alaska,Shortspine thornyhead_Gulf of Alaska,Shortspine thornyhead,Sebastolobus alascanus,2850,59,-140,8.871789,9.891486446,0.023649348
+USA,Pacific Coast,Shortspine thornyhead_Pacific Coast,Shortspine thornyhead,Sebastolobus alascanus,2850,44,-125,12.160025,13.23429146,0.004451984
+USA,Bering Sea,Snow crab_Bering Sea,Snow crab,Chionoecetes opilio,4150,60,-177,3.313078,4.205911585,0.015954403
+USA,US Southeast and Gulf,Snowy grouper Southern Atlantic coast,Snowy grouper,Hyporthodus niveatus,2850,26,-80,27.220562,26.98265139,0.002638476
+USA,Bering Sea,Southern Tanner crab_Bering Sea,Southern Tanner crab,Chionoecetes bairdi,4150,60,-177,3.313078,4.205911585,0.015954403
+USA,US Southeast and Gulf,Spanish mackerel Southern Atlantic coast,Spanish mackerel,Scomberomorus maculatus,640,23,-83,27.699514,27.80567811,0.006951322
+USA,Atlantic Coast,Spiny dogfish_Atlantic Coast,Spiny dogfish,Squalus acanthias,1200,40,-73,14.434428,14.63907894,0.032282171
+USA,US East Coast,Striped bass Gulf of Maine / Cape Hatteras,Striped bass,Morone saxatilis,2950,39,-73,16.123133,15.27599568,0.033644994
+USA,Mid-Atlantic Coast,Summer flounder_Mid-Atlantic Coast,Summer flounder,Paralichthys dentatus,2700,32,-79,25.453394,24.26335958,0.005154014
+USA,North Atlantic,Swordfish_North Atlantic,Swordfish,Xiphias gladius,1500,40,-37,19.305424,19.41510312,0.018108627
+USA,US Alaska,Tanner crab Bering Sea and Aleutian Islands,Tanner crab,Chionoecetes spp.,4150,56,-167,5.214809,6.073719672,0.014417116
+USA,Mid-Atlantic Coast,Tilefish_Mid-Atlantic Coast,Tilefish,Lopholatilus chamaeleonticeps,2850,32,-79,25.453394,24.26335958,0.005154014
+USA,Aleutian Islands,Walleye pollock_Aleutian Islands,Walleye pollock,Theragra chalcogramma,1650,52,-173,5.632728,6.672518849,0.015772876
+USA,Bogoslof,Walleye pollock_Bogoslof,Walleye pollock,Theragra chalcogramma,1650,54,-168,5.43238,6.75911204,0.01681771
+USA,Eastern Bering Sea,Walleye pollock_Eastern Bering Sea,Walleye pollock,Theragra chalcogramma,1650,62,-174,2,3.285648499,0.015249658
+USA,Western / Central / West Yakutat Gulf of Alaska,Walleye pollock_Western / Central / West Yakutat Gulf of Alaska,Walleye pollock,Theragra chalcogramma,1650,60,-145,8.112231,9.955710642,0.025042331
+USA,Gulf of Maine / Georges Bank,White hake_Gulf of Maine / Georges Bank,White hake,Urophycis tenuis,1650,43,-68,10.592442,10.28017723,0.01830493
+USA,Gulf of Mexico,White shrimp_Gulf of Mexico,White shrimp,Litopenaeus setiferus,4100,25,-91,26.447464,26.75147823,0.014300605
+USA,Pacific Coast,Widow rockfish_Pacific Coast,Widow rockfish,Sebastes entomelas,2850,44,-125,12.160025,13.23429146,0.004451984
+USA,Georges Bank,Winter flounder_Georges Bank,Winter flounder,Pseudopleuronectes americanus,2700,41,-69,11.669976,12.55703757,0.026714165
+USA,Gulf of Maine,Winter flounder_Gulf of Maine,Winter flounder,Pseudopleuronectes americanus,2700,43,-68,10.592442,10.28017723,0.01830493
+USA,Southern New England / Mid-Atlantic,Winter flounder_Southern New England / Mid-Atlantic,Winter flounder,Pseudopleuronectes americanus,2700,43,-69,10.921618,10.78217102,0.017629891
+USA,Northwestern Atlantic Coast,Witch flounder_Northwestern Atlantic Coast,Witch flounder,Glyptocephalus cynoglossus,2700,42,-67,10.796224,10.96770225,0.02282847
+USA,Pacific Coast,Yelloweye rockfish_Pacific Coast,Yelloweye rockfish,Sebastes ruberrimus,2850,44,-125,12.160025,13.23429146,0.004451984
+USA,Bering Sea / Aleutian Islands,Yellowfin sole_Bering Sea / Aleutian Islands,Yellowfin sole,Limanda aspera,2700,55,-168,5.452521,6.46812108,0.015490059
+USA,Cape Cod / Gulf of Maine,Yellowtail flounder_Cape Cod / Gulf of Maine,Yellowtail flounder,Limanda ferruginea,2700,43,-68,10.592442,10.28017723,0.01830493
+USA,Georges Bank,Yellowtail flounder_Georges Bank,Yellowtail flounder,Limanda ferruginea,2700,41,-69,11.669976,12.55703757,0.026714165
+USA,Southern New England / Mid-Atlantic,Yellowtail flounder_Southern New England / Mid-Atlantic,Yellowtail flounder,Limanda ferruginea,2700,43,-69,10.921618,10.78217102,0.017629891

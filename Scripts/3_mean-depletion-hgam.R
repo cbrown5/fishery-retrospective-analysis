@@ -5,6 +5,7 @@ library(tidyr)
 library(dplyr)
 library(ggplot2)
 library(patchwork)
+library(mgcv)
 
 load("Outputs/2022-02-11_processesed-assessment-data.rda")
 
@@ -22,6 +23,25 @@ dat_LRR2 <- dat_LRR %>%
            years_to_MRA >3 & years_to_MRA <= 8 ~ "4-8 yr old",
            years_to_MRA >8 ~ ">8 yr old"
          )) 
+
+#axes limits 
+ymin <- 0.2
+ymax <- 1.5
+
+
+
+#
+# HGAM
+#
+dat_LRR2$lnBrel <- log(dat_LRR2$Brel)
+dat_LRR2$assessid <- factor(dat_LRR2$assessid)
+dat_LRR2$assess_age <- factor(dat_LRR2$assess_age) 
+
+system.time(
+  m1 <- bam(lnBrel ~ s(tsyear, by = assessid, m = 1) + 
+              s(tsyear, by = assess_age, m = 2),
+            data = filter(dat_LRR2, tsyear>1979))
+)
 
 #
 # ALL STOCKS 
@@ -55,7 +75,7 @@ g1 <- ggplot(dat_assess_mean) +
   ylab(expression('Depletion (B/B'[1]*')')) +
   xlab("Year") + 
   xlim(1960, 2020) + 
-  # ylim(0.2, 1.3) + 
+  ylim(ymin, ymax) +
   scale_color_manual("Assessment age", 
                      values = pal)
 
@@ -139,7 +159,7 @@ g2 <-
   ylab(expression('Depletion (B/B'[1]*')')) +
   xlab("Year") + 
   xlim(1960, 2020) + 
-  # ylim(0.2, 1.3) + 
+  ylim(ymin, ymax) +
   scale_color_manual("Assessment age", 
                      values = 
                        pal)#+ 
@@ -158,7 +178,7 @@ g3 <-
   ylab(expression('Depletion (B/B'[1]*')')) +
   xlab("Year") + 
   xlim(1960, 2020) + 
-  # ylim(0.2, 1.3) + 
+  ylim(ymin, ymax) +
   scale_color_manual("Assessment age", 
                      values =pal) + 
    theme(legend.position = "none")
@@ -202,7 +222,7 @@ g4 <- dat_assess_mean_10yrold %>%
   ylab(expression('Depletion (B/B'[1]*')')) +
   xlab("Year") + 
   xlim(1960, 2020) + 
-  # ylim(0.2, 1.3) + 
+  ylim(ymin, ymax) +
   scale_color_manual("Assessment age", 
                      values = pal) + 
   theme(legend.position = "none")
@@ -218,6 +238,6 @@ gall <- (g1 + g4) / (g2 + g3) +
   plot_annotation(tag_levels = "A") + 
   plot_layout(guides='collect') 
 
-ggsave("Outputs/depletion_timeseries-figures.png", gall,
+ggsave("Outputs/depletion_timeseries-figures-all-scales-same.png", gall,
        width = 8, height = 4)
 

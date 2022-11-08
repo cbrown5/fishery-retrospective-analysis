@@ -17,7 +17,7 @@ library(forcats)
 
 dat <- read.csv("Outputs/2022-02-11_glm-data.csv")
 load("Outputs/2022-02-11_processesed-assessment-data.rda")
-datcovar <- read.csv("Data/stock-covariates.csv")
+datcovar <- read.csv("Data/glm-covariates-Hadley.csv")
 regions <- read.csv("Data/regions.csv")
 theme_set(theme_classic())
 
@@ -29,8 +29,8 @@ dat2 <-
   mutate(stock_value = log(SSB_MRA * dollar_per_tonne/1000000), 
          lnBrel_MRA = log(Brel_MRA),
          start.year = tsyear -start.diff,
-         trend.50yr.coef.cap = ifelse(trend.50yr.coef>0.05, 0.05,
-                                      trend.50yr.coef)*100) %>%
+         trend.50yr.coef.cap = ifelse(HADISSTtrend.50yr.coef>0.05, 0.05,
+                                      HADISSTtrend.50yr.coef)*100) %>%
   rename(Delta_Brel = d.B.B0,
          Delta_B = d.B..ln.B.B.recent.,
          Delta_B1 = d.B0..ln.B0.B0.recent.)
@@ -58,7 +58,7 @@ dat_MRA_years <- dat_MRA %>% group_by(stocklong) %>%
   mutate(Years = max_year_MRA - Year)
 
 dat_by_stock <- dat2 %>% group_by(stocklong,
-                                  country.1) %>%
+                                  country) %>%
   left_join(regions) %>% # add region names 
   # Summaries for supp table 1
   summarize(Region = Region[1],
@@ -71,11 +71,12 @@ dat_by_stock <- dat2 %>% group_by(stocklong,
             sd(Delta_B1)) %>%
   left_join(dat_MRA_MRY) %>% # add B/B1 for most recent year of the MRA
   left_join(dat_MRA_years) %>% # add year and years variables
-  arrange(country.1)
+  arrange(country)
 
 #Save table for table S1, reorder columns
-write.csv(dat_by_stock[,c(1,2,3,12,14,4,11,5,6,7,8,9,10)], 
-          "Outputs/stock-summaries.csv")
+datoutput <- dat_by_stock[,c(1,2,3,12,14,4,11,5,6,7,8,9,10)]
+# write.csv(datoutput, 
+          # "Outputs/stock-summaries.csv")
 
 sum(dat_by_stock$`mean(Delta_Brel)` > 0)
 sum(dat_by_stock$`mean(Delta_Brel)` < 0)
@@ -95,18 +96,18 @@ exp(mean(dat_by_stock$`mean(Delta_B1)`))
 #Specify model formulas
 form1 <- paste(ivar, " ~
                 (start.diff +
-                mean.5yr + trend.50yr.coef.cap +
+                HADISSTmean.5yr + trend.50yr.coef.cap +
                  stock_value +
                  year.diff)*lnBrel_MRA +
                 (1|stocklong)")
 form2 <- paste(ivar, " ~
-                (mean.5yr + trend.50yr.coef.cap +
+                (HADISSTmean.5yr + trend.50yr.coef.cap +
                  stock_value +
                  year.diff)*lnBrel_MRA +
                  start.diff+
                 (1|stocklong)")
 form3 <- paste(ivar, " ~
-                (mean.5yr  +
+                (HADISSTmean.5yr  +
                  stock_value +
                  year.diff)*lnBrel_MRA +
                  start.diff +
@@ -117,21 +118,30 @@ form4 <- paste(ivar, " ~
                  year.diff)*lnBrel_MRA +
                  start.diff +
                  trend.50yr.coef.cap +
-                 mean.5yr +
+                 HADISSTmean.5yr +
                 (1|stocklong)")
 form5 <- paste(ivar, " ~
                  year.diff*lnBrel_MRA +
                  start.diff +
                  trend.50yr.coef.cap +
-                 mean.5yr +
+                 HADISSTmean.5yr +
                  stock_value +
                 (1|stocklong)")
 form6 <- paste(ivar, " ~
                  year.diff+lnBrel_MRA +
                  start.diff +
                  trend.50yr.coef.cap +
-                 mean.5yr +
+                 HADISSTmean.5yr +
                  stock_value +
+                (1|stocklong)")
+
+#Non-linear model, to test
+formNL <- paste(ivar, " ~
+                 t2(year.diff, lnBrel_MRA) +
+                 start.diff +
+                 trend.50yr.coef.cap +
+                 HADISSTmean.5yr +
+                 stock_value*year.diff +
                 (1|stocklong)")
 
 
@@ -149,17 +159,24 @@ fitmods <- function(form){
 forms <- list(form1, form2, form3, 
               form4, form5, form6)
 mout <- lapply(forms, fitmods)
+NLmod <- brm(as.formula(formNL),
+             data = dat2,
+             chains = 4,
+             iter = 4000,
+             #has trouble converging 
+             # with NL model, so increase adapt_delta
+             control = list(adapt_delta = 0.9))
 
 # smod <- summary(mint)
 # sort(abs(smod$fixed[,1]/smod$fixed[,2]))
-
+mout2 <- c(mout, list(NLmod))
 getwaic <- function(x){
   y <- tibble::rownames_to_column(data.frame(waic(x)$estimate),
                               "x")
   y$formula <- as.character(x$formula)[1]
   y
 }
-xout <- lapply(mout, getwaic) %>%
+xout <- lapply(mout2, getwaic) %>%
   do.call("rbind", .) %>%
   arrange(Estimate) %>%
   arrange(x)
@@ -188,7 +205,7 @@ write.csv(sm_all,
 
 #save model file to look at later
 # note this model is re-run in script 6
-m1 <- mout[[5]]
+m1 <- mout[[4]]
  save(m1, file = paste0("Outputs/",ivar,"/model-fit.rda"))
 # load(file = paste0("Outputs/",ivar,"/model-fit.rda"))
 #
@@ -211,6 +228,58 @@ sm1effects$Parameter[8] <- "SD Group"
 sm1effects$Parameter[9] <- "SD Stock"
 write.csv(sm1effects,
           paste0("Outputs/",ivar,"/effects.csv"))
+
+
+#
+# Predictions vs residuals 
+#
+
+m1residpred <- cbind(resid(m1), predict(m1), dat2) %>% data.frame()
+
+ggplot(m1residpred) +
+  aes(x = Estimate.1, y = Estimate) + 
+  geom_point() + 
+  geom_errorbarh(aes(xmin = Q2.5.1, xmax = Q97.5.1),
+                alpha = 0.25) +
+  geom_errorbar(aes(ymin = Q2.5, ymax = Q97.5),
+                 alpha = 0.25)
+
+ggplot(m1residpred) +
+  aes(x = Delta_Brel, y = Estimate.1) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = Q2.5.1, ymax = Q97.5.1),
+                 alpha = 0.25) +
+  geom_abline(intercept = 0, slope = 1) + 
+  geom_point(data = filter(m1residpred, Delta_Brel>1.9),
+  aes(color = stocklong)) + 
+  xlab("Observed") + 
+  ylab("Predicted")
+  
+  # geom_point(data = filter(m1residpred, stocklong == "Flathead sole_Bering Sea / Aleutian Islands"),
+             # aes(color = "red"))
+
+#
+# Random effect predictions 
+#
+
+datr <- ranef(m1)$stocklong %>% data.frame() %>%
+  tibble::rownames_to_column("stocklong") %>%
+  left_join(datoutput)
+
+ggplot(datr) +
+  aes(x = `mean(Delta_Brel)`, y = Estimate.Intercept) + 
+  geom_point() + 
+  geom_errorbar(aes(ymin = Q2.5.Intercept, ymax = Q97.5.Intercept),
+                alpha = 0.25) +
+  geom_abline(intercept = 0, slope = 1) +
+  xlab("Observed") + 
+  ylab("Predicted")
+
+
+#
+# Random effects 
+#
+
 
 
 # ------------ 
@@ -260,11 +329,11 @@ ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects.png"))
 # predicted effects
 #
 
-g1 <- conditional_effects(m1, effect = "year.diff",
+g1 <- conditional_effects(mout[[4]], effect = "year.diff",
                     conditions = 
                       data.frame(lnBrel_MRA = c(log(0.1),
-                                                log(0.5),
-                                                log(0.9))),
+                                                log(0.4),
+                                                log(1))),
                     plot = FALSE)
 g1 <- plot(g1)[[1]]
 ggsave(g1, file = paste0("Outputs/",ivar,"/Brel_yeardiff.png"))
