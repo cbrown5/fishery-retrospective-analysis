@@ -1,6 +1,6 @@
 # GLMM for each bias statistic 
 # CJ Brown 
-#2022-07-22
+#2022-11-11
 
 
 # Note: This saves outputs to folders Outputs/Brel/, Outputs/B and Outputs/B1
@@ -18,6 +18,7 @@ runmodels <- FALSE #set to true to rerun models,
 saveplots <- FALSE
 
 dat2 <- read.csv("Outputs/glm-covariates-merged.csv")
+dat2$clupeids <- relevel(factor(dat2$clupeids), ref = "Other")
 
 theme_set(theme_classic())
 
@@ -31,7 +32,7 @@ response_names <- c(expression(Delta*'B/B'[1]),
                     expression(Delta*'B'[1])
 )
 
-gfixie <- gpreds <- NULL #lists to save key plots
+gfixie <- gpreds <- gpredsvalue <- NULL #lists to save key plots
 
 # ------------ 
 # Runs models for the three bias stats
@@ -49,24 +50,14 @@ for (ivar in response_vars){
   #
   
   form1 <- paste(ivar, " ~
-                 stock_value +
-                 year.diff*lnBrel_MRA +
+                 (stock_value +
+                 year.diff)*lnBrel_MRA +
                  start.diff +
                  trend.50yr.coef.cap +
-                 mean.5yr +
+                 HADISSTmean.5yr +
+                 clupeids + 
                 (1|stocklong)")
 
-  #non-linear version  
-  # form1 <- paste(ivar, " ~
-  #                stock_value +
-  #                t2(year.diff,lnBrel_MRA) +
-  #                start.diff +
-  #                trend.50yr.coef.cap +
-  #                mean.5yr +
-  #               (1|stocklong)")
-  
-  
-  
   if (runmodels){
     m1 <- brm(as.formula(form1),
               data = dat2,
@@ -96,7 +87,7 @@ for (ivar in response_vars){
     tibble::rownames_to_column("Parameter")
   
   ###
-  sm1effects$Parameter[9] <- "SD Stock"
+  sm1effects$Parameter[11] <- "SD Stock"
   write.csv(sm1effects,
             paste0("Outputs/",ivar,"/effects.csv"))
   
@@ -112,20 +103,24 @@ for (ivar in response_vars){
     filter(rowname != "Intercept")  %>%
     mutate(params = fct_recode(factor(rowname),
                                "Duration" = "start.diff",
-                               "Mean SST" = "mean.5yr",
+                               "Mean SST" = "HADISSTmean.5yr",
                                "SST trend" = "trend.50yr.coef.cap",
+                               "Clupeid" = "clupeidsClupeid",
                                "Value" = "stock_value",
                                "Obsolescence" = "year.diff",
                                "Depletion" = "lnBrel_MRA",
+                               "Value by \n obsolescence" = "stock_value:lnBrel_MRA",
                                "Depletion by \n obsolescence" = "year.diff:lnBrel_MRA"
     ))%>%
     mutate(params = factor(params, levels = c(
       "Duration",
       "Mean SST",
       "SST trend",
+      "Clupeid",
       "Value",
       "Obsolescence",
       "Depletion",
+      "Value by \n obsolescence",
       "Depletion by \n obsolescence"
     )))
   
@@ -134,7 +129,7 @@ for (ivar in response_vars){
     aes(x = params, y = Estimate, color = signif) + 
     geom_hline(yintercept= 0) + 
     geom_point(size = 2.3) + 
-    # ylim(-0.1, 0.1) +
+    ylim(-0.2, 0.32) +
     xlab("") + 
     geom_linerange(aes(ymin = Q2.5,
                        ymax = Q97.5), 
@@ -155,8 +150,8 @@ for (ivar in response_vars){
   g1 <- conditional_effects(m1, effect = "year.diff",
                             conditions = 
                               data.frame(lnBrel_MRA = c(log(0.1),
-                                                        log(0.5),
-                                                        log(0.9))),
+                                                        log(0.4),
+                                                        log(1))),
                             plot = FALSE)
   g1 <- plot(g1)[[1]]
   if(saveplots)
@@ -165,8 +160,8 @@ for (ivar in response_vars){
   g1 <- conditional_effects(m1, effect = "stock_value",
                             conditions = 
                               data.frame(lnBrel_MRA = c(log(0.1),
-                                                        log(0.5),
-                                                        log(0.9))),
+                                                        log(0.4),
+                                                        log(1))),
                             plot = FALSE)
   g1 <- plot(g1)[[1]]
   if(saveplots)
@@ -178,7 +173,7 @@ for (ivar in response_vars){
   if(saveplots)
     ggsave(g1, file = paste0("Outputs/",ivar,"/start.diff.png"))
   
-  g1 <- conditional_effects(m1, effect = "mean.5yr")
+  g1 <- conditional_effects(m1, effect = "HADISSTmean.5yr")
   g1 <- plot(g1)[[1]]
   if(saveplots)
     ggsave(g1, file = paste0("Outputs/",ivar,"/year_sst_mean.png"))
@@ -188,12 +183,13 @@ for (ivar in response_vars){
   #
   
   newdata <- with(dat2, expand.grid(
-    lnBrel_MRA = c(log(0.1), log(0.5), log(0.9)),
+    lnBrel_MRA = c(log(0.1), log(0.4), log(1)),
     year.diff = seq(min(year.diff), max(year.diff), by = 1),
     start.diff = mean(start.diff),
-    mean.5yr = mean(mean.5yr),
+    HADISSTmean.5yr = mean(HADISSTmean.5yr),
     trend.50yr.coef.cap = mean(trend.50yr.coef.cap),
     stock_value = mean(stock_value),
+    clupeids = "Other",
     stocklong = NA,
     Group = NA
   ))
@@ -219,31 +215,16 @@ for (ivar in response_vars){
                 color = NA, alpha = 0.7)+
     ylab(response_names[ivar == response_vars]) +
     xlab("Obsolescence (yrs)") +
-    scale_y_continuous(breaks = seq(0.5, 4, by = 0.5),
-                       labels = seq(0.5, 4, by = 0.5),
-                       limits = c(0.5, 5)) +
-    # scale_y_log10(breaks = c(0.6, 0.8, 1, 1.2,1.5, 2, 3),
-                  # labels = seq(0.5, 4, by = 0.5),
+    xlim(0, 15) + 
+    scale_y_continuous(breaks = seq(0.5, 3, by = 0.5),
+                       labels = seq(0.5, 3, by = 0.5),
+                       limits = c(0.5, 3.2)) +
+    # scale_y_log10(breaks = c(0.6, 0.8, 1, 1.2,1.5, 2, 2.5,3,4),
+                  # labels = c(0.6, 0.8, 1, 1.2,1.5, 2, 2.5,3,4),
+    # scale_y_log10(breaks = 10^(seq(-1, 1, by = 0.5)),
+                  # labels = 10^(seq(-1, 1, by = 0.5)),
                   # limits = c(0.5, 4)) +
-    scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "#BFBFBF", "black"))
-  
-  
-  g1 <- ggplot(pdat) + 
-    aes(x = year.diff, y = (`50%`), fill = factor(status),
-        group = status)+
-    geom_hline(yintercept = 0) +
-    geom_line() +
-    geom_ribbon(aes(ymin = (`2.5%`),
-                    ymax = (`97.5%`)), 
-                color = NA, alpha = 0.7)+
-    ylab(response_names[ivar == response_vars]) +
-    xlab("Obsolescence (yrs)") +
-    scale_y_continuous(breaks = seq(-0.5, 1.5, by = 0.5),
-                       labels = seq(-0.5, 1.5, by = 0.5),
-                       limits = c(-0.75, 1.5)) +
-    scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "#BFBFBF", "black"))
-  
-  
+    scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
   
   
   gpreds <- c(gpreds, list(g1))
@@ -257,12 +238,13 @@ for (ivar in response_vars){
   #
   
   newdata <- with(dat2, expand.grid(
-    lnBrel_MRA = c(log(0.1), log(0.9)),
+    lnBrel_MRA = c(log(0.1), log(0.4), log(1)),
     year.diff = mean(year.diff),
     start.diff = mean(start.diff),
-    mean.5yr = mean(mean.5yr),
+    HADISSTmean.5yr = mean(HADISSTmean.5yr),
     trend.50yr.coef.cap = mean(trend.50yr.coef.cap),
     stock_value = seq(min(stock_value), max(stock_value), length.out = 100),
+    clupeids = "Other",
     stocklong = NA,
     Group = NA
   ))
@@ -274,18 +256,30 @@ for (ivar in response_vars){
     cbind(newdata)
   
   pdat$status <- exp(pdat$lnBrel_MRA)
-  g1 <- ggplot(pdat) + 
-    aes(x = stock_value, y = `50%`, fill = factor(status),
-        group = status)+
-    geom_line() +
-    geom_ribbon(aes(ymin = `2.5%`,
-                    ymax = `97.5%`), 
-                color = NA, alpha = 0.7)+
-    ylab(response_names[ivar == response_vars]) +
-    xlab("Value") +
-    # scale_fill_manual("B/B1", values = c("#190061", "#0072B2"))#56B4E9
-    scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black"))
   
+  g1 <- ggplot(pdat) + 
+    aes(x = stock_value, y = exp(`50%`), fill = factor(status),
+        group = status)+
+    geom_hline(yintercept = 1) +
+    geom_line() +
+    geom_ribbon(aes(ymin = exp(`2.5%`),
+                    ymax = exp(`97.5%`)), 
+                color = NA, alpha = 0.7)+
+    scale_y_continuous(breaks = seq(0.5, 4, by = 0.5),
+                       labels = seq(0.5, 4, by = 0.5),
+                       limits = c(0.5, 2.5)) +
+    # scale_y_log10(breaks = c(0.6, 0.8, 1, 1.2,1.5, 2, 2.5,3,4),
+    # labels = c(0.6, 0.8, 1, 1.2,1.5, 2, 2.5,3,4),
+    # scale_y_log10(breaks = 10^(seq(-1, 1, by = 0.5)),
+    # labels = 10^(seq(-1, 1, by = 0.5)),
+    # limits = c(0.5, 4)) +
+    scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))+
+    ylab(response_names[ivar == response_vars]) +
+    xlab("Value")
+  
+  gpredsvalue <- c(gpredsvalue, list(g1))
+  
+
   if(saveplots)
     ggsave(g1, file =paste0("Outputs/",ivar,"/value-Brelative.png"))
   
@@ -301,7 +295,7 @@ gall <- gpreds[[1]] + gpreds[[2]] +
   plot_annotation(tag_levels ="A") + 
   plot_layout(guides='collect') 
 
-ggsave("Outputs/Obsolesence-deltas-same-scale-log-yaxis.png",
+ggsave("Outputs/Obsolesence-deltas-same-scale.png",
        gall,
        width = 8, height =3)
 
@@ -314,6 +308,15 @@ gallfix <- gfixie[[1]] +
 
 ggsave("Outputs/fixed-effects-deltas.png",
        gallfix,
+       width = 8, height =3)
+
+gall <- gpredsvalue[[1]] + gpredsvalue[[2]] +
+  gpredsvalue[[3]] + 
+  plot_annotation(tag_levels ="A") + 
+  plot_layout(guides='collect') 
+
+ggsave("Outputs/Obsolesence-value-deltas-same-scale.png",
+       gall,
        width = 8, height =3)
 
 #

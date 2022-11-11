@@ -1,0 +1,231 @@
+﻿stocklong,Species,Fishery group
+Argentine anchoita Northern Argentina,Argentine anchoita,"Herrings, sardines, anchovies"
+Argentine anchoita Southern Argentina,Argentine anchoita,"Herrings, sardines, anchovies"
+Argentine hake Northern Argentina,Argentine hake,"Cods, hakes, haddocks"
+Argentine hake Southern Argentina,Argentine hake,"Cods, hakes, haddocks"
+Patagonian grenadier Southern Argentina,Patagonian grenadier,Miscellaneous demersal fishes
+Southern blue whiting Southern Argentina,Southern blue whiting,"Cods, hakes, haddocks"
+Bight_redfish SE Australia,Bight redfish,Miscellaneous demersal fishes
+Blue Grenadier SE Australia,Blue Grenadier,Miscellaneous demersal fishes
+Blue_warehou_east SE Australia,Blue warehou,Miscellaneous demersal fishes
+Blue_warehou_west SE Australia,Blue warehou,Miscellaneous demersal fishes
+Deepwater_Flathead SE Australia,Deepwater Flathead,Miscellaneous demersal fishes
+Eastern_gemfish SE Australia,Eastern gemfish,Miscellaneous demersal fishes
+Gummy shark (BS),Gummy shark,"Sharks, rays, chimaeras"
+Gummy shark (SA),Gummy shark,"Sharks, rays, chimaeras"
+Gummy_shark (TAS),Gummy shark,"Sharks, rays, chimaeras"
+Morwong _east,Morwong,Miscellaneous demersal fishes
+Morwong_West,Morwong,Miscellaneous demersal fishes
+Orange Roughy SE Australia,Orange Roughy,Miscellaneous demersal fishes
+Pink_Ling_East,Pink Ling,Miscellaneous demersal fishes
+Pink_Ling_West,Pink Ling,Miscellaneous demersal fishes
+Redfish SE Australia,Redfish,Miscellaneous demersal fishes
+School Whiting SE Australia,School Whiting,Miscellaneous coastal fishes
+School_shark SE Australia,School shark,"Sharks, rays, chimaeras"
+Silver_Warehou SE Australia,Silver Warehou,Miscellaneous demersal fishes
+Tiger_flathead SE Australia,Tiger flathead,Miscellaneous demersal fishes
+Atlantic cod Southern Gulf of St. Lawrence,Atlantic cod,"Cods, hakes, haddocks"
+Atlantic cod Southern Labrador-Eastern Newfoundland,Atlantic cod,"Cods, hakes, haddocks"
+Herring Southern Gulf of St. Lawrence (Fall spawners),Herring,"Herrings, sardines, anchovies"
+Herring Southern Gulf of St. Lawrence (Spring spawners),Herring,"Herrings, sardines, anchovies"
+Mackerel Northwest Atlantic (NAFO Subareas 3 and 4),Mackerel,Miscellaneous pelagic fishes
+Pacific herring Central Coast,Pacific herring,"Herrings, sardines, anchovies"
+Pacific herring Prince Rupert District,Pacific herring,"Herrings, sardines, anchovies"
+Pacific herring Queen Charlotte Islands,Pacific herring,"Herrings, sardines, anchovies"
+Pacific herring Strait of Georgia,Pacific herring,"Herrings, sardines, anchovies"
+Pacific herring West Coast of Vancouver Island,Pacific herring,"Herrings, sardines, anchovies"
+Rock sole Hecate Strait,Rock sole,"Flounders, halibuts, soles"
+Winter flounder Southern Gulf of St. Lawrence,Winter flounder,"Flounders, halibuts, soles"
+Albacore tuna South Pacific Ocean,Albacore tuna,"Tunas, bonitos, billfishes"
+Atlantic bluefin tuna Eastern Atlantic,Atlantic bluefin,"Tunas, bonitos, billfishes"
+Atlantic bluefin tuna Western Atlantic,Atlantic bluefin,"Tunas, bonitos, billfishes"
+Bigeye tuna Indian Ocean,Bigeye tuna,"Tunas, bonitos, billfishes"
+Skipjack tuna Central Western Pacific Ocean,Skipjack tuna,"Tunas, bonitos, billfishes"
+Yellowfin tuna Central Western Pacific Ocean,Yellowfin tuna,"Tunas, bonitos, billfishes"
+Atlantic cod North-East Arctic,Atlantic cod,"Cods, hakes, haddocks"
+Capelin Barents Sea,Capelin,Miscellaneous pelagic fishes
+Golden redfish North-East Arctic,Golden redfish,Miscellaneous demersal fishes
+Greenland halibut North-East Arctic,Greenland halibut,"Flounders, halibuts, soles"
+Haddock North-East Arctic,Haddock,"Cods, hakes, haddocks"
+Pollock North-East Arctic,Pollock,"Cods, hakes, haddocks"
+Atlantic cod Eastern Baltic,Atlantic cod,"Cods, hakes, haddocks"
+Atlantic cod Kattegat,Atlantic cod,"Cods, hakes, haddocks"
+Atlantic cod Western Baltic,Atlantic cod,"Cods, hakes, haddocks"
+Herring Bothnian Bay,Herring,"Herrings, sardines, anchovies"
+Herring Bothnian Sea,Herring,"Herrings, sardines, anchovies"
+Herring Eastern Baltic,Herring,"Herrings, sardines, anchovies"
+Herring Gulf of Riga East of Gotland,Herring,"Herrings, sardines, anchovies"
+Atlantic cod Faroe Plateau,Atlantic cod,"Cods, hakes, haddocks"
+Atlantic cod Iceland Grounds,Atlantic cod,"Cods, hakes, haddocks"
+Haddock Faroe Plateau,Haddock,"Cods, hakes, haddocks"
+Haddock Iceland Grounds,Haddock,"Cods, hakes, haddocks"
+Herring Iceland (Summer spawners),Herring,"Herrings, sardines, anchovies"
+Pollock Faroe Plateau,European Pollock,"Cods, hakes, haddocks"
+Anchovy Bay of Biscay,Anchovy,"Herrings, sardines, anchovies"
+Blue whiting Northeast Atlantic,Blue whiting,"Cods, hakes, haddocks"
+Fourspotted megrim ICES 8c-9a,Fourspotted megrim,"Flounders, halibuts, soles"
+Hake ICES 3a-4-6-7-8abd,Hake,"Cods, hakes, haddocks"
+Hake ICES 8c-9a,Hake,"Cods, hakes, haddocks"
+Herring ICES 22-24-3a,Herring,"Herrings, sardines, anchovies"
+Herring ICES 5a-7bc,Herring,"Herrings, sardines, anchovies"
+Herring Irish Sea,Herring,"Herrings, sardines, anchovies"
+Herring West of Scotland,Herring,"Herrings, sardines, anchovies"
+Mackerel ICES Northeast Atlantic,Mackerel,Miscellaneous pelagic fishes
+Megrim ICES 8c-9a,Megrim,"Flounders, halibuts, soles"
+Sprat North Sea,Sprat,"Herrings, sardines, anchovies"
+Atlantic cod Irish Sea,Atlantic cod,"Cods, hakes, haddocks"
+Atlantic cod West of Scotland,Atlantic cod,"Cods, hakes, haddocks"
+Common sole Celtic Sea,Common sole,"Flounders, halibuts, soles"
+Common sole Eastern English Channel,Common sole,"Flounders, halibuts, soles"
+Common sole Irish Sea,Common sole,"Flounders, halibuts, soles"
+Common sole North Sea,Common sole,"Flounders, halibuts, soles"
+Common sole Western English Channel,Common sole,"Flounders, halibuts, soles"
+European plaice Celtic Sea,European plaice,"Flounders, halibuts, soles"
+European plaice Eastern English Channel,European plaice,"Flounders, halibuts, soles"
+European plaice Irish Sea,European Plaice,"Flounders, halibuts, soles"
+European plaice North Sea,European Plaice,"Flounders, halibuts, soles"
+European plaice Western English Channel,European plaice,"Flounders, halibuts, soles"
+Haddock Irish Sea,Haddock,"Cods, hakes, haddocks"
+Haddock Rockall Bank,Haddock,"Cods, hakes, haddocks"
+Haddock West of Scotland,Haddock,"Cods, hakes, haddocks"
+Whiting Celtic Sea,Whiting,"Cods, hakes, haddocks"
+Whiting West of Scotland,Whiting,"Cods, hakes, haddocks"
+Atlantic cod NAFO 5Zjm,Atlantic cod,"Cods, hakes, haddocks"
+Chilean jack mackerel Chilean EEZ and offshore,Chilean jack mackerel,Miscellaneous pelagic fishes
+Pacific halibut North Pacific,Pacific halibut,"Flounders, halibuts, soles"
+Australian salmon New Zealand,Australian salmon,Miscellaneous coastal fishes
+Hoki Eastern New Zealand,Hoki,Miscellaneous demersal fishes
+Hoki Western New Zealand,Hoki,Miscellaneous demersal fishes
+Ling New Zealand Areas LIN 72,Ling,Miscellaneous demersal fishes
+Ling New Zealand Areas LIN 7WC-WCSI,Ling,Miscellaneous demersal fishes
+Orange roughy New Zealand Mid East Coast,Orange roughy,Miscellaneous demersal fishes
+Paua New Zealand Area PAU 5B (Stewart Island),Paua,"Abalones, winkles, conchs"
+Paua New Zealand Area PAU 5D (Otago),Paua,"Abalones, winkles, conchs"
+Paua New Zealand Area PAU 7 (Marlborough),Paua,"Abalones, winkles, conchs"
+Smooth oreo Chatham Rise,Smooth oreo,Miscellaneous demersal fishes
+Smooth oreo West end of Chatham Rise,Smooth oreo,Miscellaneous demersal fishes
+Southern blue whiting Campbell Island Rise,Southern blue whiting,"Cods, hakes, haddocks"
+Southern hake Chatham Rise,Southern hake,"Cods, hakes, haddocks"
+Southern hake Sub-Antarctic,Southern hake,"Cods, hakes, haddocks"
+Trevally New Zealand Areas TRE 7,Trevally,Miscellaneous coastal fishes
+Peruvian anchoveta North-Central Peruvian coast,Peruvian anchoveta,"Herrings, sardines, anchovies"
+Walleye pollock Northern Sea of Okhotsk,Walleye pollock,"Cods, hakes, haddocks"
+Anchovy South Africa,Anchovy,"Herrings, sardines, anchovies"
+Cape horse mackerel South Africa South coast,Cape horse mackerel,Miscellaneous pelagic fishes
+Deep water cape hake South Africa,Deep water cape hake,"Cods, hakes, haddocks"
+Patagonian toothfish South Africa Subantarctic Prince Edward Islands,Patagonian toothfish,Miscellaneous demersal fishes
+Sardine South Africa,Sardine,"Herrings, sardines, anchovies"
+Shallow water cape hake South Africa,Shallow water cape hake,"Cods, hakes, haddocks"
+South African abalone South Africa,South African abalone,"Abalones, winkles, conchs"
+Southern spiny lobster South Africa South coast,Southern spiny lobster,"Lobsters, spiny-rock lobsters"
+Acadian redfish Gulf of Maine / Georges Bank,Acadian redfish,Miscellaneous demersal fishes
+Alaska plaice Bering Sea and Aleutian Islands,Alaska plaice,"Flounders, halibuts, soles"
+American plaice Gulf of Maine / Georges Bank,American plaice,"Flounders, halibuts, soles"
+Arrowtooth flounder Bering Sea and Aleutian Islands,Arrowtooth flounder,"Flounders, halibuts, soles"
+Arrowtooth flounder Gulf of Alaska,Arrowtooth flounder,"Flounders, halibuts, soles"
+Arrowtooth flounder Pacific Coast,Arrowtooth flounder,"Flounders, halibuts, soles"
+Atka mackerel Bering Sea and Aleutian Islands,Atka mackerel,Miscellaneous demersal fishes
+Atlantic butterfish Gulf of Maine / Cape Hatteras,Atlantic butterfish,Miscellaneous demersal fishes
+Atlantic cod Georges Bank,Atlantic cod,"Cods, hakes, haddocks"
+Atlantic cod Gulf of Maine,Atlantic cod,"Cods, hakes, haddocks"
+Atlantic surfclam_Mid-Atlantic Coast,Atlantic surfclam,"Clams, cockles, arkshells"
+Atlantic wolffish_Gulf of Maine / Georges Bank,Atlantic wolffish,Miscellaneous demersal fishes
+Big skate_Gulf of Alaska,Big skate,"Sharks, rays, chimaeras"
+Bigeye tuna_Atlantic,Bigeye tuna,"Tunas, bonitos, billfishes"
+Black sea bass_Mid-Atlantic Coast,Black sea bass,Miscellaneous coastal fishes
+Blackspotted and Rougheye Rockfish Complex_Gulf of Alaska,Blackspotted and Rougheye Rockfish Complex,Miscellaneous demersal fishes
+Blue king crab_Pribilof Islands,Blue king crab,"Crabs, sea-spiders"
+Blue king crab_Saint Matthew Island,Blue king crab,"Crabs, sea-spiders"
+Bluefish_Atlantic Coast,Bluefish,Miscellaneous coastal fishes
+Bottomfish Multi-species Complex_Guam,Bottomfish Multi-species Complex,Marine fishes not identified
+Bottomfish Multi-species Complex_Main Hawaiian Islands Deep 7,Bottomfish Multi-species Complex,Marine fishes not identified
+Bottomfish Multi-species Complex_Northern Mariana Islands,Bottomfish Multi-species Complex,Marine fishes not identified
+Brown shrimp_Gulf of Mexico,Brown shrimp,"Shrimps, prawns"
+Cabezon_California,Cabezon,Miscellaneous coastal fishes
+Cabezon_Oregon,Cabezon,Miscellaneous coastal fishes
+California scorpionfish_Southern California,California scorpionfish,Miscellaneous coastal fishes
+Canary rockfish_Pacific Coast,Canary rockfish,Miscellaneous demersal fishes
+Cowcod_Southern California,Cowcod,Miscellaneous demersal fishes
+Dover sole Pacific Coast,Dover sole,"Flounders, halibuts, soles"
+Dover sole_Gulf of Alaska,Dover sole,"Flounders, halibuts, soles"
+Dusky rockfish_Gulf of Alaska,Dusky rockfish,Miscellaneous coastal fishes
+English sole_Pacific Coast,English sole,"Flounders, halibuts, soles"
+Flathead sole_Bering Sea / Aleutian Islands,Flathead sole,"Flounders, halibuts, soles"
+Flathead sole_Gulf of Alaska,Flathead sole,"Flounders, halibuts, soles"
+Gag Gulf of Mexico,Gag,Miscellaneous coastal fishes
+Gag Southern Atlantic coast,Gag,Miscellaneous coastal fishes
+Golden king crab_Eastern Aleutian Islands,Golden king crab,"Crabs, sea-spiders"
+Golden king crab_Western Aleutian Islands,Golden king crab,"Crabs, sea-spiders"
+Goosefish_Gulf of Maine / Northern Georges Bank,Goosefish,Miscellaneous demersal fishes
+Goosefish_Southern Georges Bank / Mid-Atlantic,Goosefish,Miscellaneous demersal fishes
+Greater amberjack_Gulf of Mexico,Greater amberjack,Miscellaneous pelagic fishes
+Greenland halibut_Bering Sea / Aleutian Islands,Greenland halibut,"Flounders, halibuts, soles"
+Haddock_Eastern Georges Bank,Haddock,"Cods, hakes, haddocks"
+Haddock_Georges Bank,Haddock,"Cods, hakes, haddocks"
+Haddock_Gulf of Maine,Haddock,"Cods, hakes, haddocks"
+Herring Northwestern Atlantic Coast,Herring,"Herrings, sardines, anchovies"
+Kamchatka flounder_Bering Sea / Aleutian Islands,Kamchatka flounder,"Flounders, halibuts, soles"
+Kelp greenling_Oregon,Kelp greenling,Miscellaneous coastal fishes
+Lingcod_Southern Pacific Coast,Lingcod,Miscellaneous coastal fishes
+Longnose skate_Pacific Coast,Longnose skate,"Sharks, rays, chimaeras"
+Longspine thornyhead_Pacific Coast,Longspine thornyhead,Miscellaneous demersal fishes
+Mutton snapper Southern Atlantic coast and Gulf of Mexico,Mutton snapper,Miscellaneous coastal fishes
+Northern rock sole_Bering Sea / Aleutian Islands,Northern rock sole,"Flounders, halibuts, soles"
+Northern rockfish_Bering Sea / Aleutian Islands,Northern rockfish,Miscellaneous demersal fishes
+Northern rockfish_Western / Central Gulf of Alaska,Northern rockfish,Miscellaneous demersal fishes
+Other Flatfish Complex_Bering Sea / Aleutian Islands,Other Flatfish Complex,"Flounders, halibuts, soles"
+Other Skates Complex_Bering Sea / Aleutian Islands,Other Skates Complex,"Sharks, rays, chimaeras"
+Pacific chub mackerel_Pacific Coast,Pacific chub mackerel,Miscellaneous pelagic fishes
+Pacific cod_Aleutian Islands,Pacific cod,"Cods, hakes, haddocks"
+Pacific cod_Bering Sea,Pacific cod,"Cods, hakes, haddocks"
+Pacific cod_Gulf of Alaska,Pacific cod,"Cods, hakes, haddocks"
+Pacific hake_Pacific Coast,Pacific hake,"Cods, hakes, haddocks"
+Pacific halibut_Pacific Coast / Alaska,Pacific halibut,"Flounders, halibuts, soles"
+Pacific ocean perch_Bering Sea / Aleutian Islands,Pacific ocean perch,Miscellaneous demersal fishes
+Pacific ocean perch_Gulf of Alaska,Pacific ocean perch,Miscellaneous demersal fishes
+Pacific ocean perch_Pacific Coast,Pacific ocean perch,Miscellaneous demersal fishes
+Pacific sardine Pacific Coast,Pacific sardine,"Herrings, sardines, anchovies"
+Pacific sardine_Northern Subpopulation,Pacific sardine,"Herrings, sardines, anchovies"
+Petrale sole_Pacific Coast,Petrale sole,"Flounders, halibuts, soles"
+Pink shrimp_Gulf of Mexico,Pink shrimp,"Shrimps, prawns"
+Pollock_Gulf of Maine / Georges Bank,Pollock,"Cods, hakes, haddocks"
+Red king crab_Bristol Bay,Red king crab,"Crabs, sea-spiders"
+Red king crab_Norton Sound,Red king crab,"Crabs, sea-spiders"
+Red porgy_Southern Atlantic Coast,Red porgy,Miscellaneous coastal fishes
+Rex sole Gulf of Alaska,Rex sole,"Flounders, halibuts, soles"
+Rougheye rockfish Bering Sea and Aleutian Islands,Rougheye rockfish,Miscellaneous demersal fishes
+Rougheye rockfish Gulf of Alaska,Rougheye rockfish,Miscellaneous demersal fishes
+Sablefish_Eastern Bering Sea / Aleutian Islands / Gulf of Alaska,Sablefish,Miscellaneous demersal fishes
+Sablefish_Pacific Coast,Sablefish,Miscellaneous demersal fishes
+Sculpin Complex_Gulf of Alaska,Sculpin Complex,Miscellaneous demersal fishes
+Scup_Atlantic Coast,Scup,Miscellaneous coastal fishes
+Sea scallop_Northwestern Atlantic Coast,Sea scallop,"Scallops, pectens"
+Shortraker rockfish_Bering Sea / Aleutian Islands,Shortraker rockfish,Miscellaneous demersal fishes
+Shortspine thornyhead_Gulf of Alaska,Shortspine thornyhead,Miscellaneous demersal fishes
+Shortspine thornyhead_Pacific Coast,Shortspine thornyhead,Miscellaneous demersal fishes
+Snow crab_Bering Sea,Snow crab,"Crabs, sea-spiders"
+Snowy grouper Southern Atlantic coast,Snowy grouper,Miscellaneous demersal fishes
+Southern Tanner crab_Bering Sea,Southern Tanner crab,"Crabs, sea-spiders"
+Spanish mackerel Southern Atlantic coast,Spanish mackerel,Miscellaneous pelagic fishes
+Spiny dogfish_Atlantic Coast,Spiny dogfish,"Sharks, rays, chimaeras"
+Striped bass Gulf of Maine / Cape Hatteras,Striped bass,Miscellaneous coastal fishes
+Summer flounder_Mid-Atlantic Coast,Summer flounder,"Flounders, halibuts, soles"
+Swordfish_North Atlantic,Swordfish,"Tunas, bonitos, billfishes"
+Tanner crab Bering Sea and Aleutian Islands,Tanner crab,"Crabs, sea-spiders"
+Tilefish_Mid-Atlantic Coast,Tilefish,Miscellaneous demersal fishes
+Walleye pollock_Aleutian Islands,Walleye pollock,"Cods, hakes, haddocks"
+Walleye pollock_Bogoslof,Walleye pollock,"Cods, hakes, haddocks"
+Walleye pollock_Eastern Bering Sea,Walleye pollock,"Cods, hakes, haddocks"
+Walleye pollock_Western / Central / West Yakutat Gulf of Alaska,Walleye pollock,"Cods, hakes, haddocks"
+White hake_Gulf of Maine / Georges Bank,White hake,"Cods, hakes, haddocks"
+White shrimp_Gulf of Mexico,White shrimp,"Shrimps, prawns"
+Widow rockfish_Pacific Coast,Widow rockfish,Miscellaneous demersal fishes
+Winter flounder_Georges Bank,Winter flounder,"Flounders, halibuts, soles"
+Winter flounder_Gulf of Maine,Winter flounder,"Flounders, halibuts, soles"
+Winter flounder_Southern New England / Mid-Atlantic,Winter flounder,"Flounders, halibuts, soles"
+Witch flounder_Northwestern Atlantic Coast,Witch flounder,"Flounders, halibuts, soles"
+Yelloweye rockfish_Pacific Coast,Yelloweye rockfish,Miscellaneous demersal fishes
+Yellowfin sole_Bering Sea / Aleutian Islands,Yellowfin sole,"Flounders, halibuts, soles"
+Yellowtail flounder_Cape Cod / Gulf of Maine,Yellowtail flounder,"Flounders, halibuts, soles"
+Yellowtail flounder_Georges Bank,Yellowtail flounder,"Flounders, halibuts, soles"
+Yellowtail flounder_Southern New England / Mid-Atlantic,Yellowtail flounder,"Flounders, halibuts, soles"

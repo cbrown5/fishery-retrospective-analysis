@@ -18,23 +18,31 @@ library(forcats)
 dat <- read.csv("Outputs/2022-02-11_glm-data.csv")
 load("Outputs/2022-02-11_processesed-assessment-data.rda")
 datcovar <- read.csv("Data/glm-covariates-Hadley.csv")
+stock_groups <- read.csv("Data/stock_groups.csv")
 regions <- read.csv("Data/regions.csv")
 theme_set(theme_classic())
+
 
 dat2 <- 
   #Join  covariates
   inner_join(dat, datcovar) %>%
+  left_join(stock_groups) %>%
   #Join MRA to get Brel_MRA
-  left_join(select(dat_MRA, stocklong, Brel_MRA, SSB_MRA, tsyear, Year_MRA = finish2)) %>%
+  left_join(select(dat_MRA, stocklong, Brel_MRA, SSB_MRA, tsyear,
+                   Year_MRA = finish2)) %>%
   mutate(stock_value = log(SSB_MRA * dollar_per_tonne/1000000), 
          lnBrel_MRA = log(Brel_MRA),
          start.year = tsyear -start.diff,
          trend.50yr.coef.cap = ifelse(HADISSTtrend.50yr.coef>0.05, 0.05,
-                                      HADISSTtrend.50yr.coef)*100) %>%
+                                      HADISSTtrend.50yr.coef)*100,
+         clupeids = factor(ifelse(Fishery.group == "Herrings, sardines, anchovies",
+                           "Clupeid", "Other"))) %>%
   rename(Delta_Brel = d.B.B0,
          Delta_B = d.B..ln.B.B.recent.,
-         Delta_B1 = d.B0..ln.B0.B0.recent.)
+         Delta_B1 = d.B0..ln.B0.B0.recent.,
+         fishery_group = Fishery.group)
 nrow(dat2)
+dat2$clupeids <- relevel(dat2$clupeids, ref = "Other")
 
 #Write data for supplemental file 
  write.csv(dat2, "Outputs/glm-covariates-merged.csv",
@@ -75,8 +83,8 @@ dat_by_stock <- dat2 %>% group_by(stocklong,
 
 #Save table for table S1, reorder columns
 datoutput <- dat_by_stock[,c(1,2,3,12,14,4,11,5,6,7,8,9,10)]
-# write.csv(datoutput, 
-          # "Outputs/stock-summaries.csv")
+ # write.csv(datoutput, 
+           # "Outputs/stock-summaries.csv")
 
 sum(dat_by_stock$`mean(Delta_Brel)` > 0)
 sum(dat_by_stock$`mean(Delta_Brel)` < 0)
@@ -99,18 +107,21 @@ form1 <- paste(ivar, " ~
                 HADISSTmean.5yr + trend.50yr.coef.cap +
                  stock_value +
                  year.diff)*lnBrel_MRA +
+                 clupeids + 
                 (1|stocklong)")
 form2 <- paste(ivar, " ~
                 (HADISSTmean.5yr + trend.50yr.coef.cap +
                  stock_value +
                  year.diff)*lnBrel_MRA +
                  start.diff+
+                 clupeids + 
                 (1|stocklong)")
 form3 <- paste(ivar, " ~
                 (HADISSTmean.5yr  +
                  stock_value +
                  year.diff)*lnBrel_MRA +
                  start.diff +
+                 clupeids + 
                  trend.50yr.coef.cap+
                 (1|stocklong)")
 form4 <- paste(ivar, " ~
@@ -119,6 +130,7 @@ form4 <- paste(ivar, " ~
                  start.diff +
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
+                 clupeids + 
                 (1|stocklong)")
 form5 <- paste(ivar, " ~
                  year.diff*lnBrel_MRA +
@@ -126,6 +138,7 @@ form5 <- paste(ivar, " ~
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
                  stock_value +
+                 clupeids + 
                 (1|stocklong)")
 form6 <- paste(ivar, " ~
                  year.diff+lnBrel_MRA +
@@ -133,6 +146,7 @@ form6 <- paste(ivar, " ~
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
                  stock_value +
+                 clupeids + 
                 (1|stocklong)")
 
 #Non-linear model, to test
@@ -142,6 +156,7 @@ formNL <- paste(ivar, " ~
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
                  stock_value*year.diff +
+                 clupeids + 
                 (1|stocklong)")
 
 
@@ -181,7 +196,7 @@ xout <- lapply(mout2, getwaic) %>%
   arrange(Estimate) %>%
   arrange(x)
 
-write.csv(xout, paste0("Outputs/",ivar,"/model-waic.csv"))
+write.csv(xout, paste0("Outputs/",ivar,"/model-waic2.csv"))
 #
 #Table of params for all models 
 #
@@ -224,11 +239,11 @@ sm1effects <- rbind(sm1$fixed, sm1$random$Group,
   signif(2) %>%
   data.frame() %>%
   tibble::rownames_to_column("Parameter")
-sm1effects$Parameter[8] <- "SD Group"
-sm1effects$Parameter[9] <- "SD Stock"
+
+#FIX THIS######*******************
+sm1effects$Parameter[11] <- "SD Stock"
 write.csv(sm1effects,
           paste0("Outputs/",ivar,"/effects.csv"))
-
 
 #
 # Predictions vs residuals 
@@ -244,20 +259,17 @@ ggplot(m1residpred) +
   geom_errorbar(aes(ymin = Q2.5, ymax = Q97.5),
                  alpha = 0.25)
 
-ggplot(m1residpred) +
+g1 <- ggplot(m1residpred) +
   aes(x = Delta_Brel, y = Estimate.1) + 
   geom_point() + 
   geom_errorbar(aes(ymin = Q2.5.1, ymax = Q97.5.1),
                  alpha = 0.25) +
   geom_abline(intercept = 0, slope = 1) + 
-  geom_point(data = filter(m1residpred, Delta_Brel>1.9),
-  aes(color = stocklong)) + 
+  # geom_point(data = filter(m1residpred, Delta_Brel>1.9),
+  # aes(color = stocklong)) + 
   xlab("Observed") + 
   ylab("Predicted")
   
-  # geom_point(data = filter(m1residpred, stocklong == "Flathead sole_Bering Sea / Aleutian Islands"),
-             # aes(color = "red"))
-
 #
 # Random effect predictions 
 #
@@ -266,7 +278,7 @@ datr <- ranef(m1)$stocklong %>% data.frame() %>%
   tibble::rownames_to_column("stocklong") %>%
   left_join(datoutput)
 
-ggplot(datr) +
+g2 <- ggplot(datr) +
   aes(x = `mean(Delta_Brel)`, y = Estimate.Intercept) + 
   geom_point() + 
   geom_errorbar(aes(ymin = Q2.5.Intercept, ymax = Q97.5.Intercept),
@@ -276,110 +288,11 @@ ggplot(datr) +
   ylab("Predicted")
 
 
-#
-# Random effects 
-#
+library(patchwork)
+gall <- (g1 / g2) +
+  plot_annotation(tag_levels = "A") + 
+  plot_layout(guides='collect') 
 
-
-
-# ------------ 
-# Select plots 
-# ------------ 
-
-#
-#Plots created here for exploratory purposes. 
-# Plots used in the paper are re-created in 
-# 6_glm-automated-by-variable.R
-
-#
-# Fixed effects 
-#
-
-fixef <- fixef(m1) %>% 
-  data.frame() %>%
-  tibble::rownames_to_column() %>%
-  mutate(signif = sign(Q2.5) == sign(Q97.5)) %>%
-  filter(rowname != "Intercept") %>%
-  mutate(params = fct_recode(factor(rowname),
-                              "Duration" = "start.diff",
-                              "Mean SST" = "mean.5yr",
-                              "Value" = "stock_value",
-                              "SST trend" = "trend.50yr.coef.cap",
-                              "Obsolescence" = "year.diff",
-                              "Depletion" = "lnBrel_MRA",
-                              "Depletion by \n duration" = "year.diff:lnBrel_MRA"
-                             ))
-
-g1 <-
-  ggplot(fixef) +
-  aes(x = params, y = Estimate, color = signif) + 
-  geom_hline(yintercept= 0) + 
-  geom_point() + 
-  # ylim(-0.1, 0.1) +
-  xlab("") + 
-  geom_linerange(aes(ymin = Q2.5,
-                     ymax = Q97.5)) + 
-  coord_flip() + 
-  scale_color_manual(values = c("grey", "red")) + 
-  theme(legend.position = "none")
-
-ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects.png"))
-
-#
-# predicted effects
-#
-
-g1 <- conditional_effects(mout[[4]], effect = "year.diff",
-                    conditions = 
-                      data.frame(lnBrel_MRA = c(log(0.1),
-                                                log(0.4),
-                                                log(1))),
-                    plot = FALSE)
-g1 <- plot(g1)[[1]]
-ggsave(g1, file = paste0("Outputs/",ivar,"/Brel_yeardiff.png"))
-
-g1 <- conditional_effects(m1, effect = "start.diff")
-g1 <- plot(g1)[[1]]
-ggsave(g1, file = paste0("Outputs/",ivar,"/start.diff.png"))
-
-g1 <- conditional_effects(m1, effect = "mean.5yr")
-g1 <- plot(g1)[[1]]
-ggsave(g1, file = paste0("Outputs/",ivar,"/year_sst_mean.png"))
-
-
-#
-# Calculate and plot GLMS for years since MRA with sustainable and overfished data as separate curves 
-# (using criterion B/B1 MRA <0.5). 
-#
-
-
-newdata <- with(dat2, expand.grid(
-  lnBrel_MRA = c(log(0.1), log(0.9)),
-  year.diff = seq(min(year.diff), max(year.diff), by = 1),
-  start.diff = mean(start.diff),
-  mean.5yr = mean(mean.5yr),
-  trend.50yr.coef.cap = mean(trend.50yr.coef.cap),
-  stock_value = mean(stock_value),
-  stocklong = NA,
-  Group = NA
-))
-
-pdat <- posterior_epred(m1, newdata = newdata,
-                        re.form = NA) %>%
-  apply(2,quantile, c(0.025, 0.5, 0.975)) %>%
-  t() %>%
-  cbind(newdata)
-
-pdat$status <- exp(pdat$lnBrel_MRA)
-g1 <- ggplot(pdat) + 
-  aes(x = year.diff, y = `50%`, fill = factor(status),
-      group = status)+
-  geom_line() +
-  geom_ribbon(aes(ymin = `2.5%`,
-                  ymax = `97.5%`), 
-              color = NA, alpha = 0.5)+
-  ylab("Delta B/B1") +
-  xlab("Years to MRA") +
-  scale_fill_manual("B/B1", values = c("red", "darkblue"))
-ggsave(g1, file =paste0("Outputs/",ivar,"/years-to-MRA-Brelative.png"))
+ggsave("Outputs/predictions-vs-obs-Brel-GLMM.png", gall,
+       width = 8, height = 4)
 

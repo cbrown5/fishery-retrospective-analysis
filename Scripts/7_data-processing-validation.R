@@ -2,11 +2,9 @@
 #Calculate B1, bias and other statistics for analysis
 #
 # CJ Brown 
-#2022-08-17
+#2022-1-11
 #
-# Note in paper we refer to the statistic 'B1' as
-# the biomass in the initial year of the time-series.
-# In the code this biomass in initial year is variable B0. 
+#Replicate of script 1 but excludes MRA so we can do a validation
 
 library(tidyr)
 library(dplyr)
@@ -22,6 +20,7 @@ library(DataGLMRepeat)
 dat <- read_csv("Data/stock-timeseries-databases.csv")
 
 RLSADB <- read_csv("Data/RLSADB v4.44 bioparams-view.csv")
+
 #
 #Steps for Brel
 #
@@ -34,12 +33,27 @@ dat2 <- select(dat,
                scientificname,
                region,
                country,
-               initial, #initial year of this assessmnet
+               initial, #initial year of this assessment
                `max finish2`, #most recent stock assess year
                tsyear, #year of data
                SSB) %>%
   filter(tsyear >= 1920)#truncate to begin in 1920
   
+#
+# Identify MRA and remove them
+#
+#therefore below the MRA will be defined as the second-MRA
+
+dat2b <- dat2 %>%
+  group_by(stocklong, finish2) %>%
+  mutate(maxyear = max(tsyear)) %>%
+  ungroup() %>%
+  group_by(stocklong) %>%
+  mutate(MRA = maxyear == max(maxyear)) %>%
+  filter(!MRA) %>%
+  ungroup() %>%
+  select(-maxyear) #remove this because we
+# need to create it again below
 
 # ----------------- #
 # Calculate B0 etc... 
@@ -48,7 +62,7 @@ dat2 <- select(dat,
 # For each stock assessment: (using stocklong and final year columns)
 
 # Calculate B0
-dat_B0temp <- dat2 %>% 
+dat_B0temp <- dat2b %>% 
   group_by(stocklong, finish2) %>%
   DataGLMRepeat::with_groups(.,{
   minyear = min(tsyear)
@@ -70,6 +84,7 @@ dat_B0temp <- dat2 %>%
 length(dat_B0temp) 
 length(unique(dat2$assessid))
 
+
 #visualize B0 values
 hist(unlist(lapply(dat_B0temp, function(x) x$B0)))
 
@@ -82,7 +97,7 @@ sum(unlist(lapply(dat_B0temp, function(x) x$B0))) #no NAs
 dat_B0 <- do.call("rbind", dat_B0temp)
 
 # Join to all data
-dat3 <- dat2 %>% left_join(dat_B0, by = c("stocklong", "finish2"))
+dat3 <- dat2b %>% left_join(dat_B0, by = c("stocklong", "finish2"))
 nrow(dat2) == nrow(dat3)
 
 # Calculate Brel (SSB/B0)
@@ -178,15 +193,17 @@ dat4 <- left_join(dat3a, dat_MRAB0)
 nrow(dat3) == nrow(dat4)
 
 #More checks 
-which(dat4$`max finish2` != dat4$maxyearMRA) #should be length 0 
-
+#no maxyearMRA should now match the MRA from teh old database,
+#since we removed the MRAs
+length(which(dat4$`max finish2` != dat4$maxyearMRA))
+nrow(dat4)
 #
 # Join SSB in each year
 #
 
 #data - most recent assessment
 dat_MRA <- dat4 %>%
-  filter(finish2 == `max finish2`) %>% #MRAs
+  filter(finish2 == maxyearMRA) %>% #MRAs
   select(stocklong, finish2, tsyear, SSB_MRA = SSB,  Brel_MRA = Brel,
           trend_MRA = trend, trend_MRA_percent = trend_percent,
          trend2_MRA = trend2, 
@@ -245,22 +262,6 @@ dat6_bystock <- dat6 %>%
 
 dat_MRA_MRY <- filter(dat_MRA, tsyear == finish2)
 
-# ------------ 
-# Comparison to B0 as calculated from assessments 
-# ------------ 
-
-#This uses TB0 if available and SSB0 if not
-adb_B0 <- RLSADB %>% filter(!is.na(TB0) | !is.na(SSB0)) %>% 
-  mutate(B0_assessment = ifelse(is.na(TB0), SSB0, TB0)) %>%
-           select(stocklong, B0_assessment) 
-nrow(adb_B0)
-dat_B0_2 <- left_join(dat_B0, adb_B0)
-nrow(dat_B0)
-nrow(dat_B0_2)
-
-#Compare B initial (our 'B0') to 
-# B0 in assessment database, for available stocks
-plot(dat_B0_2$B0, dat_B0_2$B0_assessment)
 
 #
 # Save data 
@@ -274,14 +275,14 @@ dat_B0 <- dat_B0_2
 
 save(dat_B0, dat_MRA, dat_LRR, 
      dat_MRY, dat_MRY_stock_means, 
-     file = "Outputs/2022-02-11_processesed-assessment-data.rda")
+     file = "Outputs/status-validation/2022-11-11_processesed-assessment-data-validation.rda")
 
 #
 # Data frame for GLMMs
 #
 
-#Should be 756 stocks 
-nrow(dat_MRY) == 756
+#Should be fewer than 756 stocks (because now some have no comparison)
+nrow(dat_MRY)
 
 dat_glm <- dat_MRY %>%
   mutate(`year diff` = maxyearMRA - tsyear, 
@@ -311,37 +312,10 @@ dat_glm <- dat_MRY %>%
          `d slope2 SSB` #as above but over 2 years
   )
 
-write.csv(dat_glm, "Outputs/2022-02-11_glm-data.csv",
+write.csv(dat_glm, "Outputs/status-validation/2022-11-11_glm-data-validation.csv",
           row.names = FALSE)
 
 
-dat_glm_bystock <- dat6_bystock %>%
-  left_join(dat_MRA_MRY) %>%
-  mutate(lnBB0 = log(Brel)) %>% 
-  select(stocklong, #stock IDs
-         #Bslope10, #trend over 10 years
-         # Bslope5,#trend over 5 years
-         # Bslope2,
-         `d B (ln B/B recent)`= BLRR, #log(SSB/SSB_MRA) where MRA is most 
-         #recent assessment
-         `d B0 (ln B0/B0 recent)` = B0LRR, #log(B0/B0_MRA)
-         `d B/B0` = BrelLRR, #log(B_relative/B_relative_MRA) where
-         # B_relative is B/B0
-         `d slope SSB` = trend_rel,# trend - trend_MRA, where trend is the trend
-         # the three years before the assessment and trend_MRA is the 
-         # same for the MRA
-         lnBB0,
-        finish2_MRA = finish2, 
-        tsyear_MRA = tsyear, 
-        B_MRA = SSB_MRA,
-        Brel_MRA,
-        trend_MRA,
-        trend_MRA_percent,
-        B0_MRA
-  )
-
-write.csv(dat_glm_bystock, "Outputs/2022-02-11_glm-data-stock-means.csv",
-          row.names = FALSE)
 
 
 

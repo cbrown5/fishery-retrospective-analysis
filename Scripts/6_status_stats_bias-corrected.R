@@ -46,9 +46,10 @@ datprednew <- datprednew %>%
   filter(final_assessment == 1) %>% 
   select(year.diff, start.diff, 
          lnBrel_MRA, 
-         trend.50yr.coef.cap, mean.5yr,
+         trend.50yr.coef.cap, HADISSTmean.5yr,
          stock_value, 
-         stocklong, tsyear) %>%
+         stocklong, tsyear,
+         clupeids) %>%
   distinct()
 nrow(datprednew)
 
@@ -81,16 +82,16 @@ write.csv(status_q, paste0("Outputs/",ivar,"/status_unbiased.csv"))
 status_prop <- mpred %>%
   summarize(sum(status_estimate<0.1)/n(),
             sum(status_estimate<0.2)/n(),
-            sum(status_estimate<0.5)/n(),
+            sum(status_estimate<0.4)/n(),
             sum(status<0.1)/n(),
             sum(status<0.2)/n(),
-            sum(status<0.5)/n(),
+            sum(status<0.4)/n(),
             sum(status_estimate<0.1),
             sum(status_estimate<0.2),
-            sum(status_estimate<0.5),
+            sum(status_estimate<0.4),
             sum(status<0.1),
             sum(status<0.2),
-            sum(status<0.5)) %>%
+            sum(status<0.4)) %>%
   signif(2)
 
 write.csv(status_prop, paste0("Outputs/",ivar,"/proportion-stock-status.csv"))
@@ -99,15 +100,16 @@ write.csv(status_prop, paste0("Outputs/",ivar,"/proportion-stock-status.csv"))
 # Stats for paper 
 #
 datprednew2 <- 
-  expand.grid(Brel = c(0.1, 0.9),
+  expand.grid(Brel = c(0.05,0.1, 0.9),
               stocklong = NA,
               Group = NA, 
-              tsyear = 2010,
+              tsyear = 2030,
               year.diff = 10,
               start.diff = mean(dat2$start.diff),
               stock_value = mean(dat2$stock_value),
               trend.50yr.coef.cap =mean(dat2$trend.50yr.coef.cap),
-              mean.5yr = mean(dat2$mean.5yr)) %>%
+              HADISSTmean.5yr = mean(dat2$HADISSTmean.5yr),
+              clupeids = "Other") %>%
   mutate(lnBrel_MRA = log(Brel))
 
 mpred2 <- posterior_epred(m1, datprednew2,

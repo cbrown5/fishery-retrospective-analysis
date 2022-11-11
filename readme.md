@@ -35,6 +35,10 @@ Makes figure 1, hindcast trends for Pacific cod.
 
 Makes figure 2, mean depletion trends over time.
 
+**3_mean-depletion-figures-sensitivity**  
+Alt versions of figure 2 where we used different subsets of the data
+to check for biased caused by unequal sample sizes across years. 
+
 **4_glm-model-bias-and-hindcast**
 
 Fits GLMM for analysis of delta B/B1 in relation to covariates. Fits all models and calculates the WAIC statistic.

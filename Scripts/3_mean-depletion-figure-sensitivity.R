@@ -11,6 +11,11 @@ library(patchwork)
 
 load("Outputs/2022-02-11_processesed-assessment-data.rda")
 
+sefun <- function(x){
+  n <- sum(!is.na(x))
+  sd(x)/sqrt(n)
+}
+
 dat_LRR2 <- dat_LRR %>%
   #Select just those stocks with full time-series from 1980 to 2010 or after
   filter((maxyearMRA > 2009) & (minyear < 1981)) %>%
@@ -31,7 +36,7 @@ dat_LRR2 <- dat_LRR %>%
 xmin <- 1960 #1980
 xmax <- 2020
 ymin <- 0
-ymax <- 1.5
+ymax <- 1.7
 
 yaxis <- scale_y_continuous(breaks = seq(0, 1.5, by = 0.25),
                             limits = c(ymin, ymax),
@@ -44,6 +49,7 @@ yaxis <- scale_y_continuous(breaks = seq(0, 1.5, by = 0.25),
 dat_assess_mean <- dat_LRR2 %>%
   group_by(tsyear, assess_age) %>%
   summarize(Depletion = exp(mean(log(Brel))),
+            Dep_SE = sefun(log(Brel)),
             n = n()) %>%
   ungroup() %>%
   filter(n>14) %>%
@@ -67,13 +73,21 @@ g1 <- ggplot(dat_assess_mean) +
   geom_hline(yintercept = 0.4, color = "grey60", 
              linetype = 2) +
   geom_line() +
+  geom_ribbon(aes(ymin = exp(log(Depletion) - Dep_SE), 
+                  ymax = exp(log(Depletion) + Dep_SE),
+                  fill = assess_age),
+              color = NA,
+              alpha = 0.5)+
   theme_classic() + 
   ylab(expression('Depletion (B/B'[1]*')')) +
   xlab("Year") + 
   xlim(xmin, xmax) + 
   yaxis +
   scale_color_manual("Assessment age", 
-                     values = pal)
+                     values = pal)+ 
+  scale_fill_manual("Assessment age", 
+                    values = 
+                      pal) 
 
 #
 # Stocks that rise in last 5 years of MRA
@@ -126,6 +140,7 @@ dat_assess_mean_status <- dat_LRR2 %>%
   left_join(stock_status_MRAMRY) %>%
   group_by(tsyear, assess_age, status) %>%
   summarize(Depletion = exp(mean(log(Brel))),
+            Dep_SE = sefun(log(Brel)),
             n = n()) %>%
   filter(n>14) %>%
   ungroup() %>%
@@ -151,6 +166,11 @@ g2 <-
   geom_hline(yintercept = 0.4, color = "grey60", 
              linetype = 2) +
   geom_line() +
+  geom_ribbon(aes(ymin = exp(log(Depletion) - Dep_SE), 
+                  ymax = exp(log(Depletion) + Dep_SE),
+                  fill = assess_age),
+              color = NA,
+              alpha = 0.5)+
   theme_classic() + 
   ylab(expression('Depletion (B/B'[1]*')')) +
   xlab("Year") + 
@@ -158,7 +178,10 @@ g2 <-
   yaxis +
   scale_color_manual("Assessment age", 
                      values = 
-                       pal)#+ 
+                       pal) + 
+  scale_fill_manual("Assessment age", 
+                     values = 
+                       pal) 
   # theme(legend.position = "none")
 
 g3 <- 
@@ -172,6 +195,11 @@ g3 <-
   geom_hline(yintercept = 0.4, color = "grey60", 
              linetype = 2) +
   geom_line() +
+  geom_ribbon(aes(ymin = exp(log(Depletion) - Dep_SE), 
+                  ymax = exp(log(Depletion) + Dep_SE),
+                  fill = assess_age),
+              color = NA,
+              alpha = 0.5)+
   theme_classic() + 
   ylab(expression('Depletion (B/B'[1]*')')) +
   xlab("Year") + 
@@ -179,7 +207,10 @@ g3 <-
   yaxis +
   scale_color_manual("Assessment age", 
                      values =pal) + 
-   theme(legend.position = "none")
+   theme(legend.position = "none")+ 
+  scale_fill_manual("Assessment age", 
+                    values = 
+                      pal) 
 
 
 #
@@ -189,7 +220,8 @@ g3 <-
 dat_assess_mean_10yrold <- dat_LRR2 %>%
   inner_join(stock_assess_morethan_10yr) %>%
   group_by(tsyear, assess_age) %>%
-  summarize(Depletion = exp(mean(log(Brel)))) %>%
+  summarize(Depletion = exp(mean(log(Brel))),
+            Dep_SE = sefun(log(Brel))) %>%
   ungroup() %>%
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
@@ -212,6 +244,11 @@ g4 <- dat_assess_mean_10yrold %>%
   geom_hline(yintercept = 0.4, color = "grey60", 
              linetype = 2) +
   geom_line() +
+  geom_ribbon(aes(ymin = exp(log(Depletion) - Dep_SE), 
+                  ymax = exp(log(Depletion) + Dep_SE),
+                  fill = assess_age),
+              color = NA,
+              alpha = 0.5)+
   theme_classic() + 
   ylab(expression('Depletion (B/B'[1]*')')) +
   xlab("Year") + 
@@ -219,12 +256,15 @@ g4 <- dat_assess_mean_10yrold %>%
   yaxis +
   scale_color_manual("Assessment age", 
                      values = pal) + 
-  theme(legend.position = "none")
+  theme(legend.position = "none")+ 
+  scale_fill_manual("Assessment age", 
+                    values = 
+                      pal) 
 
 gall <- (g1 + g4) / (g2 + g3) + 
   plot_annotation(tag_levels = "A") + 
   plot_layout(guides='collect') 
 
-ggsave("Outputs/depletion_timeseries-figures-all-scales-same-complete-1980_2010.png", gall,
+ggsave("Outputs/depletion_timeseries-figures-all-scales-same-complete-1980_2010_withSEs.png", gall,
        width = 8, height = 4)
 
