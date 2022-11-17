@@ -32,7 +32,7 @@ dat2 <-
                    Year_MRA = finish2)) %>%
   mutate(stock_value = log(SSB_MRA * dollar_per_tonne/1000000), 
          lnBrel_MRA = log(Brel_MRA),
-         start.year = tsyear -start.diff,
+         start.year = tsyear - start.diff,
          trend.50yr.coef.cap = ifelse(HADISSTtrend.50yr.coef>0.05, 0.05,
                                       HADISSTtrend.50yr.coef)*100,
          clupeids = factor(ifelse(Fishery.group == "Herrings, sardines, anchovies",
@@ -45,8 +45,8 @@ nrow(dat2)
 dat2$clupeids <- relevel(dat2$clupeids, ref = "Other")
 
 #Write data for supplemental file 
- write.csv(dat2, "Outputs/glm-covariates-merged.csv",
-          row.names = FALSE)
+ # write.csv(dat2, "Outputs/glm-covariates-merged.csv",
+          # row.names = FALSE)
 
 response_vars <- c("Delta_Brel",
                    "Delta_B",
@@ -88,13 +88,48 @@ datoutput <- dat_by_stock[,c(1,2,3,12,14,4,11,5,6,7,8,9,10)]
 
 sum(dat_by_stock$`mean(Delta_Brel)` > 0)
 sum(dat_by_stock$`mean(Delta_Brel)` < 0)
-sum(exp(dat_by_stock$`mean(Delta_Brel)`)  > 1.5)
+
+sum(exp(dat_by_stock$`mean(Delta_Brel)`)  > 1.05)
+sum(exp(dat_by_stock$`mean(Delta_Brel)`)  < 0.95)
+
 sum(exp(dat_by_stock$`mean(Delta_Brel)`)  > 2)
+
 exp(mean((dat_by_stock$`mean(Delta_Brel)`)))
 exp(sd((dat_by_stock$`mean(Delta_Brel)`))/sqrt(230))
 
 exp(mean(dat_by_stock$`mean(Delta_B)`))
+exp(sd((dat_by_stock$`mean(Delta_B)`))/sqrt(230))
 exp(mean(dat_by_stock$`mean(Delta_B1)`))
+exp(sd((dat_by_stock$`mean(Delta_B1)`))/sqrt(230))
+
+#
+# Summary stats excluding stocks where B1 year differs across
+# assessments
+#
+
+stock_diff_years <- dat2 %>% group_by(stocklong) %>%
+  summarize(minsy  = min(minyear),
+            maxsy = max(minyear),
+            diff = maxsy - minsy) %>%
+  filter(diff==0) 
+100*(1-nrow(stock_diff_years)/nrow(dat_by_stock))
+dat_by_stock2 <- inner_join(dat_by_stock, stock_diff_years)
+1-nrow(dat_by_stock2)/230
+
+nrow(dat_by_stock2)
+sum(dat_by_stock2$`mean(Delta_Brel)` > 0)
+sum(dat_by_stock2$`mean(Delta_Brel)` < 0)
+sum(exp(dat_by_stock2$`mean(Delta_Brel)`)  > 1.05)
+sum(exp(dat_by_stock2$`mean(Delta_Brel)`)  < 0.95)
+sum(exp(dat_by_stock2$`mean(Delta_Brel)`)  > 1.5)
+sum(exp(dat_by_stock2$`mean(Delta_Brel)`)  > 2)
+
+exp(mean((dat_by_stock2$`mean(Delta_Brel)`)))
+exp(sd((dat_by_stock2$`mean(Delta_Brel)`))/sqrt(230))
+exp(mean(dat_by_stock2$`mean(Delta_B)`))
+exp(sd((dat_by_stock2$`mean(Delta_B)`))/sqrt(230))
+1-exp(mean(dat_by_stock2$`mean(Delta_B1)`))
+exp(sd((dat_by_stock2$`mean(Delta_B1)`))/sqrt(230))
 
 #
 # GLMM Delta_Brel
@@ -151,14 +186,14 @@ form6 <- paste(ivar, " ~
 
 #Non-linear model, to test
 formNL <- paste(ivar, " ~
-                 t2(year.diff, lnBrel_MRA) +
+                 t2(year.diff, lnBrel_MRA, k = 5) +
                  start.diff +
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
-                 stock_value*year.diff +
-                 clupeids + 
+                 stock_value+
+                 clupeids +
                 (1|stocklong)")
-
+#  
 
 #Function to run model given a formula
 fitmods <- function(form){
@@ -173,15 +208,18 @@ fitmods <- function(form){
 # Run all the models
 forms <- list(form1, form2, form3, 
               form4, form5, form6)
+
 mout <- lapply(forms, fitmods)
+
 NLmod <- brm(as.formula(formNL),
              data = dat2,
              chains = 4,
+             cores = 4,
              iter = 4000,
              #has trouble converging 
              # with NL model, so increase adapt_delta
              control = list(adapt_delta = 0.9))
-
+save(NLmod, file = "Outputs/non-linear-model.rda")
 # smod <- summary(mint)
 # sort(abs(smod$fixed[,1]/smod$fixed[,2]))
 mout2 <- c(mout, list(NLmod))

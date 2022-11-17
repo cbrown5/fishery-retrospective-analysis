@@ -308,7 +308,8 @@ dat_glm <- dat_MRY %>%
          `d slope SSB`, # trend - trend_MRA, where trend is the trend
          # the three years before the assessment and trend_MRA is the 
          # same for the MRA
-         `d slope2 SSB` #as above but over 2 years
+         `d slope2 SSB`, #as above but over 2 years
+         minyear
   )
 
 write.csv(dat_glm, "Outputs/2022-02-11_glm-data.csv",

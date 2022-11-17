@@ -19,8 +19,10 @@ ggplot(pcdat) +
   aes(x = tsyear, y = SSB, color = finish2.x,
       group = finish2.x) + 
   geom_line() + 
-  geom_line(data = filter(pcdat, finish2.x == 2018), 
-            color = "black", size = 1) +
+  geom_line(aes(y = SSB_MRA), 
+            color = "hotpink", size = 1) +
+  # geom_line(data = filter(pcdat, finish2.x == 2018), 
+            # color = "black", size = 1) +
   scale_color_gradient("",high = "darkblue",
                        low = "lightblue") +
   theme_classic() +
