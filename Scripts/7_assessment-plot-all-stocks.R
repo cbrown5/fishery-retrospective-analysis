@@ -28,7 +28,7 @@ g2 <- ggplot(dat_LRR) +
   facet_wrap_paginate(~ stocklong, ncol = 2, nrow = 2,
                       page = i,
                       scales = "free")+
-  scale_color_viridis_c("Assmnt \n year") +
+  scale_color_viridis_c("Assmnt \n year", direction = -1) +
   scale_y_log10() +
   theme_classic() +
   xlab("Year") + 

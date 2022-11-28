@@ -66,7 +66,7 @@ dat_MRA_years <- dat_MRA %>% group_by(stocklong) %>%
   mutate(Years = max_year_MRA - Year)
 
 dat_by_stock <- dat2 %>% group_by(stocklong,
-                                  country) %>%
+                                  country, Common.name) %>%
   left_join(regions) %>% # add region names 
   # Summaries for supp table 1
   summarize(Region = Region[1],
@@ -82,9 +82,18 @@ dat_by_stock <- dat2 %>% group_by(stocklong,
   arrange(country)
 
 #Save table for table S1, reorder columns
-datoutput <- dat_by_stock[,c(1,2,3,12,14,4,11,5,6,7,8,9,10)]
- # write.csv(datoutput, 
-           # "Outputs/stock-summaries.csv")
+datoutput <- dat_by_stock[,c("Common.name", "Region",
+                             "country", "Year",
+                             "Years", "N",
+                             "Brel_MRA",
+                             "mean(Delta_Brel)",
+                             "mean(Delta_B)",
+                             "mean(Delta_B1)",
+                             "sd(Delta_Brel)",
+                             "sd(Delta_B)",
+                             "sd(Delta_B1)")]
+ # write.csv(datoutput,
+ # "Outputs/stock-summaries2.csv")
 
 sum(dat_by_stock$`mean(Delta_Brel)` > 0)
 sum(dat_by_stock$`mean(Delta_Brel)` < 0)

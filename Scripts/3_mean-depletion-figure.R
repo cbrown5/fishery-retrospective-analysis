@@ -113,8 +113,13 @@ stock_status_MRAMRY <- dat_LRR2 %>%
                          "Depleted")) %>%
   select(stocklong, status)
   
-#active if I want to have status in year of TS
-
+stock_status_MRAMRY %>%
+  select(status, stocklong) %>%
+  distinct() %>%
+  group_by(status) %>%
+  summarize(n())
+68/230
+162/230
 
 #
 # Depleted and sustainable stocks
@@ -137,6 +142,7 @@ dat_assess_mean_status$assess_age <-
                     "1-3 yr old",
                     "4-8 yr old",
                     ">8 yr old"))
+
 
 g2 <- 
   dat_assess_mean_status %>%

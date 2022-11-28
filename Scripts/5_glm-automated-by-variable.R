@@ -42,7 +42,7 @@ gfixie <- gpreds <- gpredsvalue <- NULL #lists to save key plots
 # also produces and patchwork's plots for paper 
 
 for (ivar in response_vars){
-  # ivar <- response_vars[1]
+  # ivar <- response_vars[3]
   
   #
   # GLMM Delta_Brelm- just running the best model
@@ -129,7 +129,7 @@ for (ivar in response_vars){
     aes(x = params, y = Estimate, color = signif) + 
     geom_hline(yintercept= 0) + 
     geom_point(size = 2.3) + 
-    ylim(-0.2, 0.32) +
+    ylim(-0.3, 0.32) +
     xlab("") + 
     geom_linerange(aes(ymin = Q2.5,
                        ymax = Q97.5), 

@@ -100,7 +100,7 @@ write.csv(status_prop, paste0("Outputs/",ivar,"/proportion-stock-status.csv"))
 # Stats for paper 
 #
 datprednew2 <- 
-  expand.grid(Brel = c(0.05,0.1, 0.9),
+  expand.grid(Brel = c(0.05,0.1, 1),
               stocklong = NA,
               Group = NA, 
               tsyear = 2030,

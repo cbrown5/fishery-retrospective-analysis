@@ -13,7 +13,7 @@ Icon*
 *.DS_Store
 *.xlsx
 *.xls
-
+**/archive/**
 
 #########################
 # R files
