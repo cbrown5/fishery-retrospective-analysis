@@ -42,7 +42,7 @@ gfixie <- gpreds <- gpredsvalue <- NULL #lists to save key plots
 # also produces and patchwork's plots for paper 
 
 for (ivar in response_vars){
-  # ivar <- response_vars[3]
+  # ivar <- response_vars[1]
   
   #
   # GLMM Delta_Brelm- just running the best model

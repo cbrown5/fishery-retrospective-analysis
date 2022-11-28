@@ -287,7 +287,7 @@ sm1effects <- rbind(sm1$fixed, sm1$random$Group,
   data.frame() %>%
   tibble::rownames_to_column("Parameter")
 
-#FIX THIS######*******************
+
 sm1effects$Parameter[11] <- "SD Stock"
 write.csv(sm1effects,
           paste0("Outputs/",ivar,"/effects.csv"))
@@ -308,7 +308,7 @@ ggplot(m1residpred) +
 
 g1 <- ggplot(m1residpred) +
   aes(x = Delta_Brel, y = Estimate.1) + 
-  geom_point() + 
+  geom_point(alpha = 0.3) + 
   geom_errorbar(aes(ymin = Q2.5.1, ymax = Q97.5.1),
                  alpha = 0.25) +
   geom_abline(intercept = 0, slope = 1) + 
@@ -323,11 +323,11 @@ g1 <- ggplot(m1residpred) +
 
 datr <- ranef(m1)$stocklong %>% data.frame() %>%
   tibble::rownames_to_column("stocklong") %>%
-  left_join(datoutput)
+  left_join(dat_by_stock)
 
 g2 <- ggplot(datr) +
   aes(x = `mean(Delta_Brel)`, y = Estimate.Intercept) + 
-  geom_point() + 
+  geom_point(alpha = 0.3) + 
   geom_errorbar(aes(ymin = Q2.5.Intercept, ymax = Q97.5.Intercept),
                 alpha = 0.25) +
   geom_abline(intercept = 0, slope = 1) +
@@ -341,5 +341,5 @@ gall <- (g1 / g2) +
   plot_layout(guides='collect') 
 
 ggsave("Outputs/predictions-vs-obs-Brel-GLMM.png", gall,
-       width = 8, height = 4)
+       width = 6, height = 4)
 
