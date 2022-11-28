@@ -260,7 +260,9 @@ nrow(dat_B0_2)
 
 #Compare B initial (our 'B0') to 
 # B0 in assessment database, for available stocks
-plot(dat_B0_2$B0, dat_B0_2$B0_assessment)
+
+plot(log10(dat_B0_2$B0_assessment),log10(dat_B0_2$B0))
+abline(0,1)
 
 #
 # Save data 
