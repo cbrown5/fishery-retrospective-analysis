@@ -1,8 +1,8 @@
 # R code for Complex stock assessment models overstate sustainability of the world’s fisheries
 
-GJ Edgar, CJ Brown
+CJ Brown, GJ Edgar
 
-2022-02-11
+2023-02-09
 
 Repeatable code for the study "Complex stock assessment models overstate sustainability of the world’s fisheries"
 

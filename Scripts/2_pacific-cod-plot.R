@@ -60,10 +60,10 @@ g1 <- ggplot(pcdat) +
   ylab("Spawning stock biomass \n
        ('000s tonnes)")  +
   xlim(1972, 2020) +
-  # scale_y_continuous(breaks = seq(0, 500, by = 100),
-                     # labels= comma,
-                     # limits = c(0, 600)) +
-  scale_y_log10(breaks = c(50, 100, 200, 400))  +
+  scale_y_continuous(breaks = seq(0, 500, by = 100),
+                     labels= comma,
+                     limits = c(0, 600)) +
+  # scale_y_log10(breaks = c(50, 100, 200, 400))  +
   guides(color = guide_legend(ncol = 3))+
   theme(axis.title.y = element_text(lineheight = 0.5),
         legend.position = c(0.8, 0.95),
@@ -91,9 +91,9 @@ g2 <- ggplot(pcdat) +
   geom_line(data = filter(pcdat, finish2.x == 2014), 
                                                   color = "black", size = 0.9, 
                                                   linetype = 5) +
-  # scale_y_continuous(breaks = c(0, 0.25, 0.5, 1, 2, 4),
-                     # limits = c(0, 4)) +
-  scale_y_log10(breaks = c(0.25, 0.5, 1,2, 3)) +
+  scale_y_continuous(breaks = c(0, 0.25, 0.5, 1, 2, 4),
+                     limits = c(0, 4)) +
+  # scale_y_log10(breaks = c(0.25, 0.5, 1,2, 3)) +
   theme_classic() +
   xlab("Year") + 
   ylab(expression('Depletion (B/B'[1]*')')) +
