@@ -106,7 +106,7 @@ nrow(stock_assess_morethan_10yr)
 
 stock_status_MRAMRY <- dat_LRR2 %>%
   filter(tsyear == finish2.y) %>% #deactivate if I want
-  # to have status in year of ts
+  # to have status in year of ts. finish2.y is final year of MRA
   select(stocklong, Brel_MRA, tsyear) %>%
   #Use Brel for the year of the datapoint, but in the MRA
   mutate(status = ifelse(Brel_MRA>0.4, "Sustainable",
