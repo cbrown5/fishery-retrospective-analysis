@@ -2,7 +2,11 @@
 #Calculate B1, bias and other statistics for analysis
 #
 # CJ Brown 
-#2022-08-17
+#2023-02-13
+#
+# Same as 1_data-processsing.R except we remove all assessments after 2010
+# and use MRA as assessment on or before 2010 to test stability of 
+# the GLM parameters. 
 #
 # Note in paper we refer to the statistic 'B1' as
 # the biomass in the initial year of the time-series.
@@ -38,8 +42,8 @@ dat2 <- select(dat,
                `max finish2`, #most recent stock assess year
                tsyear, #year of data
                SSB) %>%
-  filter(tsyear >= 1920)#truncate to begin in 1920
-  
+  filter(tsyear >= 1920) %>% #truncate to begin in 1920
+  filter(finish2 <= 2010) # only include assessments 2010 and before
 
 # ----------------- #
 # Calculate B0 etc... 
@@ -77,7 +81,7 @@ hist(unlist(lapply(dat_B0temp, function(x) x$B0)))
 which(unlist(lapply(dat_B0temp, function(x) x$B0))>8E06)
 
 #check if sums to NA
-sum(unlist(lapply(dat_B0temp, function(x) x$B0))) #no NAs
+sum(unlist(lapply(dat_B0temp, function(x) x$B0))) #no NAs as sum is not NA
 
 dat_B0 <- do.call("rbind", dat_B0temp)
 
@@ -178,15 +182,16 @@ dat4 <- left_join(dat3a, dat_MRAB0)
 nrow(dat3) == nrow(dat4)
 
 #More checks 
-which(dat4$`max finish2` != dat4$maxyearMRA) #should be length 0 
-
+max(dat4$`max finish2`) #max finish2 is from full dataset including >2010, 
+#so don't use below
+max(dat4$maxyearMRA)
 #
 # Join SSB in each year
 #
 
 #data - most recent assessment
 dat_MRA <- dat4 %>%
-  filter(finish2 == `max finish2`) %>% #MRAs
+  filter(finish2 == maxyearMRA) %>% #MRAs
   select(stocklong, finish2, tsyear, SSB_MRA = SSB,  Brel_MRA = Brel,
           trend_MRA = trend, trend_MRA_percent = trend_percent,
          trend2_MRA = trend2, 
@@ -221,6 +226,7 @@ dat6 <- dat5 %>% filter(tsyear == maxyear & finalCB == 0)
 
 #check LRR is always zero when using most recent year
 all((dat5 %>% filter(tsyear == maxyear & finalCB ==1) %>% pull(BrelLRR))==0)
+
 #Check trend is always zero in most recent year
 all((dat5 %>% filter(tsyear == maxyear & finalCB ==1) %>% pull(trend_rel))==0)
 
@@ -276,14 +282,14 @@ dat_B0 <- dat_B0_2
 
 save(dat_B0, dat_MRA, dat_LRR, 
      dat_MRY, dat_MRY_stock_means, 
-     file = "Outputs/2022-02-11_processesed-assessment-data.rda")
+     file = "Outputs/2023-02-13_processesed-assessment-data-before-2011.rda")
 
 #
 # Data frame for GLMMs
 #
 
-#Should be 756 stock assessments
-nrow(dat_MRY) == 756
+#Should be less than 756 stock assessments now
+nrow(dat_MRY)
 
 dat_glm <- dat_MRY %>%
   mutate(`year diff` = maxyearMRA - tsyear, 
@@ -314,7 +320,7 @@ dat_glm <- dat_MRY %>%
          minyear
   )
 
-write.csv(dat_glm, "Outputs/2022-02-11_glm-data.csv",
+write.csv(dat_glm, "Outputs/2023-02-13_glm-data-before-2011.csv",
           row.names = FALSE)
 
 
@@ -343,7 +349,7 @@ dat_glm_bystock <- dat6_bystock %>%
         B0_MRA
   )
 
-write.csv(dat_glm_bystock, "Outputs/2022-02-11_glm-data-stock-means.csv",
+write.csv(dat_glm_bystock, "Outputs/2023-03-13_glm-data-stock-means-before-2011.csv",
           row.names = FALSE)
 
 
