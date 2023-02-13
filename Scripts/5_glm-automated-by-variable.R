@@ -13,9 +13,9 @@ library(brms)
 library(forcats)
 library(patchwork)
 
-runmodels <- TRUE #set to true to rerun models,
+runmodels <- FALSE #set to true to rerun models,
 # set to false to load files
-saveplots <- TRUE
+saveplots <- FALSE
 
 dat2 <- read.csv("Outputs/glm-covariates-merged.csv")
 dat2$clupeids <- relevel(factor(dat2$clupeids), ref = "Other")

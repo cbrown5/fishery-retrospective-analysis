@@ -25,8 +25,8 @@ theme_set(theme_classic())
 dat_MRA2 <- dat_MRA %>% 
   select(stocklong, Brel_MRA, SSB_MRA, tsyear,
          Year_MRA = finish2) %>%
-  mutate(MRAMRY_min8 = Year_MRA - 5)  %>%
-  filter(tsyear == MRAMRY_min8) %>%
+  mutate(MRAMRY_min5 = Year_MRA - 5)  %>%
+  filter(tsyear == MRAMRY_min5) %>%
   select(-tsyear)
 
 dat2 <- 

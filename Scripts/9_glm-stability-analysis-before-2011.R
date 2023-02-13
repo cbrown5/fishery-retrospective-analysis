@@ -17,11 +17,16 @@ stock_groups <- read.csv("Data/stock_groups.csv")
 regions <- read.csv("Data/regions.csv")
 theme_set(theme_classic())
 
+#Use -6 years for these two as missing 2004 year of data
+six_years <- c("Deepwater_Flathead SE Australia", "Tiger_flathead SE Australia")
+
 dat_MRA2 <- dat_MRA %>% 
   select(stocklong, Brel_MRA, SSB_MRA, tsyear,
          Year_MRA = finish2) %>%
-  mutate(MRAMRY_min8 = Year_MRA - 5)  %>%
-  filter(tsyear == MRAMRY_min8) %>%
+  mutate(
+    min_years = ifelse(stocklong %in% six_years, 6, 5),
+    MRAMRY_min5 = Year_MRA - min_years)  %>%
+  filter(tsyear == MRAMRY_min5) %>%
   select(-tsyear)
 
 dat2 <- 
@@ -62,8 +67,6 @@ m1 <- brm(as.formula(form4),
           data = dat2,
           chains = 4,
           iter = 6000)
-m1 <- add_criterion(m1, "waic")
-
 #
 #Checks 
 #
@@ -127,7 +130,7 @@ g1 <-
   aes(x = params, y = Estimate, color = signif) + 
   geom_hline(yintercept= 0) + 
   geom_point(size = 2.3) + 
-  ylim(-0.3, 0.32) +
+  ylim(-0.6, 0.32) +
   xlab("") + 
   geom_linerange(aes(ymin = Q2.5,
                      ymax = Q97.5), 
@@ -136,7 +139,7 @@ g1 <-
   scale_color_manual(values = c("black", "#d41515")) + 
   theme(legend.position = "none")
 
-ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects-before-2011.png"))
+ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects-before-2011-inc-clupeids.png"))
 
 
 #

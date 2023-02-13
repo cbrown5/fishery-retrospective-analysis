@@ -223,7 +223,6 @@ nrow(dat5)
 #Filter for most recent year in each assessment
 dat6 <- dat5 %>% filter(tsyear == maxyear & finalCB == 0)
 
-
 #check LRR is always zero when using most recent year
 all((dat5 %>% filter(tsyear == maxyear & finalCB ==1) %>% pull(BrelLRR))==0)
 
