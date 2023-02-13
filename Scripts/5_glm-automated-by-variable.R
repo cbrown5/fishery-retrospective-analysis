@@ -13,9 +13,9 @@ library(brms)
 library(forcats)
 library(patchwork)
 
-runmodels <- FALSE #set to true to rerun models,
+runmodels <- TRUE #set to true to rerun models,
 # set to false to load files
-saveplots <- FALSE
+saveplots <- TRUE
 
 dat2 <- read.csv("Outputs/glm-covariates-merged.csv")
 dat2$clupeids <- relevel(factor(dat2$clupeids), ref = "Other")
@@ -61,7 +61,7 @@ for (ivar in response_vars){
   if (runmodels){
     m1 <- brm(as.formula(form1),
               data = dat2,
-              iter = 4000,
+              iter = 6000,
               thin = 3)
     
     save(m1, file = paste0("Outputs/",ivar,"/best-model-fit.rda"))

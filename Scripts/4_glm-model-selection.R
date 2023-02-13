@@ -51,8 +51,8 @@ dat2$clupeids <- relevel(dat2$clupeids, ref = "Other")
 
 
 #Write data for supplemental file 
- # write.csv(dat2, "Outputs/glm-covariates-merged.csv",
-          # row.names = FALSE)
+ write.csv(dat2, "Outputs/glm-covariates-merged.csv",
+          row.names = FALSE)
 
 response_vars <- c("Delta_Brel",
                    "Delta_B",
@@ -215,7 +215,7 @@ fitmods <- function(form){
   m1 <- brm(as.formula(form),
               data = dat2,
             chains = 4,
-            iter = 4000)
+            iter = 6000)
   m1 <- add_criterion(m1, "waic")
   return(m1)
 }
@@ -276,6 +276,13 @@ write.csv(sm_all,
 m1 <- mout[[4]]
  save(m1, file = paste0("Outputs/",ivar,"/model-fit.rda"))
 # load(file = paste0("Outputs/",ivar,"/model-fit.rda"))
+ 
+conditional_effects(m1, effect = "year.diff",
+                           conditions = 
+                             data.frame(lnBrel_MRA = c(log(0.1),
+                                                       log(0.4),
+                                                       log(1))),
+                           plot = FALSE)
 #
 #Checks 
 #
