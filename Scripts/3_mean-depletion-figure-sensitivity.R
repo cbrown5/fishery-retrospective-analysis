@@ -33,14 +33,14 @@ dat_LRR2 <- dat_LRR %>%
          )) 
 
 #axes limits 
-xmin <- 1960 #1980
+xmin <- 1980 #1980
 xmax <- 2020
 ymin <- 0
-ymax <- 1.7
+ymax <- 2
 
-yaxis <- scale_y_continuous(breaks = seq(0, 1.5, by = 0.25),
+yaxis <- scale_y_continuous(breaks = seq(0, ymax, by = 0.25),
                             limits = c(ymin, ymax),
-                            labels = seq(0, 1.5, by = 0.25))
+                            labels = seq(0, ymax, by = 0.25))
 
 #
 # ALL STOCKS 
@@ -121,8 +121,13 @@ stock_assess_morethan_10yr <- dat_LRR2 %>%
 nrow(stock_assess_morethan_10yr)
 
 stock_status_MRAMRY <- dat_LRR2 %>%
-  filter(tsyear == finish2.y) %>% #deactivate if I want
-  # to have status in year of ts
+  #just the MRAs
+  filter(finish2.y == finish2.x) %>%
+  #stock status 5 years before MRY of the MRA
+  mutate(MRAMRY_min5 = finish2.y - 5)  %>%
+  filter(tsyear == MRAMRY_min5) %>% 
+  # filter(tsyear == finish2.y) %>% #deactivate if I want
+  # to have status in year of ts. finish2.y is final year of MRA
   select(stocklong, Brel_MRA, tsyear) %>%
   #Use Brel for the year of the datapoint, but in the MRA
   mutate(status = ifelse(Brel_MRA>0.4, "Sustainable",

@@ -24,7 +24,7 @@ dat_LRR2 <- dat_LRR %>%
          )) 
 
 #axes limits 
-xmin <- 1960 #1980
+xmin <- 1980 #1980
 xmax <- 2020
 ymin <- 0
 ymax <- 1.5
@@ -105,7 +105,12 @@ stock_assess_morethan_10yr <- dat_LRR2 %>%
 nrow(stock_assess_morethan_10yr)
 
 stock_status_MRAMRY <- dat_LRR2 %>%
-  filter(tsyear == finish2.y) %>% #deactivate if I want
+  #just the MRAs
+  filter(finish2.y == finish2.x) %>%
+  #stock status 5 years before MRY of the MRA
+  mutate(MRAMRY_min5 = finish2.y - 5)  %>%
+  filter(tsyear == MRAMRY_min5) %>% 
+  # filter(tsyear == finish2.y) %>% #deactivate if I want
   # to have status in year of ts. finish2.y is final year of MRA
   select(stocklong, Brel_MRA, tsyear) %>%
   #Use Brel for the year of the datapoint, but in the MRA
@@ -118,8 +123,8 @@ stock_status_MRAMRY %>%
   distinct() %>%
   group_by(status) %>%
   summarize(n())
-68/230
-162/230
+78/230
+152/230
 
 #
 # Depleted and sustainable stocks
