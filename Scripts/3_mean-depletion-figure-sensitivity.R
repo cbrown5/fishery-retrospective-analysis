@@ -1,7 +1,7 @@
 # Plot of mean depletion trends 
 #CJ Brown 2022-11-08
 #
-# Figure 2 sensitivity test
+# Figure 2 sensitivity test - Figure ED2
 # this version only includes stocks that had data from 1980 to 2010
 
 library(tidyr)
@@ -123,8 +123,8 @@ nrow(stock_assess_morethan_10yr)
 stock_status_MRAMRY <- dat_LRR2 %>%
   #just the MRAs
   filter(finish2.y == finish2.x) %>%
-  #stock status 5 years before MRY of the MRA
-  mutate(MRAMRY_min5 = finish2.y - 5)  %>%
+  #stock status X years before MRY of the MRA
+  mutate(MRAMRY_min5 = finish2.y - 0)  %>%
   filter(tsyear == MRAMRY_min5) %>% 
   # filter(tsyear == finish2.y) %>% #deactivate if I want
   # to have status in year of ts. finish2.y is final year of MRA
@@ -267,9 +267,12 @@ g4 <- dat_assess_mean_10yrold %>%
                       pal) 
 
 gall <- (g1 + g4) / (g2 + g3) + 
-  plot_annotation(tag_levels = "A") + 
+  plot_annotation(tag_levels = "a",
+                  tag_suffix = ")",
+                  tag_prefix = "(") + 
   plot_layout(guides='collect') 
 
 ggsave("Outputs/depletion_timeseries-figures-all-scales-same-complete-1980_2010_withSEs.png", gall,
        width = 8, height = 4)
 
+save(g1, g2, g3, g4, file = "Outputs/timeseries-plots-complete-1980_2010_withSEs.rda")

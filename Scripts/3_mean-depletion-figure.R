@@ -12,7 +12,6 @@ dat_LRR2 <- dat_LRR %>%
   # filter(stocklong == "Pacific cod_Gulf of Alaska") %>%
   filter(tsyear > 1959 & !is.na(finish2.y)) %>%
   #Get rid of years of data missing an MRA 
-  #Only keep MRY of each assessment
   mutate(years_to_MRA = finish2.y - finish2.x,
          # finish2.y = MRY of MRA
          # finish2.x = MRY of this assess
@@ -96,6 +95,7 @@ mean(exp(xdat$b)-1)
 # Get stock status and oldest assessment age 
 #
 
+#Nb settled on more than 8 years, rather than more than 10 years
 stock_assess_morethan_10yr <- dat_LRR2 %>%
   group_by(stocklong) %>%
   summarize(minassess = min(finish2.x),
@@ -107,8 +107,8 @@ nrow(stock_assess_morethan_10yr)
 stock_status_MRAMRY <- dat_LRR2 %>%
   #just the MRAs
   filter(finish2.y == finish2.x) %>%
-  #stock status 5 years before MRY of the MRA
-  mutate(MRAMRY_min5 = finish2.y - 5)  %>%
+  #stock status X years before MRY of the MRA
+  mutate(MRAMRY_min5 = finish2.y - 0)  %>%
   filter(tsyear == MRAMRY_min5) %>% 
   # filter(tsyear == finish2.y) %>% #deactivate if I want
   # to have status in year of ts. finish2.y is final year of MRA
@@ -123,8 +123,8 @@ stock_status_MRAMRY %>%
   distinct() %>%
   group_by(status) %>%
   summarize(n())
-78/230
-152/230
+68/230
+162/230
 
 #
 # Depleted and sustainable stocks
@@ -199,7 +199,9 @@ g3 <-
 dat_assess_mean_10yrold <- dat_LRR2 %>%
   inner_join(stock_assess_morethan_10yr) %>%
   group_by(tsyear, assess_age) %>%
-  summarize(Depletion = exp(mean(log(Brel)))) %>%
+  summarize(Depletion = exp(mean(log(Brel))),
+            n = n()) %>%
+  filter(n>14) %>%
   ungroup() %>%
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
@@ -242,3 +244,72 @@ gall <- (g1 + g4) / (g2 + g3) +
 ggsave("Outputs/depletion_timeseries-figures-all-scales-same.png", gall,
        width = 8, height = 4)
 
+save(g1, g2, g3, g4, 
+     dat_assess_mean,
+     dat_assess_mean_10yrold,
+     dat_assess_mean_status,
+     file = "Outputs/timeseries-plots-1980_2010.rda")
+
+
+#
+# Extended data figure 4
+#
+
+# log difference of B/B1 (depletion) for the MRY of each assessment 
+# vs the MRA-MRY. x axis is years difference between MRY and MRA-MRY.
+# Values averaged by stocks 
+
+#First get stock status in MRY of MRA
+stock_status_MRAMRY <- dat_LRR2 %>%
+  #just the MRAs
+  filter(finish2.y == finish2.x) %>%
+  #stock status X years before MRY of the MRA
+  mutate(MRAMRY_min5 = finish2.y - 0)  %>%
+  filter(tsyear == MRAMRY_min5) %>% 
+  select(stocklong, Brel_MRA, tsyear) %>%
+  #Use Brel for the year of the datapoint, but in the MRA
+  mutate(Status = ifelse(Brel_MRA>0.4, "Sustainable",
+                         "Overfished"),
+         #make new variable for status in MRY
+         Brel_MRAMRY = Brel_MRA) %>%
+  select(stocklong, Status,Brel_MRAMRY)
+
+depletion_diff <- dat_LRR2 %>%
+  #select MRY of each assessment
+  # finish2.y = MRY of MRA
+  # finish2.x = MRY of this assess
+  filter(tsyear == finish2.x) %>%
+  #remove MRA
+  filter(!(finish2.x == finish2.y)) %>%
+  left_join(stock_status_MRAMRY) %>% 
+  mutate(delta_Brel = log(Brel) - log(Brel_MRAMRY)) %>%
+  group_by(stocklong, Status) %>%
+  summarize(delta_Brel = mean(delta_Brel),
+            years_to_MRA = mean(years_to_MRA))
+
+g1 <- ggplot(depletion_diff) + 
+  aes(x = years_to_MRA, y = delta_Brel, color = Status) +
+  geom_point() +
+  stat_smooth(method = "lm", se = FALSE) +
+  xlab("Years to MRA") + 
+  ylab("Difference between \n depletion levels (ln)") +
+  theme_classic()
+
+ggsave("Outputs/2023-03-10_depletion-differences.png", 
+       g1)
+
+depletion_diff %>% 
+  group_by(status) %>%
+  summarize(n())
+  
+#Linear Model status
+
+m1 <- lm(delta_Brel ~ years_to_MRA, data = filter(depletion_diff, 
+                                                  status == "Depleted"))
+# plot(m1)
+summary(m1)
+
+m2 <- lm(delta_Brel ~ years_to_MRA, data = filter(depletion_diff, 
+                                                  status == "Sustainable"))
+# plot(m1)
+summary(m2)

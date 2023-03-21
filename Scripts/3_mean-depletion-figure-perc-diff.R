@@ -11,10 +11,11 @@ library(patchwork)
 load("Outputs/2022-02-11_processesed-assessment-data.rda")
 
 dat_LRR2 <- dat_LRR %>%
-  # filter(stocklong == "Pacific cod_Gulf of Alaska") %>%
+  #Select just those stocks with full time-series from 1980 to 2010 or after
+  #currently this option is off
+  # filter((maxyearMRA > 2009) & (minyear < 1981)) %>%
   filter(tsyear > 1959 & !is.na(finish2.y)) %>%
   #Get rid of years of data missing an MRA 
-  #Only keep MRY of each assessment
   mutate(years_to_MRA = finish2.y - finish2.x,
          # finish2.y = MRY of MRA
          # finish2.x = MRY of this assess
@@ -26,14 +27,14 @@ dat_LRR2 <- dat_LRR %>%
          )) 
 
 #axes limits 
-xmin <- 1960 #1980
+xmin <- 1980 #1980
 xmax <- 2020
-ymin <- 0
-ymax <- 1.5
+ymin <- 0.8
+ymax <- 2.2
 
-yaxis <- scale_y_continuous(breaks = seq(0, 1.5, by = 0.25),
+yaxis <- scale_y_continuous(breaks = seq(0.8, 2.2, by = 0.2),
                             limits = c(ymin, ymax),
-                            labels = seq(0, 1.5, by = 0.25))
+                            labels = seq(0.8, 2.2, by = 0.2))
 
 #
 # ALL STOCKS 
@@ -41,13 +42,16 @@ yaxis <- scale_y_continuous(breaks = seq(0, 1.5, by = 0.25),
 
 
 dat_assess_mean <- dat_LRR2 %>% 
-  mutate(Brel_diff = 100*(Brel - Brel_MRA)/Brel_MRA) %>%
+  #percentage diff
+  # mutate(Brel_diff = 100*(Brel - Brel_MRA)/Brel_MRA) %>%
+  #LRR diff
+  mutate(Brel_diff = (log(Brel) - log(Brel_MRA))) %>%
   group_by(tsyear, assess_age) %>%
-  summarize(Depletion = mean(Brel_diff),
+  summarize(Depletion = (mean(Brel_diff)),
             n = n(),
-            Dep_SE = sd(Brel_diff)/sqrt(n)) %>%
+            Dep_SE = (sd(Brel_diff)/sqrt(n))) %>%
   ungroup() %>%
-  # filter(n>14) %>%
+  filter(n>14) %>%
   #Remove year/group combos with <4 assessments
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
@@ -59,52 +63,56 @@ levels = c("MRA",
            "4-8 yr old",
            ">8 yr old"))
 
-pal <- c("black", "#E69F00", "#56B4E9", "#009E73")#, "#0072B2")
+pal <- c("#E69F00", "#56B4E9", "#009E73")#, "#0072B2")
 
-g1 <- ggplot(dat_assess_mean) +
-  aes(x = tsyear, y = (Depletion),
+g1 <- dat_assess_mean %>%
+  #remove MRA as its delta == 1
+  filter(notmax) %>%
+  filter(assess_age != "MRA") %>%
+  ggplot() +
+  aes(x = tsyear, y = exp(Depletion),
       color = assess_age, group = assess_age) + 
-  geom_hline(yintercept = 1, color = "grey60") +
-  geom_hline(yintercept = 0.4, color = "grey60", 
-             linetype = 2) +
+  geom_hline(yintercept = 1, color = "black") +
   geom_line() +
-  geom_ribbon(aes(ymin = Depletion - Dep_SE, 
-                  ymax = Depletion + Dep_SE,
+  geom_ribbon(aes(ymin = exp(Depletion - Dep_SE), 
+                  ymax = exp(Depletion + Dep_SE),
                   fill = assess_age),
               color = NA,
               alpha = 0.5)+
   theme_classic() + 
-  ylab("mean difference (%)") +
+  ylab(expression(Delta*'B/B'[1])) +
   xlab("Year") + 
-  xlim(xmin, xmax) + 
+  xlim(xmin, xmax) +
   # yaxis +
   scale_color_manual("Assessment age", 
                      values = pal) + 
   scale_fill_manual("Assessment age", 
                      values = pal)  
   
-
-ggsave("Outputs/mean-depletion-perc-diff.png")
+g1
+# ggsave("Outputs/mean-depletion-perc-diff.png")
 
 #
-# Stocks that rise in last 5 years of MRA
+# As boxplot - to check distribution 
 #
 
-getslope <- function(x,y){
-  m <- lm(log(y) ~ x)
-  coef(m)[2]
+if (FALSE){
+dat_LRR2 %>% 
+  #percentage diff
+  # mutate(Brel_diff = 100*(Brel - Brel_MRA)/Brel_MRA) %>%
+  #LRR diff
+  filter(assess_age != "MRA") %>%
+  mutate(Brel_diff = exp(log(Brel) - log(Brel_MRA))) %>%
+  filter(tsyear > 1980) %>%
+  ggplot() +
+  aes(x = tsyear, y = Brel_diff,
+      group = tsyear) +
+  geom_boxplot() +
+  geom_hline(yintercept = 1)+
+  scale_y_log10() +
+  facet_wrap(~assess_age, scales = "free") +
+  theme_classic()
 }
-
-xdat <- filter(dat_LRR2, assess_age == "MRA") %>%
-  mutate(year_diff = maxyear - tsyear) %>% 
-  filter(year_diff < 6) %>%
-  group_by(stocklong) %>%
-  summarize(b = getslope(tsyear, Brel))
-
-sum(xdat$b>0)
-sum(xdat$b<0)
-mean(exp(xdat$b)-1)
-
 #
 # Get stock status and oldest assessment age 
 #
@@ -118,7 +126,12 @@ stock_assess_morethan_10yr <- dat_LRR2 %>%
 nrow(stock_assess_morethan_10yr)
 
 stock_status_MRAMRY <- dat_LRR2 %>%
-  filter(tsyear == finish2.y) %>% #deactivate if I want
+  #just the MRAs
+  filter(finish2.y == finish2.x) %>%
+  #stock status X years before MRY of the MRA
+  mutate(MRAMRY_min5 = finish2.y - 0)  %>%
+  filter(tsyear == MRAMRY_min5) %>% 
+  # filter(tsyear == finish2.y) %>% #deactivate if I want
   # to have status in year of ts. finish2.y is final year of MRA
   select(stocklong, Brel_MRA, tsyear) %>%
   #Use Brel for the year of the datapoint, but in the MRA
@@ -126,23 +139,17 @@ stock_status_MRAMRY <- dat_LRR2 %>%
                          "Depleted")) %>%
   select(stocklong, status)
   
-stock_status_MRAMRY %>%
-  select(status, stocklong) %>%
-  distinct() %>%
-  group_by(status) %>%
-  summarize(n())
-68/230
-162/230
-
 #
 # Depleted and sustainable stocks
 #
 
 dat_assess_mean_status <- dat_LRR2 %>%
   left_join(stock_status_MRAMRY) %>%
+  mutate(Brel_diff = (log(Brel) - log(Brel_MRA))) %>%
   group_by(tsyear, assess_age, status) %>%
-  summarize(Depletion = exp(mean(log(Brel))),
-            n = n()) %>%
+  summarize(Depletion = mean(Brel_diff),
+            n = n(),
+            Dep_SE = sd(Brel_diff)/sqrt(n)) %>%
   filter(n>14) %>%
   ungroup() %>%
   group_by(assess_age) %>%
@@ -159,55 +166,70 @@ dat_assess_mean_status$assess_age <-
 
 g2 <- 
   dat_assess_mean_status %>%
+  filter(assess_age != "MRA") %>%
   filter(notmax & status == "Sustainable") %>% 
-  ggplot() + 
-  #Filter out dip in final year (due to small sample bias)
-  aes(x = tsyear, y = (Depletion),
+  ggplot() +
+  aes(x = tsyear, y = exp(Depletion),
       color = assess_age, group = assess_age) + 
-  geom_hline(yintercept = 1, color = "grey60") +
-  geom_hline(yintercept = 0.4, color = "grey60", 
-             linetype = 2) +
+  geom_hline(yintercept = 1, color = "black") +
   geom_line() +
+  geom_ribbon(aes(ymin = exp(Depletion - Dep_SE), 
+                  ymax = exp(Depletion + Dep_SE),
+                  fill = assess_age),
+              color = NA,
+              alpha = 0.5)+
   theme_classic() + 
-  ylab(expression('Depletion (B/B'[1]*')')) +
+  ylab(expression(Delta*'B/B'[1])) +
   xlab("Year") + 
-  xlim(xmin, xmax) + 
+  xlim(xmin, xmax) +
+  # ylim(1980, 2020) +
   yaxis +
   scale_color_manual("Assessment age", 
-                     values = 
-                       pal)
+                     values = pal) + 
+  scale_fill_manual("Assessment age", 
+                    values = pal) +
+  theme(legend.position = "none")
+
 
 g3 <- 
   dat_assess_mean_status %>%
+  filter(assess_age != "MRA") %>%
   filter(notmax & status == "Depleted") %>% 
-  ggplot() + 
-  #Filter out dip in final year (due to small sample bias)
-  aes(x = tsyear, y = (Depletion),
+  ggplot() +
+  aes(x = tsyear, y = exp(Depletion),
       color = assess_age, group = assess_age) + 
-  geom_hline(yintercept = 1, color = "grey60") +
-  geom_hline(yintercept = 0.4, color = "grey60", 
-             linetype = 2) +
+  geom_hline(yintercept = 1, color = "black") +
   geom_line() +
+  geom_ribbon(aes(ymin = exp(Depletion - Dep_SE), 
+                  ymax = exp(Depletion + Dep_SE),
+                  fill = assess_age),
+              color = NA,
+              alpha = 0.5)+
   theme_classic() + 
-  ylab(expression('Depletion (B/B'[1]*')')) +
+  ylab(expression(Delta*'B/B'[1])) +
   xlab("Year") + 
-  xlim(xmin, xmax) + 
-  yaxis +
+  xlim(xmin, xmax) +
+  # ylim(1980, 2020) +
+   yaxis +
   scale_color_manual("Assessment age", 
-                     values =pal) + 
-   theme(legend.position = "none")
+                     values = pal) + 
+  scale_fill_manual("Assessment age", 
+                    values = pal) +
+  theme(legend.position = "none")
 
- ggsave("Outputs/mean-depletion-sustainable.png", g2)
- ggsave("Outputs/mean-depletion-depeleted.png", g3)
-
+ 
 #
 # Stocks with >10yr old assessments 
 #
 
 dat_assess_mean_10yrold <- dat_LRR2 %>%
+  mutate(Brel_diff = (log(Brel) - log(Brel_MRA))) %>%
   inner_join(stock_assess_morethan_10yr) %>%
   group_by(tsyear, assess_age) %>%
-  summarize(Depletion = exp(mean(log(Brel)))) %>%
+  summarize(Depletion = mean(Brel_diff),
+            n = n(),
+            Dep_SE = sd(Brel_diff)/sqrt(n)) %>%
+  filter(n>14) %>%
   ungroup() %>%
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
@@ -221,32 +243,31 @@ dat_assess_mean_10yrold$assess_age <-
                     ">8 yr old"))
 
 g4 <- dat_assess_mean_10yrold %>%
+  filter(assess_age != "MRA") %>%
   filter(notmax) %>%
   #Filter out final year (due to small sample bias)
-  ggplot() + 
-  aes(x = tsyear, y = (Depletion),
+  ggplot() +
+  aes(x = tsyear, y = exp(Depletion),
       color = assess_age, group = assess_age) + 
-  geom_hline(yintercept = 1, color = "grey60") +
-  geom_hline(yintercept = 0.4, color = "grey60", 
-             linetype = 2) +
+  geom_hline(yintercept = 1, color = "black") +
   geom_line() +
+  geom_ribbon(aes(ymin = exp(Depletion - Dep_SE), 
+                  ymax = exp(Depletion + Dep_SE),
+                  fill = assess_age),
+              color = NA,
+              alpha = 0.5)+
   theme_classic() + 
-  ylab(expression('Depletion (B/B'[1]*')')) +
+  ylab(expression(Delta*'B/B'[1])) +
   xlab("Year") + 
-  xlim(xmin, xmax) + 
+  xlim(xmin, xmax) +
+  # ylim(1980, 2020) +
   yaxis +
   scale_color_manual("Assessment age", 
                      values = pal) + 
+  scale_fill_manual("Assessment age", 
+                    values = pal) +
   theme(legend.position = "none")
 
-ggsave("Outputs/mean-depletion-10yrold-assessments.png", g4,
-       width = 5, height = 3)
-
-
-gall <- (g1 + g4) / (g2 + g3) + 
-  plot_annotation(tag_levels = "A") + 
-  plot_layout(guides='collect') 
-
-ggsave("Outputs/depletion_timeseries-figures-all-scales-same.png", gall,
-       width = 8, height = 4)
+dat_status_diff <- dat_assess_mean_status
+save(g1, g2, g3, g4, dat_status_diff,file = "Outputs/timeseries-diff-plots.rda")
 
