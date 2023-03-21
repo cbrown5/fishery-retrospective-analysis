@@ -1,6 +1,6 @@
 # GLM of bias for B/B0 ("Brel")
 #
-# CJ Brown 2023-03-01
+# CJ Brown 2023-03-21
 #
 #4b: Model with year of MRA
 
@@ -16,19 +16,13 @@ stock_groups <- read.csv("Data/stock_groups.csv")
 regions <- read.csv("Data/regions.csv")
 theme_set(theme_classic())
 
-dat_MRA2 <- dat_MRA %>% 
-  select(stocklong, Brel_MRA, SSB_MRA, tsyear,
-         Year_MRA = finish2) %>%
-  mutate(MRAMRY_min5 = Year_MRA - 5)  %>%
-  filter(tsyear == MRAMRY_min5) %>%
-  select(-tsyear)
-
 dat2 <- 
   #Join  covariates
   inner_join(dat, datcovar) %>%
   left_join(stock_groups) %>%
   #Join MRA to get Brel_MRA
-  left_join(dat_MRA2) %>%
+  left_join(select(dat_MRA, stocklong, Brel_MRA, SSB_MRA, tsyear,
+                   Year_MRA = finish2)) %>%
   mutate(stock_value = log(SSB_MRA * dollar_per_tonne/1000000), 
          lnBrel_MRA = log(Brel_MRA),
          start.year = tsyear - start.diff,
@@ -73,9 +67,12 @@ corrplot::corrplot(cor(select(dat2, start.diff, HADISSTmean.5yr,
 g1 <- dat2 %>%
   select(stocklong, Year_MRA, lnBrel_MRA) %>%
   distinct() %>%
+  mutate(status = ifelse(exp(lnBrel_MRA)<0.4, 
+                         "Depleted","Sustainable")) %>%
   ggplot() +
   aes(x = Year_MRA, y = lnBrel_MRA) + 
   geom_point() + 
+  facet_grid(.~status) +
   xlab("Year of MRA") + 
   ylab("Depletion level \n (natural log)") +
   stat_smooth(se = FALSE)
@@ -128,6 +125,47 @@ m1 <- brm(Delta_Brel ~ (Year_MRA +
 summary(m1)
 
 #
+# B model 
+#
+
+
+m2 <- brm(Delta_B ~ (Year_MRA + 
+                          stock_value +
+                          year.diff)*lnBrel_MRA +
+            start.diff +
+            HADISSTmean.5yr + 
+            trend.50yr.coef.cap +
+            clupeids + 
+            (1|stocklong),
+          data = dat3,
+          chains = 4,
+          cores = 4,
+          iter = 4000,
+          prior = prior1)
+
+summary(m2)
+
+#
+# B1 model 
+#
+
+
+m3 <- brm(Delta_B1 ~ (Year_MRA + 
+                       stock_value +
+                       year.diff)*lnBrel_MRA +
+            start.diff +
+            HADISSTmean.5yr + 
+            trend.50yr.coef.cap +
+            clupeids + 
+            (1|stocklong),
+          data = dat3,
+          chains = 4,
+          cores = 4,
+          iter = 4000,
+          prior = prior1)
+
+summary(m3)
+#
 # Response conditional on B/B1 and Years to MRA
 #
 
@@ -151,14 +189,27 @@ newdata <- with(dat3, expand.grid(
 newdata$Year_MRA_unscaled <- 
   newdata$Year_MRA * dat_sd$Year_MRA
 
-pdat <- posterior_epred(m1, newdata = newdata,
+pdat1 <- posterior_epred(m1, newdata = newdata,
                         re.form = NA) %>%
   apply(2,quantile, c(0.025, 0.5, 0.975)) %>%
   t() %>%
   cbind(newdata)
 
+pdat2 <- posterior_epred(m2, newdata = newdata,
+                        re.form = NA) %>%
+  apply(2,quantile, c(0.025, 0.5, 0.975)) %>%
+  t() %>%
+  cbind(newdata)
+
+pdat3 <- posterior_epred(m3, newdata = newdata,
+                        re.form = NA) %>%
+  apply(2,quantile, c(0.025, 0.5, 0.975)) %>%
+  t() %>%
+  cbind(newdata)
 #put status back onto real scale
-pdat$status <- exp(pdat$lnBrel_MRA*dat_sd$lnBrel_MRA)
+pdat1$status <- exp(pdat1$lnBrel_MRA*dat_sd$lnBrel_MRA)
+pdat2$status <- exp(pdat2$lnBrel_MRA*dat_sd$lnBrel_MRA)
+pdat3$status <- exp(pdat3$lnBrel_MRA*dat_sd$lnBrel_MRA)
 
 #
 #Figure of predicted year MRA effect
@@ -183,3 +234,5 @@ g1 <- ggplot(pdat) +
 g1
 
 ggsave(g1, file =paste0("Outputs/",ivar,"/years-of-MRA-Brelative.png"))
+
+save(pdat1, pdat2, pdat3, file = "Outputs/2023-03-10_predicitions-with-year-MRA.rda")
