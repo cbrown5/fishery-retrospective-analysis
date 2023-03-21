@@ -22,19 +22,13 @@ stock_groups <- read.csv("Data/stock_groups.csv")
 regions <- read.csv("Data/regions.csv")
 theme_set(theme_classic())
 
-dat_MRA2 <- dat_MRA %>% 
-  select(stocklong, Brel_MRA, SSB_MRA, tsyear,
-         Year_MRA = finish2) %>%
-  mutate(MRAMRY_min5 = Year_MRA - 5)  %>%
-  filter(tsyear == MRAMRY_min5) %>%
-  select(-tsyear)
-
 dat2 <- 
   #Join  covariates
   inner_join(dat, datcovar) %>%
   left_join(stock_groups) %>%
   #Join MRA to get Brel_MRA
-  left_join(dat_MRA2) %>%
+  left_join(select(dat_MRA, stocklong, Brel_MRA, SSB_MRA, tsyear,
+                   Year_MRA = finish2)) %>%
   mutate(stock_value = log(SSB_MRA * dollar_per_tonne/1000000), 
          lnBrel_MRA = log(Brel_MRA),
          start.year = tsyear - start.diff,
@@ -48,7 +42,6 @@ dat2 <-
          fishery_group = Fishery.group)
 nrow(dat2)
 dat2$clupeids <- relevel(dat2$clupeids, ref = "Other")
-
 
 #Write data for supplemental file 
  write.csv(dat2, "Outputs/glm-covariates-merged.csv",
