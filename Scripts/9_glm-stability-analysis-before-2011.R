@@ -20,27 +20,19 @@ theme_set(theme_classic())
 #Use -6 years for these two as missing 2004 year of data
 six_years <- c("Deepwater_Flathead SE Australia", "Tiger_flathead SE Australia")
 
-dat_MRA2 <- dat_MRA %>% 
-  select(stocklong, Brel_MRA, SSB_MRA, tsyear,
-         Year_MRA = finish2) %>%
-  mutate(
-    min_years = ifelse(stocklong %in% six_years, 6, 5),
-    MRAMRY_min5 = Year_MRA - min_years)  %>%
-  filter(tsyear == MRAMRY_min5) %>%
-  select(-tsyear)
-
 dat2 <- 
   #Join  covariates
   inner_join(dat, datcovar) %>%
   left_join(stock_groups) %>%
   #Join MRA to get Brel_MRA
-  left_join(dat_MRA2) %>%
+  left_join(select(dat_MRA, stocklong, Brel_MRA, SSB_MRA, tsyear,
+                   Year_MRA = finish2)) %>%
   mutate(stock_value = log(SSB_MRA * dollar_per_tonne/1000000), 
          lnBrel_MRA = log(Brel_MRA),
          start.year = tsyear - start.diff,
          trend.50yr.coef.cap = ifelse(HADISSTtrend.50yr.coef>0.05, 0.05,
                                       HADISSTtrend.50yr.coef)*100,
-         clupeids = factor(ifelse(Fishery.group == "Herrings, sardines, anchovies",
+         clupeoids = factor(ifelse(Fishery.group == "Herrings, sardines, anchovies",
                            "Clupeid", "Other"))) %>%
   rename(Delta_Brel = d.B.B0,
          Delta_B = d.B..ln.B.B.recent.,
@@ -48,7 +40,7 @@ dat2 <-
          fishery_group = Fishery.group)
 nrow(dat2)
 
-dat2$clupeids <- relevel(dat2$clupeids, ref = "Other")
+dat2$clupeoids <- relevel(dat2$clupeoids, ref = "Other")
 
 #
 # GLMM Delta_Brel
@@ -60,7 +52,7 @@ form4 <- paste(ivar, " ~
                  start.diff +
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
-                 clupeids + 
+                 clupeoids + 
                 (1|stocklong)")
 
 m1 <- brm(as.formula(form4),
@@ -106,7 +98,7 @@ fixef <- fixef(m1) %>%
                              "Duration" = "start.diff",
                              "Mean SST" = "HADISSTmean.5yr",
                              "SST trend" = "trend.50yr.coef.cap",
-                             "Clupeid" = "clupeidsClupeid",
+                             "Clupeoid" = "clupeoidsClupeid",
                              "Value" = "stock_value",
                              "Obsolescence" = "year.diff",
                              "Depletion" = "lnBrel_MRA",
@@ -117,7 +109,7 @@ fixef <- fixef(m1) %>%
     "Duration",
     "Mean SST",
     "SST trend",
-    "Clupeid",
+    "Clupeoid",
     "Value",
     "Obsolescence",
     "Depletion",
@@ -141,6 +133,9 @@ g1 <-
 
 ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects-before-2011-inc-clupeids.png"))
 
+g1_2ndMRA <- g1
+save(fixef, g1_2ndMRA, file = "Outputs/2023-03-10_plots-stability-model.rda")
+
 
 #
 # Response conditional on B/B1 and Years to MRA
@@ -153,7 +148,7 @@ newdata <- with(m1$data, expand.grid(
   HADISSTmean.5yr = mean(HADISSTmean.5yr),
   trend.50yr.coef.cap = mean(trend.50yr.coef.cap),
   stock_value = mean(stock_value),
-  clupeids = "Other",
+  clupeoids = "Other",
   stocklong = NA,
   Group = NA
 ))
@@ -180,9 +175,9 @@ g1 <- ggplot(pdat) +
   ylab(expression(Delta*'B/B'[1])) +
   xlab("Obsolescence (yrs)") +
   xlim(0, 15) + 
-  scale_y_continuous(breaks = seq(0.5, 5, by = 0.5),
-                     labels = seq(0.5, 5, by = 0.5),
-                     limits = c(0.5, 5)) +
+  scale_y_continuous(breaks = seq(0.5, 6, by = 0.5),
+                     labels = seq(0.5, 6, by = 0.5),
+                     limits = c(0.5, 6)) +
   scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
 
 ggsave("Outputs/Obsolesence-value-deltas-before-2011.png",

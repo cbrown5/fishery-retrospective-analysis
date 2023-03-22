@@ -10,9 +10,9 @@ library(brms)
 library(forcats)
 library(patchwork)
 
-runmodels <- TRUE #set to true to rerun models,
+runmodels <- FALSE #set to true to rerun models,
 # set to false to load files
-saveplots <- TRUE
+saveplots <- FALSE
 
 dat2 <- read.csv("Outputs/glm-covariates-merged.csv")
 dat2$clupeids <- relevel(factor(dat2$clupeids), ref = "Other")
@@ -82,7 +82,7 @@ sm1effects <- rbind(sm1$fixed,
   tibble::rownames_to_column("Parameter")
 
 ###
-sm1effects$Parameter[11] <- "SD Stock"
+# sm1effects$Parameter[11] <- "SD Stock"
 write.csv(sm1effects,
           paste0("Outputs/",ivar,"/effects-tsyear-model.csv"))
 
@@ -124,6 +124,9 @@ g1 <-
   coord_flip() + 
   scale_color_manual(values = c("black", "#d41515")) + 
   theme(legend.position = "none")
+
+g1_2ndMRA <- g1
+save(fixef, g1_2ndMRA, file = "Outputs/2023-03-10_plots-2ndMRA-model.rda")
 
 if(saveplots)
   ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects-tsyear-model.png"))
