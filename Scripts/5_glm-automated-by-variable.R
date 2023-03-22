@@ -116,7 +116,7 @@ for (ivar in response_vars){
       "Duration",
       "Mean SST",
       "SST trend",
-      "Clupeid",
+      "Clupeoid",
       "Value",
       "Obsolescence",
       "Depletion",
