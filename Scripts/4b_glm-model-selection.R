@@ -28,14 +28,14 @@ dat2 <-
          start.year = tsyear - start.diff,
          trend.50yr.coef.cap = ifelse(HADISSTtrend.50yr.coef>0.05, 0.05,
                                       HADISSTtrend.50yr.coef)*100,
-         clupeids = factor(ifelse(Fishery.group == "Herrings, sardines, anchovies",
+         clupeoids = factor(ifelse(Fishery.group == "Herrings, sardines, anchovies",
                            "Clupeid", "Other"))) %>%
   rename(Delta_Brel = d.B.B0,
          Delta_B = d.B..ln.B.B.recent.,
          Delta_B1 = d.B0..ln.B0.B0.recent.,
          fishery_group = Fishery.group)
 nrow(dat2)
-dat2$clupeids <- relevel(dat2$clupeids, ref = "Other")
+dat2$clupeoids <- relevel(dat2$clupeoids, ref = "Other")
 
 
 #Write data for supplemental file 
@@ -114,7 +114,7 @@ m1 <- brm(Delta_Brel ~ (Year_MRA +
             start.diff +
             HADISSTmean.5yr + 
             trend.50yr.coef.cap +
-            clupeids + 
+            clupeoids + 
             (1|stocklong),
           data = dat3,
           chains = 4,
@@ -135,7 +135,7 @@ m2 <- brm(Delta_B ~ (Year_MRA +
             start.diff +
             HADISSTmean.5yr + 
             trend.50yr.coef.cap +
-            clupeids + 
+            clupeoids + 
             (1|stocklong),
           data = dat3,
           chains = 4,
@@ -156,7 +156,7 @@ m3 <- brm(Delta_B1 ~ (Year_MRA +
             start.diff +
             HADISSTmean.5yr + 
             trend.50yr.coef.cap +
-            clupeids + 
+            clupeoids + 
             (1|stocklong),
           data = dat3,
           chains = 4,
@@ -180,7 +180,7 @@ newdata <- with(dat3, expand.grid(
   HADISSTmean.5yr = mean(HADISSTmean.5yr),
   trend.50yr.coef.cap = mean(trend.50yr.coef.cap),
   stock_value = mean(stock_value),
-  clupeids = "Other",
+  clupeoids = "Other",
   stocklong = NA,
   Group = NA
 ))
@@ -215,7 +215,7 @@ pdat3$status <- exp(pdat3$lnBrel_MRA*dat_sd$lnBrel_MRA)
 #Figure of predicted year MRA effect
 #
 
-g1 <- ggplot(pdat) + 
+g1 <- ggplot(pdat1) + 
   aes(x = Year_MRA_unscaled, y = exp(`50%`), fill = factor(status),
       group = status) +
   geom_hline(yintercept = 1) +
@@ -231,8 +231,47 @@ g1 <- ggplot(pdat) +
                      # limits = c(0.5, 3.2)) +
   scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
 
-g1
 
-ggsave(g1, file =paste0("Outputs/",ivar,"/years-of-MRA-Brelative.png"))
+g2 <- ggplot(pdat2) + 
+  aes(x = Year_MRA_unscaled, y = exp(`50%`), fill = factor(status),
+      group = status) +
+  geom_hline(yintercept = 1) +
+  geom_line() +
+  geom_ribbon(aes(ymin = exp(`2.5%`),
+                  ymax = exp(`97.5%`)), 
+              color = NA, alpha = 0.7) +
+  ylab(expression(Delta*'B')) +
+  xlab("Year of MRA") +
+  # xlim(0, 15) + 
+  # scale_y_continuous(breaks = seq(0.5, 3, by = 0.5),
+  # labels = seq(0.5, 3, by = 0.5),
+  # limits = c(0.5, 3.2)) +
+  scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
+
+g3 <- ggplot(pdat3) + 
+  aes(x = Year_MRA_unscaled, y = exp(`50%`), fill = factor(status),
+      group = status) +
+  geom_hline(yintercept = 1) +
+  geom_line() +
+  geom_ribbon(aes(ymin = exp(`2.5%`),
+                  ymax = exp(`97.5%`)), 
+              color = NA, alpha = 0.7) +
+  ylab(expression(Delta*'B'[1])) +
+  xlab("Year of MRA") +
+  # xlim(0, 15) + 
+  # scale_y_continuous(breaks = seq(0.5, 3, by = 0.5),
+  # labels = seq(0.5, 3, by = 0.5),
+  # limits = c(0.5, 3.2)) +
+  scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
+
+gall <- (g1 + g2 + g3)+
+  plot_annotation(tag_levels = "a",
+                  tag_prefix = "(",
+                  tag_suffix = ")") + 
+  plot_layout(guides='collect') 
+gall
+
+ggsave(gall, file =paste0("Outputs/years-of-MRA-Brelative.png"),
+       width = 8, height =3)
 
 save(pdat1, pdat2, pdat3, file = "Outputs/2023-03-10_predicitions-with-year-MRA.rda")

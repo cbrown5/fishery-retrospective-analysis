@@ -1,6 +1,6 @@
 # GLM of bias for B/B0 ("Brel")
 #
-# CJ Brown 2022-07-26
+# CJ Brown 2023-03-21
 #
 # Fits multiple GLMs to assess correlates of bias
 # in the relative biomass statistic
@@ -34,14 +34,14 @@ dat2 <-
          start.year = tsyear - start.diff,
          trend.50yr.coef.cap = ifelse(HADISSTtrend.50yr.coef>0.05, 0.05,
                                       HADISSTtrend.50yr.coef)*100,
-         clupeids = factor(ifelse(Fishery.group == "Herrings, sardines, anchovies",
+         clupeoid = factor(ifelse(Fishery.group == "Herrings, sardines, anchovies",
                            "Clupeid", "Other"))) %>%
   rename(Delta_Brel = d.B.B0,
          Delta_B = d.B..ln.B.B.recent.,
          Delta_B1 = d.B0..ln.B0.B0.recent.,
          fishery_group = Fishery.group)
 nrow(dat2)
-dat2$clupeids <- relevel(dat2$clupeids, ref = "Other")
+dat2$clupeoid <- relevel(dat2$clupeoid, ref = "Other")
 
 #Write data for supplemental file 
  write.csv(dat2, "Outputs/glm-covariates-merged.csv",
@@ -150,21 +150,21 @@ form1 <- paste(ivar, " ~
                 HADISSTmean.5yr + trend.50yr.coef.cap +
                  stock_value +
                  year.diff)*lnBrel_MRA +
-                 clupeids + 
+                 clupeoid + 
                 (1|stocklong)")
 form2 <- paste(ivar, " ~
                 (HADISSTmean.5yr + trend.50yr.coef.cap +
                  stock_value +
                  year.diff)*lnBrel_MRA +
                  start.diff+
-                 clupeids + 
+                 clupeoid + 
                 (1|stocklong)")
 form3 <- paste(ivar, " ~
                 (HADISSTmean.5yr  +
                  stock_value +
                  year.diff)*lnBrel_MRA +
                  start.diff +
-                 clupeids + 
+                 clupeoid + 
                  trend.50yr.coef.cap+
                 (1|stocklong)")
 form4 <- paste(ivar, " ~
@@ -173,7 +173,7 @@ form4 <- paste(ivar, " ~
                  start.diff +
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
-                 clupeids + 
+                 clupeoid + 
                 (1|stocklong)")
 form5 <- paste(ivar, " ~
                  year.diff*lnBrel_MRA +
@@ -181,7 +181,7 @@ form5 <- paste(ivar, " ~
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
                  stock_value +
-                 clupeids + 
+                 clupeoid + 
                 (1|stocklong)")
 form6 <- paste(ivar, " ~
                  year.diff+lnBrel_MRA +
@@ -189,7 +189,7 @@ form6 <- paste(ivar, " ~
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
                  stock_value +
-                 clupeids + 
+                 clupeoid + 
                 (1|stocklong)")
 
 #Non-linear model, to test
@@ -199,7 +199,7 @@ formNL <- paste(ivar, " ~
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
                  stock_value+
-                 clupeids +
+                 clupeoid +
                 (1|stocklong)")
 #  
 
@@ -343,7 +343,9 @@ g2 <- ggplot(datr) +
 
 library(patchwork)
 gall <- (g1 / g2) +
-  plot_annotation(tag_levels = "A") + 
+  plot_annotation(tag_levels = "a",
+                  tag_prefix = "(",
+                  tag_suffix = ")") + 
   plot_layout(guides='collect') 
 
 ggsave("Outputs/predictions-vs-obs-Brel-GLMM.png", gall,

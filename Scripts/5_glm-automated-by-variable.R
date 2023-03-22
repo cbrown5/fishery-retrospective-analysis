@@ -13,12 +13,12 @@ library(brms)
 library(forcats)
 library(patchwork)
 
-runmodels <- FALSE #set to true to rerun models,
+runmodels <- TRUE #set to true to rerun models,
 # set to false to load files
-saveplots <- FALSE
+saveplots <- TRUE
 
 dat2 <- read.csv("Outputs/glm-covariates-merged.csv")
-dat2$clupeids <- relevel(factor(dat2$clupeids), ref = "Other")
+dat2$clupeoid <- relevel(factor(dat2$clupeoid), ref = "Other")
 
 theme_set(theme_classic())
 
@@ -32,7 +32,7 @@ response_names <- c(expression(Delta*'B/B'[1]),
                     expression(Delta*'B'[1])
 )
 
-gfixie <- gpreds <- gpredsvalue <- NULL #lists to save key plots
+gfixie <- fixef_save <- gpreds <- gpredsvalue <- NULL #lists to save key plots
 
 # ------------ 
 # Runs models for the three bias stats
@@ -55,7 +55,7 @@ for (ivar in response_vars){
                  start.diff +
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
-                 clupeids + 
+                 clupeoid + 
                 (1|stocklong)")
 
   if (runmodels){
@@ -105,7 +105,7 @@ for (ivar in response_vars){
                                "Duration" = "start.diff",
                                "Mean SST" = "HADISSTmean.5yr",
                                "SST trend" = "trend.50yr.coef.cap",
-                               "Clupeid" = "clupeidsClupeid",
+                               "Clupeoid" = "clupeoidClupeid",
                                "Value" = "stock_value",
                                "Obsolescence" = "year.diff",
                                "Depletion" = "lnBrel_MRA",
@@ -139,6 +139,7 @@ for (ivar in response_vars){
     theme(legend.position = "none")
   
   gfixie <- c(gfixie, list(g1))
+  fixef_save <- c(fixef_save, list(fixef))
   
   if(saveplots)
     ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects.png"))
@@ -189,7 +190,7 @@ for (ivar in response_vars){
     HADISSTmean.5yr = mean(HADISSTmean.5yr),
     trend.50yr.coef.cap = mean(trend.50yr.coef.cap),
     stock_value = mean(stock_value),
-    clupeids = "Other",
+    clupeoid = "Other",
     stocklong = NA,
     Group = NA
   ))
@@ -244,7 +245,7 @@ for (ivar in response_vars){
     HADISSTmean.5yr = mean(HADISSTmean.5yr),
     trend.50yr.coef.cap = mean(trend.50yr.coef.cap),
     stock_value = seq(min(stock_value), max(stock_value), length.out = 100),
-    clupeids = "Other",
+    clupeoid = "Other",
     stocklong = NA,
     Group = NA
   ))
@@ -290,9 +291,14 @@ for (ivar in response_vars){
 # Make multipanel figures
 #
 
+save(gpreds, gfixie, fixef_save,
+     file = "Outputs/2023-03-10_plots-main-models.rda")
+
 gall <- gpreds[[1]] + gpreds[[2]] +
   gpreds[[3]] + 
-  plot_annotation(tag_levels ="A") + 
+  plot_annotation(tag_levels ="a",
+                  tag_prefix = "(",
+                  tag_suffix = ")") + 
   plot_layout(guides='collect') 
 
 ggsave("Outputs/Obsolesence-deltas-same-scale.png",
@@ -303,8 +309,9 @@ ggsave("Outputs/Obsolesence-deltas-same-scale.png",
 gallfix <- gfixie[[1]] + 
   (gfixie[[2]] + theme(axis.text.y = element_blank())) +
   (gfixie[[3]]+ theme(axis.text.y = element_blank())) + 
-  plot_annotation(tag_levels ="A") + 
-  plot_layout(guides='collect') 
+  plot_annotation(tag_levels ="a",
+                  tag_prefix = "(",
+                  tag_suffix = ")") +   plot_layout(guides='collect') 
 
 ggsave("Outputs/fixed-effects-deltas.png",
        gallfix,
@@ -312,8 +319,9 @@ ggsave("Outputs/fixed-effects-deltas.png",
 
 gall <- gpredsvalue[[1]] + gpredsvalue[[2]] +
   gpredsvalue[[3]] + 
-  plot_annotation(tag_levels ="A") + 
-  plot_layout(guides='collect') 
+  plot_annotation(tag_levels ="a",
+                  tag_prefix = "(",
+                  tag_suffix = ")") +   plot_layout(guides='collect') 
 
 ggsave("Outputs/Obsolesence-value-deltas-same-scale.png",
        gall,
