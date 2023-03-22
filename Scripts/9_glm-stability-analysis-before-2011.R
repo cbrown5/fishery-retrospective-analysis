@@ -17,9 +17,6 @@ stock_groups <- read.csv("Data/stock_groups.csv")
 regions <- read.csv("Data/regions.csv")
 theme_set(theme_classic())
 
-#Use -6 years for these two as missing 2004 year of data
-six_years <- c("Deepwater_Flathead SE Australia", "Tiger_flathead SE Australia")
-
 dat2 <- 
   #Join  covariates
   inner_join(dat, datcovar) %>%
