@@ -290,26 +290,28 @@ depletion_diff <- dat_LRR2 %>%
 g1 <- ggplot(depletion_diff) + 
   aes(x = years_to_MRA, y = delta_Brel, color = Status) +
   geom_point() +
-  stat_smooth(method = "lm", se = FALSE) +
+  stat_smooth(method = "lm", se = FALSE,
+              formula = y~x-1) +
   xlab("Years to MRA") + 
   ylab("Difference between \n depletion levels (ln)") +
   theme_classic()
 
+g1
 ggsave("Outputs/2023-03-10_depletion-differences.png", 
        g1)
 
 depletion_diff %>% 
-  group_by(status) %>%
+  group_by(Status) %>%
   summarize(n())
   
 #Linear Model status
 
-m1 <- lm(delta_Brel ~ years_to_MRA, data = filter(depletion_diff, 
-                                                  status == "Depleted"))
+m1 <- lm(delta_Brel ~ years_to_MRA-1, data = filter(depletion_diff, 
+                                                  Status == "Overfished"))
 # plot(m1)
 summary(m1)
 
-m2 <- lm(delta_Brel ~ years_to_MRA, data = filter(depletion_diff, 
-                                                  status == "Sustainable"))
+m2 <- lm(delta_Brel ~ years_to_MRA-1, data = filter(depletion_diff, 
+                                                  Status == "Sustainable"))
 # plot(m1)
 summary(m2)

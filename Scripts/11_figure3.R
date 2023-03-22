@@ -1,14 +1,12 @@
 #Make figure 3
 # CJ Brown
-# 2023-03-10
+# 2023-03-23
 rm(list = ls())
 library(ggplot2)
 library(patchwork)
 
-load("Outputs/2023-03-10_plots-2ndMRA-model.rda")
 load("Outputs/2023-03-10_plots-main-models.rda")
-
-
+load("Outputs/2023-03-23_plots-stability-model.rda")
 
 gallfix <- gfixie[[1]] + 
   (gfixie[[2]] + theme(axis.text.y = element_blank())) +
