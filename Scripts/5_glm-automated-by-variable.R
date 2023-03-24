@@ -13,7 +13,7 @@ library(brms)
 library(forcats)
 library(patchwork)
 
-runmodels <- TRUE #set to true to rerun models,
+runmodels <- FALSE #set to true to rerun models,
 # set to false to load files
 saveplots <- TRUE
 
@@ -129,7 +129,7 @@ for (ivar in response_vars){
     aes(x = params, y = Estimate, color = signif) + 
     geom_hline(yintercept= 0) + 
     geom_point(size = 2.3) + 
-    ylim(-0.3, 0.32) +
+    ylim(-0.3, 0.33) +
     xlab("") + 
     geom_linerange(aes(ymin = Q2.5,
                        ymax = Q97.5), 

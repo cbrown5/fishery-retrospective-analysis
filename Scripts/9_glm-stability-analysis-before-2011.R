@@ -119,7 +119,7 @@ g1 <-
   aes(x = params, y = Estimate, color = signif) + 
   geom_hline(yintercept= 0) + 
   geom_point(size = 2.3) + 
-  ylim(-0.6, 0.32) +
+  ylim(-0.3, 0.32) +
   xlab("") + 
   geom_linerange(aes(ymin = Q2.5,
                      ymax = Q97.5), 

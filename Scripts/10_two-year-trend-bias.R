@@ -13,7 +13,7 @@ load("Outputs/2022-02-11_processesed-assessment-data.rda")
 xmin <- 1980 #1980
 xmax <- 2020
 ymin <- -0.06
-ymax <- 0.06
+ymax <- 0.065
 
 yaxis <- scale_y_continuous(breaks = seq(-0.05, 0.05, by = 0.02),
                             limits = c(ymin, ymax),
@@ -70,7 +70,10 @@ dat_trend_diff <- do.call("rbind", dat_trend_diff)
 #
 
 stock_status_MRA <- dat_LRR %>%
-  filter(finish2.y == tsyear) %>%
+  filter(finish2.y == finish2.x) %>%
+  #stock status X years before MRY of the MRA
+  mutate(MRAMRY_min5 = finish2.y - 5)  %>%
+  filter(tsyear == MRAMRY_min5) %>% 
   select(stocklong, Brel_MRA, tsyear) %>%
   #Use Brel for the year of the datapoint, but in the MRA
   mutate(status = ifelse(Brel_MRA>0.4, "Sustainable",
@@ -213,10 +216,11 @@ g3 <-
 #
 
 gall <- (g4 + g5)/(g2 + g3) + 
-  plot_annotation(tag_levels = "A") + 
-  plot_layout(guides='collect') 
+  plot_annotation(tag_levels = "a") + 
+  plot_layout(guides='collect') & 
+  theme(plot.tag = element_text(face = 'bold'))
 gall
 
 #save plot
-ggsave("Outputs/bias-in-trends-Brel.png", gall,
-       width = 8, height = 6)
+# ggsave("Outputs/bias-in-trends-Brel.png", gall,
+       # width = 8, height = 6)

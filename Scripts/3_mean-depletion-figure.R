@@ -72,6 +72,12 @@ g1 <- ggplot(dat_assess_mean) +
 
 ggsave("Outputs/mean-depletion.png")
 
+#Check status in particular years
+(filter(dat_assess_mean, tsyear == 1980))
+(filter(dat_assess_mean, tsyear == 2005))
+(filter(dat_assess_mean, tsyear == 2008))
+(filter(dat_assess_mean, tsyear == 2016))
+
 #
 # Stocks that rise in last 5 years of MRA
 #
@@ -117,7 +123,24 @@ stock_status_MRAMRY <- dat_LRR2 %>%
   mutate(status = ifelse(Brel_MRA>0.4, "Sustainable",
                          "Depleted")) %>%
   select(stocklong, status)
-  
+
+#MRY MRA Status
+
+dat_LRR2 %>%
+  #just the MRAs
+  filter(finish2.y == finish2.x) %>%
+  #stock status X years before MRY of the MRA
+  mutate(MRAMRY_min5 = finish2.y - 0)  %>%
+  filter(tsyear == MRAMRY_min5) %>% 
+  # filter(tsyear == finish2.y) %>% #deactivate if I want
+  # to have status in year of ts. finish2.y is final year of MRA
+  select(stocklong, Brel_MRA, tsyear) %>% 
+  mutate(status = case_when(Brel_MRA>0.4 ~ "sus",
+                            Brel_MRA<=0.4 & Brel_MRA>0.1 ~ "dep",
+                            Brel_MRA<=0.1 ~ "coll")) %>%
+  group_by(status) %>%
+  summarize(n())
+
 stock_status_MRAMRY %>%
   select(status, stocklong) %>%
   distinct() %>%
@@ -293,12 +316,13 @@ g1 <- ggplot(depletion_diff) +
   stat_smooth(method = "lm", se = FALSE,
               formula = y~x-1) +
   xlab("Years to MRA") + 
+  scale_x_continuous(breaks = 0:20) + 
   ylab("Difference between \n depletion levels (ln)") +
   theme_classic()
 
 g1
 ggsave("Outputs/2023-03-10_depletion-differences.png", 
-       g1)
+       g1, width = 5, height = 3)
 
 depletion_diff %>% 
   group_by(Status) %>%
