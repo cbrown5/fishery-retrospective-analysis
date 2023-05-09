@@ -202,6 +202,8 @@ sum(!(dat4$stocklong %in% dat_MRA$stocklong))
 
 #Join MRAs back to all assessment timeseries
 # Calculate bias statistics
+
+
 dat5 <- dat4 %>% 
   left_join(dat_MRA, by = c("stocklong", "tsyear")) %>%
   mutate(finalCB = (maxyear == maxyearMRA)+0) %>%
