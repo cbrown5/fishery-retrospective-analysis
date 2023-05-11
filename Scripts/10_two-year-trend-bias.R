@@ -79,6 +79,7 @@ stock_status_MRA <- dat_LRR %>%
   filter(finish2.y == finish2.x) %>%
   #stock status X years before MRY of the MRA
   mutate(MRAMRY_min5 = finish2.y - 5)  %>%
+  # mutate(MRAMRY_min5 = finish2.y)  %>%
   filter(tsyear == MRAMRY_min5) %>% 
   select(stocklong, Brel_MRA, tsyear) %>%
   #Use Brel for the year of the datapoint, but in the MRA
