@@ -107,10 +107,10 @@ for (ivar in response_vars){
                                "SST trend" = "trend.50yr.coef.cap",
                                "Clupeoid" = "clupeoidClupeid",
                                "Value" = "stock_value",
-                               "Obsolescence" = "year.diff",
+                               "Survey age" = "year.diff",
                                "Depletion" = "lnBrel_MRA",
-                               "Value by \n obsolescence" = "stock_value:lnBrel_MRA",
-                               "Depletion by \n obsolescence" = "year.diff:lnBrel_MRA"
+                               "Value by \n survey age" = "stock_value:lnBrel_MRA",
+                               "Depletion by \n survey age" = "year.diff:lnBrel_MRA"
     ))%>%
     mutate(params = factor(params, levels = c(
       "Duration",
@@ -118,10 +118,10 @@ for (ivar in response_vars){
       "SST trend",
       "Clupeoid",
       "Value",
-      "Obsolescence",
+      "Survey age",
       "Depletion",
-      "Value by \n obsolescence",
-      "Depletion by \n obsolescence"
+      "Value by \n survey age",
+      "Depletion by \n survey age"
     )))
   
   g1 <-
@@ -215,7 +215,7 @@ for (ivar in response_vars){
                     ymax = exp(`97.5%`)), 
                 color = NA, alpha = 0.7)+
     ylab(response_names[ivar == response_vars]) +
-    xlab("Obsolescence (yrs)") +
+    xlab("Survey age (yrs)") +
     xlim(0, 15) + 
     scale_y_continuous(breaks = seq(0.5, 3, by = 0.5),
                        labels = seq(0.5, 3, by = 0.5),
