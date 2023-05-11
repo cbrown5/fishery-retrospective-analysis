@@ -52,7 +52,8 @@ response_vars <- c("Delta_Brel",
                    "Delta_B1")
 
 ivar <- response_vars[1]
-  
+
+
 #
 # Summaries by stocks 
 #
