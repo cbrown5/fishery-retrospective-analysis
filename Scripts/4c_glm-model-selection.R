@@ -1,8 +1,17 @@
 # GLM of bias for B/B0 ("Brel")
 #
-# CJ Brown 2023-03-21
+# CJ Brown 2023-05-12
 #
-#4b: Model with year of MRA as a covariate
+#4b: Model excluding some stocks, by request of reviewer
+#
+# Exclude stocks that are failing to rebuild because
+# of climate issues
+# Bristol Bay red king crab:Red king crab_Bristol Bay 
+# Bering Sea snow crab: Snow crab_Bering Sea
+# Gulf of Alaska Pacific cod: Pacific cod_Gulf of Alaska
+# two Blue King crab stocks: Blue king crab_Pribilof Islands, 
+# Blue king crab_Saint Matthew Island
+
 
 library(dplyr)
 library(ggplot2)
@@ -15,6 +24,13 @@ datcovar <- read.csv("Data/glm-covariates-Hadley.csv")
 stock_groups <- read.csv("Data/stock_groups.csv")
 regions <- read.csv("Data/regions.csv")
 theme_set(theme_classic())
+
+#stocks to exclude b/c of climate effecting recovery
+stocks_exclude <- c("Red king crab_Bristol Bay",
+                    "Snow crab_Bering Sea",
+                    "Pacific cod_Gulf of Alaska",
+                    "Blue king crab_Pribilof Islands",
+                    "Blue king crab_Saint Matthew Island")
 
 dat2 <- 
   #Join  covariates
@@ -33,9 +49,12 @@ dat2 <-
   rename(Delta_Brel = d.B.B0,
          Delta_B = d.B..ln.B.B.recent.,
          Delta_B1 = d.B0..ln.B0.B0.recent.,
-         fishery_group = Fishery.group)
+         fishery_group = Fishery.group) %>%
+  filter(!(stocklong %in% stocks_exclude))
 nrow(dat2)
 dat2$clupeoids <- relevel(dat2$clupeoids, ref = "Other")
+
+#Exclude some stocks
 
 
 #Write data for supplemental file 
@@ -49,66 +68,10 @@ response_vars <- c("Delta_Brel",
 ivar <- response_vars[1]
 
 #
-# Plot of MRA year vs. 
-#
-  
-pairs(select(dat2, start.diff, HADISSTmean.5yr,
-             trend.50yr.coef.cap,
-             stock_value,
-             year.diff,Year_MRA,
-             lnBrel_MRA))
-
-corrplot::corrplot(cor(select(dat2, start.diff, HADISSTmean.5yr,
-             trend.50yr.coef.cap,
-             stock_value,
-             year.diff,
-             lnBrel_MRA, Year_MRA)))
-
-g1 <- dat2 %>%
-  select(stocklong, Year_MRA, lnBrel_MRA) %>%
-  distinct() %>%
-  mutate(status = ifelse(exp(lnBrel_MRA)<0.4, 
-                         "Depleted","Sustainable")) %>%
-  ggplot() +
-  aes(x = Year_MRA, y = lnBrel_MRA) + 
-  geom_point() + 
-  facet_grid(.~status) +
-  xlab("Year of MRA") + 
-  ylab("Depletion level \n (natural log)") +
-  stat_smooth(se = FALSE)
-
-ggsave("Outputs/year-mra-vs-depletion.png", g1,
-       width = 5, height = 4)
-
-#
 # GLMM Delta_Brel
 #
 
-#scale covariates by 1 SD so we can use standard coef. This is
-# is more efficient for sampling than using a differnet prior for
-# each coef
-
-dat_sd <- dat2 %>% select(start.diff, HADISSTmean.5yr,
-       trend.50yr.coef.cap,
-       stock_value,
-       year.diff,Year_MRA,
-       lnBrel_MRA) %>%
-  summarize(across(start.diff:lnBrel_MRA,sd))
-  
-
-dat3 <- dat2 %>%
-  mutate(start.diff = start.diff/dat_sd$start.diff,
-         HADISSTmean.5yr = HADISSTmean.5yr/dat_sd$HADISSTmean.5yr,
-         trend.50yr.coef.cap = trend.50yr.coef.cap/dat_sd$trend.50yr.coef.cap,
-         stock_value = stock_value/dat_sd$stock_value,
-         year.diff = year.diff/dat_sd$year.diff,
-         Year_MRA = Year_MRA/dat_sd$Year_MRA,
-         lnBrel_MRA = lnBrel_MRA/dat_sd$lnBrel_MRA
-         )
-
-prior1 <- prior(normal(0, 2), class = b)
-
-m1 <- brm(Delta_Brel ~ (Year_MRA + 
+m1 <- brm(Delta_Brel ~ (year.diff + 
                           stock_value +
                           year.diff)*lnBrel_MRA +
             start.diff +
@@ -116,32 +79,39 @@ m1 <- brm(Delta_Brel ~ (Year_MRA +
             trend.50yr.coef.cap +
             clupeoids + 
             (1|stocklong),
-          data = dat3,
+          data = dat2,
           chains = 4,
           cores = 4,
-          iter = 4000,
-          prior = prior1)
+          iter = 4000)
 
 summary(m1)
+
+#Review response: there is no leverage for bayesian
+# models, so what we did was.... 
+
+l1 <- loo(m1)
+l1$pointwise[,"influence_pareto_k"]
+#rerun model excluding obs one by one 
+# where pareto_k > 0.7
+#UP to here: read help file then continue
 
 #
 # B model 
 #
 
 
-m2 <- brm(Delta_B ~ (Year_MRA + 
-                          stock_value +
-                          year.diff)*lnBrel_MRA +
+m2 <- brm(Delta_B ~ (year.diff + 
+                       stock_value +
+                       year.diff)*lnBrel_MRA +
             start.diff +
             HADISSTmean.5yr + 
             trend.50yr.coef.cap +
             clupeoids + 
             (1|stocklong),
-          data = dat3,
+          data = dat2,
           chains = 4,
           cores = 4,
-          iter = 4000,
-          prior = prior1)
+          iter = 4000)
 
 summary(m2)
 
@@ -150,32 +120,30 @@ summary(m2)
 #
 
 
-m3 <- brm(Delta_B1 ~ (Year_MRA + 
-                       stock_value +
-                       year.diff)*lnBrel_MRA +
+m3 <- brm(Delta_B1 ~ (year.diff + 
+                        stock_value +
+                        year.diff)*lnBrel_MRA +
             start.diff +
             HADISSTmean.5yr + 
             trend.50yr.coef.cap +
             clupeoids + 
             (1|stocklong),
-          data = dat3,
+          data = dat2,
           chains = 4,
           cores = 4,
-          iter = 4000,
-          prior = prior1)
+          iter = 4000)
 
 summary(m3)
 #
 # Response conditional on B/B1 and Years to MRA
 #
 
-newdata <- with(dat3, expand.grid(
+newdata <- with(dat2, expand.grid(
   #need to put back onto scale of model fitting (ie divide by 1 SD)
-  lnBrel_MRA = c(log(0.1)/dat_sd$lnBrel_MRA, 
-                 log(0.4)/dat_sd$lnBrel_MRA, 
-                 log(1)/dat_sd$lnBrel_MRA),
-  Year_MRA = seq(min(Year_MRA), max(Year_MRA), length.out = 50),
-  year.diff = mean(year.diff),
+  lnBrel_MRA = c(log(0.1), 
+                 log(0.4), 
+                 log(1)),
+  year.diff = seq(min(year.diff), max(year.diff), length.out = 50),
   start.diff = mean(start.diff),
   HADISSTmean.5yr = mean(HADISSTmean.5yr),
   trend.50yr.coef.cap = mean(trend.50yr.coef.cap),
@@ -184,10 +152,6 @@ newdata <- with(dat3, expand.grid(
   stocklong = NA,
   Group = NA
 ))
-
-#put year_mra back onto real scale
-newdata$Year_MRA_unscaled <- 
-  newdata$Year_MRA * dat_sd$Year_MRA
 
 pdat1 <- posterior_epred(m1, newdata = newdata,
                         re.form = NA) %>%
@@ -207,16 +171,16 @@ pdat3 <- posterior_epred(m3, newdata = newdata,
   t() %>%
   cbind(newdata)
 #put status back onto real scale
-pdat1$status <- exp(pdat1$lnBrel_MRA*dat_sd$lnBrel_MRA)
-pdat2$status <- exp(pdat2$lnBrel_MRA*dat_sd$lnBrel_MRA)
-pdat3$status <- exp(pdat3$lnBrel_MRA*dat_sd$lnBrel_MRA)
+pdat1$status <- exp(pdat1$lnBrel_MRA)
+pdat2$status <- exp(pdat2$lnBrel_MRA)
+pdat3$status <- exp(pdat3$lnBrel_MRA)
 
 #
 #Figure of predicted year MRA effect
 #
 
 g1 <- ggplot(pdat1) + 
-  aes(x = Year_MRA_unscaled, y = exp(`50%`), fill = factor(status),
+  aes(x = year.diff, y = exp(`50%`), fill = factor(status),
       group = status) +
   geom_hline(yintercept = 1) +
   geom_line() +
@@ -224,7 +188,7 @@ g1 <- ggplot(pdat1) +
                   ymax = exp(`97.5%`)), 
               color = NA, alpha = 0.7) +
   ylab(expression(Delta*'B/B'[1])) +
-  xlab("Year of MRA") +
+  xlab("Survey age (years") +
   # xlim(0, 15) + 
   # scale_y_continuous(breaks = seq(0.5, 3, by = 0.5),
                      # labels = seq(0.5, 3, by = 0.5),
@@ -233,7 +197,7 @@ g1 <- ggplot(pdat1) +
 
 
 g2 <- ggplot(pdat2) + 
-  aes(x = Year_MRA_unscaled, y = exp(`50%`), fill = factor(status),
+  aes(x = year.diff, y = exp(`50%`), fill = factor(status),
       group = status) +
   geom_hline(yintercept = 1) +
   geom_line() +
@@ -241,7 +205,7 @@ g2 <- ggplot(pdat2) +
                   ymax = exp(`97.5%`)), 
               color = NA, alpha = 0.7) +
   ylab(expression(Delta*'B')) +
-  xlab("Year of MRA") +
+  xlab("Survey age (years") +
   # xlim(0, 15) + 
   # scale_y_continuous(breaks = seq(0.5, 3, by = 0.5),
   # labels = seq(0.5, 3, by = 0.5),
@@ -249,7 +213,7 @@ g2 <- ggplot(pdat2) +
   scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
 
 g3 <- ggplot(pdat3) + 
-  aes(x = Year_MRA_unscaled, y = exp(`50%`), fill = factor(status),
+  aes(x = year.diff, y = exp(`50%`), fill = factor(status),
       group = status) +
   geom_hline(yintercept = 1) +
   geom_line() +
@@ -257,13 +221,14 @@ g3 <- ggplot(pdat3) +
                   ymax = exp(`97.5%`)), 
               color = NA, alpha = 0.7) +
   ylab(expression(Delta*'B'[1])) +
-  xlab("Year of MRA") +
+  xlab("Survey age (years") +
   # xlim(0, 15) + 
   # scale_y_continuous(breaks = seq(0.5, 3, by = 0.5),
   # labels = seq(0.5, 3, by = 0.5),
   # limits = c(0.5, 3.2)) +
   scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
 
+library(patchwork)
 gall <- (g1 + g2 + g3)+
   plot_annotation(tag_levels = "a",
                   tag_prefix = "(",
@@ -271,7 +236,7 @@ gall <- (g1 + g2 + g3)+
   plot_layout(guides='collect') 
 gall
 
-ggsave(gall, file =paste0("Outputs/years-of-MRA-Brelative.png"),
+ggsave(gall, file =paste0("Outputs/obsolesence-effects-excluding-5-stocks.png"),
        width = 8, height =3)
 
-save(pdat1, pdat2, pdat3, file = "Outputs/2023-03-10_predicitions-with-year-MRA.rda")
+save(pdat1, pdat2, pdat3, file = "Outputs/2023-05-12_predictions-excluding-5-stocks.rda")

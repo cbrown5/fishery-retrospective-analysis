@@ -1,5 +1,7 @@
 # Plot of mean depletion trends 
-#CJ Brown 2022-06-12
+# Using sustainbility categories of :
+ #0.1, 0.3, 0.5
+#CJ Brown 2023-11-15
 
 library(tidyr)
 library(dplyr)
@@ -35,13 +37,6 @@ yaxis <- scale_y_continuous(breaks = seq(0, 1.5, by = 0.25),
 #
 # ALL STOCKS 
 #
-
-#how many stocks after a certain year? 
-# filter(dat_LRR2, tsyear > 2015) %>% 
-#   # filter(assess_age == "1-3 yr old") %>%
-#   pull(stocklong) %>%
-#   unique() %>%
-#   length()
 
 dat_assess_mean <- dat_LRR2 %>%
   group_by(tsyear, assess_age) %>%
@@ -127,8 +122,10 @@ stock_status_MRAMRY <- dat_LRR2 %>%
   # to have status in year of ts. finish2.y is final year of MRA
   select(stocklong, Brel_MRA, tsyear) %>%
   #Use Brel for the year of the datapoint, but in the MRA
-  mutate(status = ifelse(Brel_MRA>0.4, "Sustainable",
-                         "Depleted")) %>%
+  mutate(status = case_when(Brel_MRA<=0.1 ~ "Collapsed",
+                            Brel_MRA>0.1 & Brel_MRA<=0.3 ~ "Overfished",
+                            Brel_MRA>0.3 & Brel_MRA<=0.5 ~ "Sustainable",
+                            Brel_MRA>0.5 ~ "Lightly fished")) %>%
   select(stocklong, status)
 
 #MRY MRA Status
@@ -165,7 +162,7 @@ dat_assess_mean_status <- dat_LRR2 %>%
   group_by(tsyear, assess_age, status) %>%
   summarize(Depletion = exp(mean(log(Brel))),
             n = n()) %>%
-  filter(n>14) %>%
+  filter(n>5) %>%
   ungroup() %>%
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
@@ -178,10 +175,12 @@ dat_assess_mean_status$assess_age <-
                     "4-8 yr old",
                     ">8 yr old"))
 
-
-g2 <- 
+gall <- NULL
+status_names <- unique(stock_status_MRAMRY$status)[c(1,4,2,3)]
+for (i in status_names){
+  gtemp <- 
   dat_assess_mean_status %>%
-  filter(notmax & status == "Sustainable") %>% 
+  filter(notmax & status == i) %>% 
   ggplot() + 
   #Filter out dip in final year (due to small sample bias)
   aes(x = tsyear, y = (Depletion),
@@ -198,151 +197,16 @@ g2 <-
   scale_color_manual("Assessment age", 
                      values = 
                        pal)
+  gall <- c(gall, list(gtemp))
+  }
 
-g3 <- 
-  dat_assess_mean_status %>%
-  filter(notmax & status == "Depleted") %>% 
-  ggplot() + 
-  #Filter out dip in final year (due to small sample bias)
-  aes(x = tsyear, y = (Depletion),
-      color = assess_age, group = assess_age) + 
-  geom_hline(yintercept = 1, color = "grey60") +
-  geom_hline(yintercept = 0.4, color = "grey60", 
-             linetype = 2) +
-  geom_line() +
-  theme_classic() + 
-  ylab(expression('Depletion (B/B'[1]*')')) +
-  xlab("Year") + 
-  xlim(xmin, xmax) + 
-  yaxis +
-  scale_color_manual("Assessment age", 
-                     values =pal) + 
-   theme(legend.position = "none")
-
- # ggsave("Outputs/mean-depletion-sustainable.png", g2)
- # ggsave("Outputs/mean-depletion-depeleted.png", g3)
-
-#
-# Stocks with >10yr old assessments 
-#
-
-dat_assess_mean_10yrold <- dat_LRR2 %>%
-  inner_join(stock_assess_morethan_10yr) %>%
-  group_by(tsyear, assess_age) %>%
-  summarize(Depletion = exp(mean(log(Brel))),
-            n = n()) %>%
-  filter(n>14) %>%
-  ungroup() %>%
-  group_by(assess_age) %>%
-  mutate(maxyr = max(tsyear),
-         notmax = maxyr != tsyear)
-
-dat_assess_mean_10yrold$assess_age <- 
-  factor(dat_assess_mean_10yrold$assess_age,
-         levels = c("MRA",
-                    "1-3 yr old",
-                    "4-8 yr old",
-                    ">8 yr old"))
-
-g4 <- dat_assess_mean_10yrold %>%
-  filter(notmax) %>%
-  #Filter out final year (due to small sample bias)
-  ggplot() + 
-  aes(x = tsyear, y = (Depletion),
-      color = assess_age, group = assess_age) + 
-  geom_hline(yintercept = 1, color = "grey60") +
-  geom_hline(yintercept = 0.4, color = "grey60", 
-             linetype = 2) +
-  geom_line() +
-  theme_classic() + 
-  ylab(expression('Depletion (B/B'[1]*')')) +
-  xlab("Year") + 
-  xlim(xmin, xmax) + 
-  yaxis +
-  scale_color_manual("Assessment age", 
-                     values = pal) + 
-  theme(legend.position = "none")
-
-# ggsave("Outputs/mean-depletion-10yrold-assessments.png", g4,
-       # width = 5, height = 3)
-
-
-gall <- (g1 + g4) / (g2 + g3) + 
+gall2 <- (gall[[1]] + gall[[2]]) / (gall[[3]] + gall[[4]]) + 
   plot_annotation(tag_levels = "A") + 
   plot_layout(guides='collect') 
+gall2
 
-ggsave("Outputs/depletion_timeseries-figures-all-scales-same.png", gall,
+
+ggsave("Outputs/depletion_timeseries-figures-all-scales-same_4-status-cat.png", 
+       gall2,
        width = 8, height = 4)
 
-save(g1, g2, g3, g4, 
-     dat_assess_mean,
-     dat_assess_mean_10yrold,
-     dat_assess_mean_status,
-     file = "Outputs/timeseries-plots-1980_2010.rda")
-
-
-#
-# Extended data figure 4
-#
-
-# log difference of B/B1 (depletion) for the MRY of each assessment 
-# vs the MRA-MRY. x axis is years difference between MRY and MRA-MRY.
-# Values averaged by stocks 
-
-#First get stock status in MRY of MRA
-stock_status_MRAMRY <- dat_LRR2 %>%
-  #just the MRAs
-  filter(finish2.y == finish2.x) %>%
-  #stock status X years before MRY of the MRA
-  mutate(MRAMRY_min5 = finish2.y - 0)  %>%
-  filter(tsyear == MRAMRY_min5) %>% 
-  select(stocklong, Brel_MRA, tsyear) %>%
-  #Use Brel for the year of the datapoint, but in the MRA
-  mutate(Status = ifelse(Brel_MRA>0.4, "Sustainable",
-                         "Overfished"),
-         #make new variable for status in MRY
-         Brel_MRAMRY = Brel_MRA) %>%
-  select(stocklong, Status,Brel_MRAMRY)
-
-depletion_diff <- dat_LRR2 %>%
-  #select MRY of each assessment
-  # finish2.y = MRY of MRA
-  # finish2.x = MRY of this assess
-  filter(tsyear == finish2.x) %>%
-  #remove MRA
-  filter(!(finish2.x == finish2.y)) %>%
-  left_join(stock_status_MRAMRY) %>% 
-  mutate(delta_Brel = log(Brel) - log(Brel_MRAMRY)) %>%
-  group_by(stocklong, Status) %>%
-  summarize(delta_Brel = mean(delta_Brel),
-            years_to_MRA = mean(years_to_MRA))
-
-g1 <- ggplot(depletion_diff) + 
-  aes(x = years_to_MRA, y = delta_Brel, color = Status) +
-  geom_point() +
-  stat_smooth(method = "lm", se = FALSE,
-              formula = y~x-1) +
-  xlab("Years to MRA") + 
-  scale_x_continuous(breaks = 0:20) + 
-  ylab("Difference between \n depletion levels (ln)") +
-  theme_classic()
-
-g1
-ggsave("Outputs/2023-03-10_depletion-differences.png", 
-       g1, width = 5, height = 3)
-
-depletion_diff %>% 
-  group_by(Status) %>%
-  summarize(n())
-  
-#Linear Model status
-
-m1 <- lm(delta_Brel ~ years_to_MRA-1, data = filter(depletion_diff, 
-                                                  Status == "Overfished"))
-# plot(m1)
-summary(m1)
-
-m2 <- lm(delta_Brel ~ years_to_MRA-1, data = filter(depletion_diff, 
-                                                  Status == "Sustainable"))
-# plot(m1)
-summary(m2)

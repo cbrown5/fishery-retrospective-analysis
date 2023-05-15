@@ -49,7 +49,7 @@ datprednew <- datprednew %>%
          trend.50yr.coef.cap, HADISSTmean.5yr,
          stock_value, 
          stocklong, tsyear,
-         clupeids) %>%
+         clupeoid) %>%
   distinct()
 nrow(datprednew)
 
@@ -82,15 +82,19 @@ write.csv(status_q, paste0("Outputs/",ivar,"/status_unbiased.csv"))
 status_prop <- mpred %>%
   summarize(sum(status_estimate<0.1)/n(),
             sum(status_estimate<0.2)/n(),
+            sum(status_estimate<0.3)/n(),
             sum(status_estimate<0.4)/n(),
             sum(status<0.1)/n(),
             sum(status<0.2)/n(),
+            sum(status<0.3)/n(),
             sum(status<0.4)/n(),
             sum(status_estimate<0.1),
             sum(status_estimate<0.2),
+            sum(status_estimate<0.3),
             sum(status_estimate<0.4),
             sum(status<0.1),
             sum(status<0.2),
+            sum(status<0.3),
             sum(status<0.4)) %>%
   signif(2)
 
@@ -109,7 +113,7 @@ datprednew2 <-
               stock_value = mean(dat2$stock_value),
               trend.50yr.coef.cap =mean(dat2$trend.50yr.coef.cap),
               HADISSTmean.5yr = mean(dat2$HADISSTmean.5yr),
-              clupeids = "Other") %>%
+              clupeoid = "Other") %>%
   mutate(lnBrel_MRA = log(Brel))
 
 mpred2 <- posterior_epred(m1, datprednew2,
