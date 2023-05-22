@@ -11,12 +11,12 @@ library(ggplot2)
 library(patchwork)
 
 load("Outputs/timeseries-plots-1980_2010.rda")
-load("Outputs/timeseries-plots-complete-1980_2010_withSEs.rda")
+load("Outputs/timeseries-plots-complete-1980_2016_withSEs.rda")
 
 #Remove SE shading
-# g1$layers[[4]] <- g2$layers[[4]] <- 
-# g3$layers[[4]] <- 
-# g4$layers[[4]] <- NULL
+g1$layers[[4]] <- g2$layers[[4]] <-
+g3$layers[[4]] <-
+g4$layers[[4]] <- NULL
 
 g1b <- g1 + 
     geom_line(data = dat_assess_mean, 
@@ -36,7 +36,7 @@ g3b <- g3 +
             linewidth = 1) 
 
 g4b <- g4 + 
-  geom_line(data = filter(dat_assess_mean_10yrold, notmax),
+   geom_line(data = dat_assess_mean_10yrold,
             alpha = 0.5,
             linewidth = 1)
 
@@ -45,5 +45,5 @@ gall <- (g1b + g4b) / (g2b + g3b) +
   plot_annotation(tag_levels = "A") + 
   plot_layout(guides='collect') 
 
-ggsave("Outputs/fig2-overlay-withSEs.png", gall,
+ggsave("Outputs/fig2-overlay-noSEs.png", gall,
        width = 8, height = 4)

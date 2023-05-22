@@ -34,7 +34,7 @@ dat_LRR2 <- dat_LRR %>%
 
 #axes limits 
 xmin <- 1980 #1980
-xmax <- 2010
+xmax <- 2020
 ymin <- 0
 ymax <- 2
 
@@ -272,7 +272,7 @@ gall <- (g1 + g4) / (g2 + g3) +
                   tag_prefix = "(") + 
   plot_layout(guides='collect') 
 
-ggsave("Outputs/depletion_timeseries-figures-all-scales-same-complete-1980_2010_withSEs-R4.png", gall,
-       width = 8, height = 4)
+# ggsave("Outputs/depletion_timeseries-figures-all-scales-same-complete-1980_2010_withSEs-R4.png", gall,
+       # width = 8, height = 4)
 
 save(g1, g2, g3, g4, file = "Outputs/timeseries-plots-complete-1980_2010_withSEs.rda")

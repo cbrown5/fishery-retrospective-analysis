@@ -35,7 +35,7 @@ dat2 %>% group_by(stocklong) %>%
 #
 
 #Project year.diff for MRA to 2030
-datprednew$year.diff <- 2030 - dat2$Year_MRA
+datprednew$year.diff <- 10#2030 - dat2$Year_MRA
 #add years to 2030 to start.diff
 datprednew$start.diff <- dat2$start.diff.MRA + dat2$year.diff
 
