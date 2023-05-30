@@ -18,7 +18,7 @@ sefun <- function(x){
 
 dat_LRR2 <- dat_LRR %>%
   #Select just those stocks with full time-series from 1980 to 2010 or after
-  filter((maxyearMRA > 2009) & (minyear < 1981)) %>%
+  filter((maxyearMRA > 2015) & (minyear < 1981)) %>%
   filter(tsyear > 1959 & !is.na(finish2.y)) %>%
   #Get rid of years of data missing an MRA 
   #Only keep MRY of each assessment
@@ -52,11 +52,13 @@ dat_assess_mean <- dat_LRR2 %>%
             Dep_SE = sefun(log(Brel)),
             n = n()) %>%
   ungroup() %>%
-  filter(n>14) %>%
+  # filter(n>14) %>%
   #Remove year/group combos with <4 assessments
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
          notmax = maxyr != tsyear)
+length(unique(dat_LRR2$stocklong))
+
 #change order
 dat_assess_mean$assess_age <- factor(dat_assess_mean$assess_age,
 levels = c("MRA",
@@ -152,6 +154,13 @@ dat_assess_mean_status <- dat_LRR2 %>%
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
          notmax = maxyr != tsyear)
+
+dat_LRR2 %>%
+  left_join(stock_status_MRAMRY) %>%
+  select(status, stocklong) %>%
+  distinct() %>%
+  group_by(status) %>%
+  summarize(n())
 
 dat_assess_mean_status$assess_age <- 
   factor(dat_assess_mean_status$assess_age,
@@ -267,12 +276,12 @@ g4 <- dat_assess_mean_10yrold %>%
                       pal) 
 
 gall <- (g1 + g4) / (g2 + g3) + 
-  plot_annotation(tag_levels = "a",
-                  tag_suffix = ")",
-                  tag_prefix = "(") + 
+  plot_annotation(tag_levels = 'a') &
+  theme(plot.tag = element_text(face = 'bold')) +
   plot_layout(guides='collect') 
 
 # ggsave("Outputs/depletion_timeseries-figures-all-scales-same-complete-1980_2010_withSEs-R4.png", gall,
        # width = 8, height = 4)
 
+# save(g1, g2, g3, g4, file = "Outputs/timeseries-plots-complete-1980_2016_withSEs.rda")
 save(g1, g2, g3, g4, file = "Outputs/timeseries-plots-complete-1980_2010_withSEs.rda")

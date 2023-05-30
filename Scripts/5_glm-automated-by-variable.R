@@ -296,9 +296,9 @@ save(gpreds, gfixie, fixef_save,
 
 gall <- gpreds[[1]] + gpreds[[2]] +
   gpreds[[3]] + 
-  plot_annotation(tag_levels ="a",
-                  tag_prefix = "(",
-                  tag_suffix = ")") + 
+  plot_annotation(tag_levels = 'a') &
+  theme(plot.tag = element_text(face = 'bold'))
+  # plot_annotation(tag_levels ="a") + 
   plot_layout(guides='collect') 
 
 ggsave("Outputs/Obsolesence-deltas-same-scale.png",
