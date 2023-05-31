@@ -43,7 +43,7 @@ dat_assess_mean <- dat_LRR2 %>%
   summarize(Depletion = exp(mean(log(Brel))),
             n = n()) %>%
   ungroup() %>%
-  filter(n>14) %>%
+  filter(n>4) %>%
   #Remove year/group combos with <4 assessments
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
@@ -127,6 +127,13 @@ stock_status_MRAMRY <- dat_LRR2 %>%
                             Brel_MRA>0.3 & Brel_MRA<=0.5 ~ "Sustainable",
                             Brel_MRA>0.5 ~ "Lightly fished")) %>%
   select(stocklong, status)
+
+#Stocks per category
+stock_status_MRAMRY %>%
+  select(status, stocklong) %>%
+  distinct() %>%
+  group_by(status) %>%
+  summarize(n())
 
 #MRY MRA Status
 
