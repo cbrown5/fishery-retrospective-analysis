@@ -15,7 +15,7 @@ library(patchwork)
 
 runmodels <- FALSE #set to true to rerun models,
 # set to false to load files
-saveplots <- TRUE
+saveplots <- FALSE
 
 dat2 <- read.csv("Outputs/glm-covariates-merged.csv")
 dat2$clupeoid <- relevel(factor(dat2$clupeoid), ref = "Other")
@@ -109,7 +109,7 @@ for (ivar in response_vars){
                                "Value" = "stock_value",
                                "Survey age" = "year.diff",
                                "Depletion" = "lnBrel_MRA",
-                               "Value by \n survey age" = "stock_value:lnBrel_MRA",
+                               "Value by \n depletion" = "stock_value:lnBrel_MRA",
                                "Depletion by \n survey age" = "year.diff:lnBrel_MRA"
     ))%>%
     mutate(params = factor(params, levels = c(
@@ -120,7 +120,7 @@ for (ivar in response_vars){
       "Value",
       "Survey age",
       "Depletion",
-      "Value by \n survey age",
+      "Value by \n depletion",
       "Depletion by \n survey age"
     )))
   

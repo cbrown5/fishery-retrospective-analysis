@@ -97,10 +97,10 @@ fixef <- fixef(m1) %>%
                              "SST trend" = "trend.50yr.coef.cap",
                              "Clupeoid" = "clupeoidsClupeid",
                              "Value" = "stock_value",
-                             "Obsolescence" = "year.diff",
+                             "Survey age" = "year.diff",
                              "Depletion" = "lnBrel_MRA",
-                             "Value by \n obsolescence" = "stock_value:lnBrel_MRA",
-                             "Depletion by \n obsolescence" = "year.diff:lnBrel_MRA"
+                             "Value by \n depletion" = "stock_value:lnBrel_MRA",
+                             "Depletion by \n survey age" = "year.diff:lnBrel_MRA"
   ))%>%
   mutate(params = factor(params, levels = c(
     "Duration",
@@ -108,11 +108,27 @@ fixef <- fixef(m1) %>%
     "SST trend",
     "Clupeoid",
     "Value",
-    "Obsolescence",
+    "Survey age",
     "Depletion",
-    "Value by \n obsolescence",
-    "Depletion by \n obsolescence"
+    "Value by \n depletion",
+    "Depletion by \n survey age"
   )))
+
+#quick change of labels
+# load("Outputs/2023-03-23_plots-stability-model.rda")
+# fixef <- fixef %>%
+#   mutate(params = factor(params, labels = c(
+#     "Duration",
+#     "Mean SST",
+#     "SST trend",
+#     "Clupeoid",
+#     "Value",
+#     "Survey age",
+#     "Depletion",
+#     "Value by \n depletion",
+#     "Depletion by \n survey age"
+#   )))
+
 
 g1 <-
   ggplot(fixef) +
@@ -129,6 +145,8 @@ g1 <-
   theme(legend.position = "none")
 
 ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects-before-2011-inc-clupeids.png"))
+
+
 
 g1_2ndMRA <- g1
 save(fixef, g1_2ndMRA, file = "Outputs/2023-03-23_plots-stability-model.rda")

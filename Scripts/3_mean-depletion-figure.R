@@ -22,6 +22,11 @@ dat_LRR2 <- dat_LRR %>%
            years_to_MRA >8 ~ ">8 yr old"
          )) 
 
+filter(dat_LRR2, tsyear>2015) %>%
+  pull(stocklong) %>%
+  unique() %>%
+  length()
+
 #axes limits 
 xmin <- 1980 #1980
 xmax <- 2020
