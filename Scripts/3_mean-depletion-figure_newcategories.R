@@ -9,14 +9,15 @@ library(ggplot2)
 library(patchwork)
 
 # load("Outputs/2022-02-11_processesed-assessment-data.rda")
-load("Outputs/2024-01-10_processesed-assessment-data-B1.rda")
-# load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
+# load("Outputs/2024-01-10_processesed-assessment-data-B1.rda")
+load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
 
 dat_LRR2 <- dat_LRR %>%
   # filter(stocklong == "Pacific cod_Gulf of Alaska") %>%
   filter(tsyear > 1959 & !is.na(finish2.y)) %>%
   #Get rid of years of data missing an MRA 
   mutate(years_to_MRA = finish2.y - finish2.x,
+         years_before_assessment = finish2.y - tsyear,
          # finish2.y = MRY of MRA
          # finish2.x = MRY of this assess
          assess_age = case_when(
@@ -35,8 +36,8 @@ dat_LRR2 <- dat_LRR %>%
 #      row.names = FALSE)
 
 #axes limits 
-xmin <- 1980 #1980
-xmax <- 2020
+xmin <- 0 #1980
+xmax <- 40
 ymin <- 0
 ymax <- 1
 
@@ -49,15 +50,13 @@ yaxis <- scale_y_continuous(breaks = seq(0, 1, by = 0.25),
 #
 
 dat_assess_mean <- dat_LRR2 %>%
-  group_by(tsyear, assess_age) %>%
+  group_by(years_before_assessment, assess_age) %>%
   summarize(Depletion = exp(mean(log(Brel))),
             n = n()) %>%
   ungroup() %>%
   filter(n>4) %>%
   #Remove year/group combos with <4 assessments
-  group_by(assess_age) %>%
-  mutate(maxyr = max(tsyear),
-         notmax = maxyr != tsyear)
+  group_by(assess_age) 
 #change order
 dat_assess_mean$assess_age <- factor(dat_assess_mean$assess_age,
 levels = c("MRA",
@@ -68,7 +67,7 @@ levels = c("MRA",
 pal <- c("black", "#E69F00", "#56B4E9", "#009E73")#, "#0072B2")
 
 g1 <- ggplot(dat_assess_mean) +
-  aes(x = tsyear, y = (Depletion),
+  aes(x = years_before_assessment, y = (Depletion),
       color = assess_age, group = assess_age) + 
   geom_hline(yintercept = 1, color = "grey60") +
   geom_hline(yintercept = 0.4, color = "grey60", 
@@ -77,11 +76,12 @@ g1 <- ggplot(dat_assess_mean) +
   theme_classic() + 
   ylab(expression('Depletion (B/B'[1]*')')) +
   xlab("Year") + 
-  xlim(xmin, xmax) + 
+  xlim(xmin, xmax) +
   yaxis +
+  scale_x_reverse()
   scale_color_manual("Assessment age", 
                      values = pal)
-
+g1
 # ggsave("Outputs/mean-depletion.png")
 
 #Check status in particular years
@@ -130,7 +130,7 @@ stock_status_MRAMRY <- dat_LRR2 %>%
   filter(tsyear == MRAMRY_min5) %>% 
   # filter(tsyear == finish2.y) %>% #deactivate if I want
   # to have status in year of ts. finish2.y is final year of MRA
-  select(stocklong, Brel_MRA, tsyear) %>%
+  select(stocklong, Brel_MRA, years_before_assessment) %>%
   #Use Brel for the year of the datapoint, but in the MRA
   mutate(status = case_when(Brel_MRA<=0.1 ~ "Collapsed",
                             Brel_MRA>0.1 & Brel_MRA<=0.3 ~ "Overfished",
@@ -155,7 +155,7 @@ dat_LRR2 %>%
   filter(tsyear == MRAMRY_min5) %>% 
   # filter(tsyear == finish2.y) %>% #deactivate if I want
   # to have status in year of ts. finish2.y is final year of MRA
-  select(stocklong, Brel_MRA, tsyear) %>% 
+  select(stocklong, Brel_MRA, years_before_assessment) %>% 
   mutate(status = case_when(Brel_MRA>0.4 ~ "sus",
                             Brel_MRA<=0.4 & Brel_MRA>0.1 ~ "dep",
                             Brel_MRA<=0.1 ~ "coll")) %>%
@@ -176,20 +176,18 @@ stock_status_MRAMRY %>%
 
 dat_assess_mean_status <- dat_LRR2 %>%
   left_join(stock_status_MRAMRY) %>%
-  group_by(tsyear, assess_age, status, stocklong) %>%
-  summarize(Depletion =
-              exp(mean(log(Brel))),
-            n = n()) %>%
+  # group_by(years_before_assessment, assess_age, status, stocklong) %>%
+  # summarize(Brel =
+              # exp(mean(log(Brel))),
+            # n = n()) %>%
   ungroup() %>%
-  group_by(tsyear, assess_age, status) %>%
+  group_by(years_before_assessment, assess_age, status) %>%
   summarize(Depletion = 
-              exp(mean(log(Depletion))),
+              exp(mean(log(Brel))),
             n = n()) %>%
   filter(n>5) %>%
   ungroup() %>%
-  group_by(assess_age) %>%
-  mutate(maxyr = max(tsyear),
-         notmax = maxyr != tsyear)
+  group_by(assess_age) 
 
 dat_assess_mean_status$assess_age <- 
   factor(dat_assess_mean_status$assess_age,
@@ -204,10 +202,10 @@ status_names <- unique(stock_status_MRAMRY$status)[c(1,4,2,3)]
 for (i in status_names){
   gtemp <- 
     dat_assess_mean_status %>%
-    filter(notmax & status == i) %>% 
+    filter(status == i) %>% 
     ggplot() + 
     #Filter out dip in final year (due to small sample bias)
-    aes(x = tsyear, y = (Depletion),
+    aes(x = years_before_assessment, y = (Depletion),
         color = assess_age, group = assess_age) + 
     geom_hline(yintercept = 1, color = "grey60") +
     geom_hline(yintercept = 0.4, color = "grey60", 
@@ -216,15 +214,12 @@ for (i in status_names){
     theme_classic() + 
     ylab(expression('Depletion (B/B'[1]*')')) +
     xlab("Year") + 
-    xlim(xmin, xmax) + 
     yaxis +
+    scale_x_reverse(limits = c(xmax,xmin)) + 
     scale_color_manual("Assessment age", 
                        values = 
                          pal)
   gall <- c(gall, list(gtemp))
-  
-  
-  
 }
 
 gall2 <- (gall[[1]] + gall[[2]]) / (gall[[3]] + gall[[4]]) + 
