@@ -55,7 +55,7 @@ for (ivar in response_vars){
                  start.diff +
                  trend.50yr.coef.cap +
                  HADISSTmean.5yr +
-                 log_B0_ratio + 
+                 clupeoid + 
                 (1|stocklong)")
 
   if (runmodels){
@@ -108,7 +108,7 @@ for (ivar in response_vars){
                                "Duration" = "start.diff",
                                "Mean SST" = "HADISSTmean.5yr",
                                "SST trend" = "trend.50yr.coef.cap",
-                               "log_B0_ratio" = "log_B0_ratio",
+                               "Clupeoid" = "clupeoidClupeid",
                                "Value" = "stock_value",
                                "Survey age" = "year.diff",
                                "Depletion" = "lnBrel_MRA",
@@ -119,7 +119,7 @@ for (ivar in response_vars){
       "Duration",
       "Mean SST",
       "SST trend",
-      "log_B0_ratio",
+      "Clupeoid",
       "Value",
       "Survey age",
       "Depletion",
@@ -193,7 +193,7 @@ for (ivar in response_vars){
     HADISSTmean.5yr = mean(HADISSTmean.5yr),
     trend.50yr.coef.cap = mean(trend.50yr.coef.cap),
     stock_value = mean(stock_value),
-    log_B0_ratio = mean(log_B0_ratio),
+    clupeoid = "Other",
     stocklong = NA,
     Group = NA
   ))
@@ -248,7 +248,7 @@ for (ivar in response_vars){
     HADISSTmean.5yr = mean(HADISSTmean.5yr),
     trend.50yr.coef.cap = mean(trend.50yr.coef.cap),
     stock_value = seq(min(stock_value), max(stock_value), length.out = 100),
-    log_B0_ratio = mean(log_B0_ratio),
+    clupeoid = "Other",
     stocklong = NA,
     Group = NA
   ))

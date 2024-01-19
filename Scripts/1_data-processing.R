@@ -24,7 +24,7 @@ dat <- read_csv("Data/stock-timeseries-databases.csv")
 
 RLSADB <- read_csv("Data/RLSADB v4.44 bioparams-view.csv")
 
-useB1_asB0 <- FALSE
+useB1_asB0 <- TRUE
 #Set to FALSE to use max(SSB), so to TRUE to use SSB in first year
 
 if (useB1_asB0){
@@ -70,8 +70,6 @@ dat_B0temp <- dat2 %>%
   } else {
     B0 <- max(SSB)
   }
-  
-  B1 <- SSB[tsyear == minyear]
   # # Calculate assessment year (last year of each assessment series)
   maxyear <- max(tsyear)
   
@@ -79,7 +77,6 @@ dat_B0temp <- dat2 %>%
                      stocklong = stocklong[1],
                      minyear = minyear, 
                      B0 = B0,
-                     B1 = B1,
                      maxyear = maxyear)
   dout
   })
@@ -188,7 +185,6 @@ dat_MRAB0 <- dat_B0 %>%
   filter(maxyear == max(maxyear)) %>%
   select(stocklong, minyearMRA = minyear,
          B0MRA_CB = B0, 
-         B1MRA= B1,
          maxyearMRA = maxyear) %>%
   ungroup() 
 
@@ -208,8 +204,7 @@ dat_MRA <- dat4 %>%
   select(stocklong, finish2, tsyear, SSB_MRA = SSB,  Brel_MRA = Brel,
           trend_MRA = trend, trend_MRA_percent = trend_percent,
          trend2_MRA = trend2, 
-         B0_MRA = B0,
-         B1_MRA = B1)
+         B0_MRA = B0)
 
 nrow(dat_MRA) < nrow(dat4)
 
@@ -293,19 +288,6 @@ mean(with(dat_B0_2, {
   (B0-B0_assessment)/B0_assessment
 }), na.rm = TRUE)
 
-g1 <- ggplot(dat_B0_2) + 
-  aes(x = B0_assessment, y = B0) + 
-  geom_point() + 
-  scale_y_log10() + 
-  scale_x_log10() + 
-  theme_classic() + 
-  geom_abline(yintercept = 0, slope = 1) + 
-  xlab(expression(paste(B[0], ' (tonnes)'))) + 
-  ylab(expression(paste(B[max], ' (tonnes)')))
-
-ggsave(g1, filename = "Outputs/B0-Bmax comparison.png")
-cor(log10(dat_B0_2$B0_assessment),log10(dat_B0_2$B0), use = "complete.obs")
-
 #
 # Save data 
 #
@@ -334,7 +316,6 @@ dat_glm <- dat_MRY %>%
          lnBB0 = log(Brel),
          `d slope SSB` = trend_rel,
          `d slope2 SSB` = trend2_rel,
-         log_B0_ratio = log(B1/B0)
            ) %>%
   select(stocklong, #stock IDs
          tsyear, #Assessment year
@@ -354,9 +335,6 @@ dat_glm <- dat_MRY %>%
          # the three years before the assessment and trend_MRA is the 
          # same for the MRA
          `d slope2 SSB`, #as above but over 2 years
-         log_B0_ratio,
-         B1, 
-         B0,
          minyear
   )
 
