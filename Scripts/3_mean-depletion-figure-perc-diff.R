@@ -8,7 +8,9 @@ library(dplyr)
 library(ggplot2)
 library(patchwork)
 
-load("Outputs/2022-02-11_processesed-assessment-data.rda")
+# load("Outputs/2022-02-11_processesed-assessment-data.rda")
+load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
+
 
 dat_LRR2 <- dat_LRR %>%
   #Select just those stocks with full time-series from 1980 to 2010 or after

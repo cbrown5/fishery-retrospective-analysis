@@ -9,7 +9,8 @@ library(dplyr)
 library(ggplot2)
 library(patchwork)
 
-load("Outputs/2022-02-11_processesed-assessment-data.rda")
+# load("Outputs/2022-02-11_processesed-assessment-data.rda")
+load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
 
 sefun <- function(x){
   n <- sum(!is.na(x))

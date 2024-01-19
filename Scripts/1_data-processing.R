@@ -2,11 +2,12 @@
 #Calculate B1, bias and other statistics for analysis
 #
 # CJ Brown 
-#2022-08-17
+#2024-01-10
 #
 # Note in paper we refer to the statistic 'B1' as
 # the biomass in the initial year of the time-series.
 # In the code this biomass in initial year is variable B0. 
+# 2024-01-10 - updated to use Bmax instead of B1
 
 library(tidyr)
 library(dplyr)
@@ -22,6 +23,16 @@ library(DataGLMRepeat)
 dat <- read_csv("Data/stock-timeseries-databases.csv")
 
 RLSADB <- read_csv("Data/RLSADB v4.44 bioparams-view.csv")
+
+useB1_asB0 <- TRUE
+#Set to FALSE to use max(SSB), so to TRUE to use SSB in first year
+
+if (useB1_asB0){
+  suffix <- "B1"
+} else {
+  suffix <- "Bmax"
+}
+
 #
 #Steps for Brel
 #
@@ -54,8 +65,11 @@ dat_B0temp <- dat2 %>%
   minyear = min(tsyear)
   minyear1 <- sort(unique(tsyear))[2] # nearest year after min
   
-   B0 <- SSB[tsyear == minyear]
-  
+  if (useB1_asB0){
+    B0 <- SSB[tsyear == minyear]
+  } else {
+    B0 <- max(SSB)
+  }
   # # Calculate assessment year (last year of each assessment series)
   maxyear <- max(tsyear)
   
@@ -278,7 +292,7 @@ dat_B0 <- dat_B0_2
 
 save(dat_B0, dat_MRA, dat_LRR, 
      dat_MRY, dat_MRY_stock_means, 
-     file = "Outputs/2022-02-11_processesed-assessment-data.rda")
+     file = paste0("Outputs/2024-01-10_processesed-assessment-data-",suffix,".rda"))
 
 #
 # Data frame for GLMMs
@@ -316,7 +330,7 @@ dat_glm <- dat_MRY %>%
          minyear
   )
 
-write.csv(dat_glm, "Outputs/2022-02-11_glm-data.csv",
+write.csv(dat_glm, paste0("Outputs/2024-01-10glm-data-",suffix,".csv"),
           row.names = FALSE)
 
 
@@ -345,7 +359,7 @@ dat_glm_bystock <- dat6_bystock %>%
         B0_MRA
   )
 
-write.csv(dat_glm_bystock, "Outputs/2022-02-11_glm-data-stock-means.csv",
+write.csv(dat_glm_bystock, paste0("Outputs/2024-01-10_glm-data-stock-means-",suffix,".csv"),
           row.names = FALSE)
 
 

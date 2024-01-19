@@ -17,7 +17,7 @@ runmodels <- FALSE #set to true to rerun models,
 # set to false to load files
 saveplots <- FALSE
 
-dat2 <- read.csv("Outputs/glm-covariates-merged.csv")
+dat2 <- read.csv("Outputs/glm-covariates-merged-Bmax.csv")
 dat2$clupeoid <- relevel(factor(dat2$clupeoid), ref = "Other")
 
 theme_set(theme_classic())
@@ -85,6 +85,9 @@ for (ivar in response_vars){
     signif(2) %>%
     data.frame() %>%
     tibble::rownames_to_column("Parameter")
+  
+  x = data.frame(ranef(m1, groups="stocklong", probs = 0.5)) %>%
+    arrange(stocklong.Q50.Intercept)
   
   ###
   sm1effects$Parameter[11] <- "SD Stock"

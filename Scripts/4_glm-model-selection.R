@@ -15,8 +15,8 @@ library(ggplot2)
 library(brms)
 library(forcats)
 
-dat <- read.csv("Outputs/2022-02-11_glm-data.csv")
-load("Outputs/2022-02-11_processesed-assessment-data.rda")
+dat <- read.csv("Outputs/2024-01-10glm-data-Bmax.csv")
+load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
 datcovar <- read.csv("Data/glm-covariates-Hadley.csv")
 stock_groups <- read.csv("Data/stock_groups.csv")
 regions <- read.csv("Data/regions.csv")
@@ -44,7 +44,7 @@ nrow(dat2)
 dat2$clupeoid <- relevel(dat2$clupeoid, ref = "Other")
 
 #Write data for supplemental file 
- write.csv(dat2, "Outputs/glm-covariates-merged.csv",
+ write.csv(dat2, "Outputs/glm-covariates-merged-Bmax.csv",
           row.names = FALSE)
 
 response_vars <- c("Delta_Brel",

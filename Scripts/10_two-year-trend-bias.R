@@ -7,7 +7,9 @@ library(ggplot2)
 library(patchwork)
 library(DataGLMRepeat)
 
-load("Outputs/2022-02-11_processesed-assessment-data.rda")
+# load("Outputs/2022-02-11_processesed-assessment-data.rda")
+load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
+
 
 #axes settings 
 xmin <- 1980 #1980

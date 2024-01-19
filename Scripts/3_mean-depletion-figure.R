@@ -6,8 +6,9 @@ library(dplyr)
 library(ggplot2)
 library(patchwork)
 
-load("Outputs/2022-02-11_processesed-assessment-data.rda")
-
+ # load("Outputs/2022-02-11_processesed-assessment-data.rda")
+load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
+# load("Outputs/2024-01-10_processesed-assessment-data-B1.rda")
 dat_LRR2 <- dat_LRR %>%
   # filter(stocklong == "Pacific cod_Gulf of Alaska") %>%
   filter(tsyear > 1959 & !is.na(finish2.y)) %>%
@@ -31,11 +32,11 @@ filter(dat_LRR2, tsyear>2015) %>%
 xmin <- 1980 #1980
 xmax <- 2020
 ymin <- 0
-ymax <- 1.5
+ymax <- 1
 
-yaxis <- scale_y_continuous(breaks = seq(0, 1.5, by = 0.25),
+yaxis <- scale_y_continuous(breaks = seq(0, ymax, by = 0.25),
                             limits = c(ymin, ymax),
-                            labels = seq(0, 1.5, by = 0.25))
+                            labels = seq(0, ymax, by = 0.25))
 
 #
 # ALL STOCKS 
@@ -50,7 +51,7 @@ yaxis <- scale_y_continuous(breaks = seq(0, 1.5, by = 0.25),
 
 dat_assess_mean <- dat_LRR2 %>%
   group_by(tsyear, assess_age) %>%
-  summarize(Depletion = exp(mean(log(Brel))),
+  summarize(Depletion = exp(median(log(Brel))),
             n = n()) %>%
   ungroup() %>%
   filter(n>14) %>%
@@ -158,8 +159,8 @@ stock_status_MRAMRY %>%
   distinct() %>%
   group_by(status) %>%
   summarize(n())
-68/230
-162/230
+93/230
+137/230
 
 #
 # Depleted and sustainable stocks
@@ -276,7 +277,11 @@ gall <- (g1 + g4) / (g2 + g3) +
   plot_annotation(tag_levels = "A") + 
   plot_layout(guides='collect') 
 
-ggsave("Outputs/depletion_timeseries-figures-all-scales-same.png", gall,
+
+
+
+
+ggsave("Outputs/depletion_timeseries-figures-all-scales-same-bmax.png", gall,
        width = 8, height = 4)
 
 save(g1, g2, g3, g4, 
