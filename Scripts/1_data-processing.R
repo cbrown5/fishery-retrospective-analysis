@@ -284,6 +284,14 @@ nrow(dat_B0_2)
 
 plot(log10(dat_B0_2$B0_assessment),log10(dat_B0_2$B0))
 abline(0,1)
+abline(lm(log(B0)~log(B0_assessment), data = dat_B0_2), col = 'red')
+
+summary(lm(log(B0)~log(B0_assessment), data = dat_B0_2))
+
+#average difference
+mean(with(dat_B0_2, {
+  (B0-B0_assessment)/B0_assessment
+}), na.rm = TRUE)
 
 g1 <- ggplot(dat_B0_2) + 
   aes(x = B0_assessment, y = B0) + 
