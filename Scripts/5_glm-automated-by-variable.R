@@ -12,10 +12,13 @@ library(ggplot2)
 library(brms)
 library(forcats)
 library(patchwork)
+library(tidybayes)
+library(tidyr)
+
 
 runmodels <- FALSE #set to true to rerun models,
 # set to false to load files
-saveplots <- FALSE
+saveplots <- TRUE
 
 dat2 <- read.csv("Outputs/glm-covariates-merged-Bmax.csv")
 dat2$clupeoid <- relevel(factor(dat2$clupeoid), ref = "Other")
@@ -27,12 +30,12 @@ response_vars <- c("Delta_Brel",
                    "Delta_B",
                    "Delta_B1")
 
-response_names <- c(expression(Delta*'B/B'[1]),
+response_names <- c(expression(Delta*'B/B'[max]),
                     expression(Delta*'B'),
-                    expression(Delta*'B'[1])
+                    expression(Delta*'B'[max])
 )
 
-gfixie <- fixef_save <- gpreds <- gpredsvalue <- NULL #lists to save key plots
+gfixie <- fixef_save <- gpreds <- gpredsvalue <- gpostdists <- NULL #lists to save key plots
 
 # ------------ 
 # Runs models for the three bias stats
@@ -148,6 +151,62 @@ for (ivar in response_vars){
     ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects.png"))
   
   #
+  # Fixed effects as distributions
+  #
+
+  x <- m1 %>%
+    spread_draws(b_stock_value, b_year.diff,
+                 b_lnBrel_MRA, b_start.diff, 
+                 b_trend.50yr.coef.cap,
+                 b_HADISSTmean.5yr,
+                 b_clupeoidClupeid,
+                 `b_stock_value:lnBrel_MRA`,                                            
+                `b_year.diff:lnBrel_MRA`) %>%
+    pivot_longer(cols = b_stock_value:`b_year.diff:lnBrel_MRA`)  %>%
+    mutate(params = fct_recode(factor(name),
+                               "Duration" = "b_start.diff",
+                               "Mean SST" = "b_HADISSTmean.5yr",
+                               "SST trend" = "b_trend.50yr.coef.cap",
+                               "Clupeoid" = "b_clupeoidClupeid",
+                               "Value" = "b_stock_value",
+                               "Age" = "b_year.diff",
+                               "Depletion" = "b_lnBrel_MRA",
+                               "Value by depletion" = "b_stock_value:lnBrel_MRA",
+                               "Depletion by age" = "b_year.diff:lnBrel_MRA"
+    ))%>%
+    mutate(params = factor(params, levels = c(
+      "Duration",
+      "Mean SST",
+      "SST trend",
+      "Clupeoid",
+      "Value",
+      "Age",
+      "Depletion",
+      "Value by depletion",
+      "Depletion by age"
+    )))
+  
+  sig_names <- paste0("b_", fixef$rowname[sign(fixef$Q2.5) == sign(fixef$Q97.5)])
+  x$sig <- 'a'
+  x$sig[x$name %in% sig_names] <- 'b'
+  
+  g1 <- x %>%
+    ggplot() +
+    aes(y = params, x = value, color = sig) +
+    geom_vline(xintercept = 0) + 
+    # stat_halfeye(normalize = "xy", fill_type = "segments", alpha = 0.8) +
+    stat_pointinterval(.width = c(0.5, 0.8, 0.95),
+                       interval_size_domain = c(1, 5)) +
+    # scale_color_brewer(palette = 1) +
+    theme(legend.position = "none") +
+    scale_color_manual(values = c("grey30", "red")) +
+    # scale_color_manual(values = c("#273254", "#405427")) + 
+    ylab("")
+  # g1
+  gpostdists <- c(gpostdists, list(g1))
+  
+  
+  #
   # predicted effects
   #
   
@@ -228,7 +287,7 @@ for (ivar in response_vars){
     # scale_y_log10(breaks = 10^(seq(-1, 1, by = 0.5)),
                   # labels = 10^(seq(-1, 1, by = 0.5)),
                   # limits = c(0.5, 4)) +
-    scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
+    scale_fill_manual(expression('B/B'[max]), values = c("#d41515", "black", "#0537ab"))
   
   
   gpreds <- c(gpreds, list(g1))
@@ -277,7 +336,7 @@ for (ivar in response_vars){
     # scale_y_log10(breaks = 10^(seq(-1, 1, by = 0.5)),
     # labels = 10^(seq(-1, 1, by = 0.5)),
     # limits = c(0.5, 4)) +
-    scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))+
+    scale_fill_manual(expression('B/B'[max]), values = c("#d41515", "black", "#0537ab"))+
     ylab(response_names[ivar == response_vars]) +
     xlab("Value")
   
@@ -294,12 +353,12 @@ for (ivar in response_vars){
 # Make multipanel figures
 #
 
-save(gpreds, gfixie, fixef_save,
-     file = "Outputs/2023-03-10_plots-main-models.rda")
+save(gpreds, gfixie, fixef_save,gpostdists,
+     file = "Outputs/2024-01-20_plots-main-models.rda")
 
 gall <- gpreds[[1]] + gpreds[[2]] +
   gpreds[[3]] + 
-  plot_annotation(tag_levels = 'a') &
+  plot_annotation(tag_levels = 'A') &
   theme(plot.tag = element_text(face = 'bold'))
   # plot_annotation(tag_levels ="a") + 
   plot_layout(guides='collect') 
@@ -312,23 +371,35 @@ ggsave("Outputs/Obsolesence-deltas-same-scale.png",
 gallfix <- gfixie[[1]] + 
   (gfixie[[2]] + theme(axis.text.y = element_blank())) +
   (gfixie[[3]]+ theme(axis.text.y = element_blank())) + 
-  plot_annotation(tag_levels ="a",
-                  tag_prefix = "(",
-                  tag_suffix = ")") +   plot_layout(guides='collect') 
+  plot_annotation(tag_levels ="A") +   plot_layout(guides='collect') 
 
 ggsave("Outputs/fixed-effects-deltas.png",
        gallfix,
        width = 8, height =3)
 
+gall_postdists <- gpostdists[[1]] + 
+  (gpostdists[[2]] + theme(axis.text.y = element_blank())) +
+  (gpostdists[[3]]+ theme(axis.text.y = element_blank())) + 
+  plot_annotation(tag_levels ="A") +   plot_layout(guides='collect') 
+
+ggsave("Outputs/fixed-effects-posteriors.png",
+       gall_postdists,
+       width = 12, height =4)
+
+
 gall <- gpredsvalue[[1]] + gpredsvalue[[2]] +
   gpredsvalue[[3]] + 
-  plot_annotation(tag_levels ="a",
-                  tag_prefix = "(",
-                  tag_suffix = ")") +   plot_layout(guides='collect') 
+  plot_annotation(tag_levels ="A") +   plot_layout(guides='collect') 
 
 ggsave("Outputs/Obsolesence-value-deltas-same-scale.png",
        gall,
        width = 8, height =3)
+
+#
+# Fixed effects - distributions plot 
+#
+
+
 
 #
 # Table of all parameters

@@ -26,6 +26,9 @@ library(DataGLMRepeat)
 dat <- read_csv("Data/stock-timeseries-databases.csv")
 
 RLSADB <- read_csv("Data/RLSADB v4.44 bioparams-view.csv")
+
+useB1_asB0 <- FALSE
+
 #
 #Steps for Brel
 #
@@ -58,7 +61,11 @@ dat_B0temp <- dat2 %>%
   minyear = min(tsyear)
   minyear1 <- sort(unique(tsyear))[2] # nearest year after min
   
-   B0 <- SSB[tsyear == minyear]
+  if (useB1_asB0){
+    B0 <- SSB[tsyear == minyear]
+  } else {
+    B0 <- max(SSB)
+  }
   
   # # Calculate assessment year (last year of each assessment series)
   maxyear <- max(tsyear)
@@ -281,7 +288,7 @@ dat_B0 <- dat_B0_2
 
 save(dat_B0, dat_MRA, dat_LRR, 
      dat_MRY, dat_MRY_stock_means, 
-     file = "Outputs/2023-02-13_processesed-assessment-data-before-2011.rda")
+     file = "Outputs/2024-01-24_processesed-assessment-data-before-2011-Bmax.rda")
 
 #
 # Data frame for GLMMs
@@ -319,7 +326,7 @@ dat_glm <- dat_MRY %>%
          minyear
   )
 
-write.csv(dat_glm, "Outputs/2023-02-13_glm-data-before-2011.csv",
+write.csv(dat_glm, "Outputs/2024-01-24_glm-data-before-2011-Bmax.csv",
           row.names = FALSE)
 
 
@@ -348,7 +355,7 @@ dat_glm_bystock <- dat6_bystock %>%
         B0_MRA
   )
 
-write.csv(dat_glm_bystock, "Outputs/2023-03-13_glm-data-stock-means-before-2011.csv",
+write.csv(dat_glm_bystock, "Outputs/2024-01-24_glm-data-stock-means-before-2011-Bmax.csv",
           row.names = FALSE)
 
 

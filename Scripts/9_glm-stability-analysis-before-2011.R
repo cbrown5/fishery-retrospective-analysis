@@ -10,8 +10,8 @@ library(ggplot2)
 library(brms)
 library(forcats)
 
-dat <- read.csv("Outputs/2023-02-13_glm-data-before-2011.csv")
-load("Outputs/2023-02-13_processesed-assessment-data-before-2011.rda")
+dat <- read.csv("Outputs/2024-01-24_glm-data-before-2011-Bmax.csv")
+load("Outputs/2024-01-24_processesed-assessment-data-before-2011-Bmax.rda")
 datcovar <- read.csv("Data/glm-covariates-Hadley.csv")
 stock_groups <- read.csv("Data/stock_groups.csv")
 regions <- read.csv("Data/regions.csv")
@@ -76,7 +76,7 @@ sm1effects <- rbind(sm1$fixed, sm1$random$Group,
 sm1effects$Parameter[sm1effects$Parameter == "sd(Intercept)"]  <- "SD Stock"
 
 write.csv(sm1effects,
-          paste0("Outputs/",ivar,"/models_effects-before-2011.csv"))
+          paste0("Outputs/",ivar,"/models_effects-before-2011-Bmax.csv"))
 
 
 conditional_effects(m1, effect = "year.diff",
@@ -97,10 +97,10 @@ fixef <- fixef(m1) %>%
                              "SST trend" = "trend.50yr.coef.cap",
                              "Clupeoid" = "clupeoidsClupeid",
                              "Value" = "stock_value",
-                             "Survey age" = "year.diff",
+                             "Age" = "year.diff",
                              "Depletion" = "lnBrel_MRA",
-                             "Value by \n depletion" = "stock_value:lnBrel_MRA",
-                             "Depletion by \n survey age" = "year.diff:lnBrel_MRA"
+                             "Value by depletion" = "stock_value:lnBrel_MRA",
+                             "Depletion by age" = "year.diff:lnBrel_MRA"
   ))%>%
   mutate(params = factor(params, levels = c(
     "Duration",
@@ -108,10 +108,10 @@ fixef <- fixef(m1) %>%
     "SST trend",
     "Clupeoid",
     "Value",
-    "Survey age",
+    "Age",
     "Depletion",
-    "Value by \n depletion",
-    "Depletion by \n survey age"
+    "Value by depletion",
+    "Depletion by age"
   )))
 
 #quick change of labels
@@ -144,13 +144,66 @@ g1 <-
   scale_color_manual(values = c("black", "#d41515")) + 
   theme(legend.position = "none")
 
-ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects-before-2011-inc-clupeids.png"))
+ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects-before-2011-inc-clupeids-Bmax.png"))
 
+#Point interval Fixef
 
+x <- m1 %>%
+  spread_draws(b_stock_value, b_year.diff,
+               b_lnBrel_MRA, b_start.diff, 
+               b_trend.50yr.coef.cap,
+               b_HADISSTmean.5yr,
+               b_clupeoidsClupeid,
+               `b_stock_value:lnBrel_MRA`,                                            
+               `b_year.diff:lnBrel_MRA`) %>%
+  pivot_longer(cols = b_stock_value:`b_year.diff:lnBrel_MRA`)  %>%
+  mutate(params = fct_recode(factor(name),
+                             "Duration" = "b_start.diff",
+                             "Mean SST" = "b_HADISSTmean.5yr",
+                             "SST trend" = "b_trend.50yr.coef.cap",
+                             "Clupeoid" = "b_clupeoidsClupeid",
+                             "Value" = "b_stock_value",
+                             "Age" = "b_year.diff",
+                             "Depletion" = "b_lnBrel_MRA",
+                             "Value by depletion" = "b_stock_value:lnBrel_MRA",
+                             "Depletion by age" = "b_year.diff:lnBrel_MRA"
+  ))%>%
+  mutate(params = factor(params, levels = c(
+    "Duration",
+    "Mean SST",
+    "SST trend",
+    "Clupeoid",
+    "Value",
+    "Age",
+    "Depletion",
+    "Value by depletion",
+    "Depletion by age"
+  )))
 
-g1_2ndMRA <- g1
-save(fixef, g1_2ndMRA, file = "Outputs/2023-03-23_plots-stability-model.rda")
+sig_names <- paste0("b_", fixef$rowname[sign(fixef$Q2.5) == sign(fixef$Q97.5)])
+x$sig <- 'a'
+x$sig[x$name %in% sig_names] <- 'b'
 
+g1 <- x %>%
+  ggplot() +
+  aes(y = params, x = value, color = sig) +
+  geom_vline(xintercept = 0) + 
+  # stat_halfeye(normalize = "xy", fill_type = "segments", alpha = 0.8) +
+  stat_pointinterval(.width = c(0.5, 0.8, 0.95),
+                     interval_size_domain = c(1, 5)) +
+  # scale_color_brewer(palette = 1) +
+  theme(legend.position = "none") +
+  scale_color_manual(values = c("grey30", "red")) +
+  # scale_color_manual(values = c("#273254", "#405427")) + 
+  ylab("")
+
+#save figures
+ggsave("Outputs/fixed-effects-posteriors-before2011.png",
+       g1,
+       width = 4, height =4)
+# g1_2ndMRA <- g1
+# save(fixef, g1_2ndMRA, file = "Outputs/2023-03-23_plots-stability-model.rda")
+# 
 
 #
 # Response conditional on B/B1 and Years to MRA
@@ -187,14 +240,14 @@ g1 <- ggplot(pdat) +
   geom_ribbon(aes(ymin = exp(`2.5%`),
                   ymax = exp(`97.5%`)), 
               color = NA, alpha = 0.7)+
-  ylab(expression(Delta*'B/B'[1])) +
-  xlab("Obsolescence (yrs)") +
+  ylab(expression(Delta*'B/B'[max])) +
+  xlab("Survey age (yrs)") +
   xlim(0, 15) + 
   scale_y_continuous(breaks = seq(0.5, 6, by = 0.5),
                      labels = seq(0.5, 6, by = 0.5),
                      limits = c(0.5, 6)) +
-  scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
+  scale_fill_manual(expression('B/B'[max]), values = c("#d41515", "black", "#0537ab"))
 
-ggsave("Outputs/Obsolesence-value-deltas-before-2011.png",
+ggsave("Outputs/Obsolesence-value-deltas-before-2011-Bmax.png",
        g1,
-       width = 5, height =3)
+       width = 4, height =3)
