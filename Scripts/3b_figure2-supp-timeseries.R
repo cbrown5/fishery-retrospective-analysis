@@ -4,11 +4,6 @@
 
 # CJ Brown 2023-03-02
 
-
-#UP TO HERE< now check and redo the difference plots
-#see gedgars notes, check >14 rule.
-#
-# Then make plot of n
 rm(list = ls())
 library(ggplot2)
 library(dplyr)

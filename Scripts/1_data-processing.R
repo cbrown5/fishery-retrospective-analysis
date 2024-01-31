@@ -24,7 +24,7 @@ dat <- read_csv("Data/stock-timeseries-databases.csv")
 
 RLSADB <- read_csv("Data/RLSADB v4.44 bioparams-view.csv")
 
-useB1_asB0 <- TRUE
+useB1_asB0 <- FALSE
 #Set to FALSE to use max(SSB), so to TRUE to use SSB in first year
 
 if (useB1_asB0){

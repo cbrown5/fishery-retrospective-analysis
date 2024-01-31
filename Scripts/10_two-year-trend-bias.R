@@ -1,5 +1,5 @@
 #Bias in trend over 2 year intervals
-# CJ Brown 2023-02-24
+# CJ Brown 2024-01-30
 
 library(tidyr)
 library(dplyr)
@@ -10,7 +10,7 @@ library(DataGLMRepeat)
 # load("Outputs/2022-02-11_processesed-assessment-data.rda")
 load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
 
-number_of_years_prior_MRA <- 5
+number_of_years_prior_MRA <- 0
 #number of years prior to MRA to classify stock status
 
 #axes settings 
@@ -153,12 +153,15 @@ flips %>%
 # Summary stats 
 #
 
-dat_assess_mean_status <- dat_trend_diff2 %>%
+dat_assess_mean_status <- dat_trend_diff2 %>%  
+  group_by(years_to_MRY, assess_age, status, stocklong) %>%
+  summarize(trend_diff = mean(trend_diff),
+            deltaBrel = mean(deltaBrel)) %>%
   group_by(years_to_MRY, assess_age, status) %>%
   summarize(median_trend = median(trend_diff),
             median_deltaBrel = median(deltaBrel),
             n = n()) %>%
-  filter(n>14) %>%
+  filter(n>9) %>%
   ungroup() %>%
   group_by(assess_age) %>%
   filter(assess_age != "MRA")
@@ -177,18 +180,17 @@ g4 <-
   filter(status == "Sustainable") %>% 
   ggplot() + 
   #Filter out dip in final year (due to small sample bias)
-  aes(x = years_to_MRY, y = median_deltaBrel,
+  aes(x = years_to_MRY, y = exp(median_deltaBrel),
       color = assess_age, group = assess_age,
       fill = assess_age) +
-  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = 1) +
   geom_line() +
   stat_smooth(method = "gam", 
               formula = y ~ s(x, bs = "tp")) + 
   theme_classic() + 
-  ylab(expression(Delta*'B/B'[1])) +
+  ylab(expression(Delta*'B/B'[max])) +
   xlab("Years before assessment") + 
   xlim(0, 15) +
-  yaxis2 +
   scale_color_manual("Assessment age", 
                      values = 
                        pal) +
@@ -200,10 +202,10 @@ g5 <-
   filter(status == "Depleted") %>% 
   ggplot() + 
   #Filter out dip in final year (due to small sample bias)
-  aes(x = years_to_MRY, y = median_deltaBrel,
+  aes(x = years_to_MRY, y = exp(median_deltaBrel),
       color = assess_age, group = assess_age,
       fill = assess_age) +
-  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = 1) +
   geom_line() +
   stat_smooth(method = "gam", 
               formula = y ~ s(x, bs = "tp")) + 
@@ -211,7 +213,6 @@ g5 <-
   ylab("") +
   xlab("Years before assessment") + 
   xlim(0, 15) +
-   yaxis2 +
   scale_color_manual("Assessment age", 
                      values = 
                        pal) +
@@ -229,10 +230,10 @@ g2 <-
   filter(status == "Sustainable") %>% 
   ggplot() + 
   #Filter out dip in final year (due to small sample bias)
-  aes(x = years_to_MRY, y = median_trend,
+  aes(x = years_to_MRY, y = exp(median_trend),
       color = assess_age, group = assess_age,
       fill = assess_age) +
-  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = 1) +
   geom_line() +
   stat_smooth(method = "gam", 
               formula = y ~ s(x, bs = "tp")) + 
@@ -240,7 +241,6 @@ g2 <-
   ylab(expression(Delta*' trend')) +
   xlab("Years before assessment") + 
   xlim(0, 15) +
-  yaxis +
   scale_color_manual("Assessment age", 
                      values = 
                        pal) +
@@ -252,10 +252,10 @@ g3 <-
   filter(status == "Depleted") %>% 
   ggplot() + 
   #Filter out dip in final year (due to small sample bias)
-  aes(x = years_to_MRY, y = median_trend,
+  aes(x = years_to_MRY, y = exp(median_trend),
       color = assess_age, group = assess_age,
       fill = assess_age) +
-  geom_hline(yintercept = 0) +
+  geom_hline(yintercept = 1) +
   geom_line() +
   stat_smooth(method = "gam", 
               formula = y ~ s(x, bs = "tp")) + 
@@ -263,7 +263,6 @@ g3 <-
   ylab("") +
   xlab("Years before assessment") + 
   xlim(0, 15) +
-  yaxis +
   scale_color_manual("Assessment age", 
                      values = 
                        pal) +
@@ -273,6 +272,13 @@ g3 <-
 #
 # Combined plot
 #
+gBrel_sus <- g4
+gBrel_dep <- g5
+gtrend_sus <- g2
+gtrend_dep <- g3
+
+save(gBrel_sus, gBrel_dep, gtrend_sus, gtrend_dep, 
+     file = paste0("Outputs/brel-and-trend-bias-Bmax-",number_of_years_prior_MRA,"year.rda"))
 
 gall <- (g4 + g5)/(g2 + g3) + 
   plot_annotation(tag_levels = "A") + 
@@ -281,5 +287,5 @@ gall <- (g4 + g5)/(g2 + g3) +
 gall
 
 #save plot
-ggsave("Outputs/bias-in-trends-Brel-Bmax-5-year-prior-MRA.png", gall,
+ggsave(paste0("Outputs/bias-in-trends-Brel-Bmax-",number_of_years_prior_MRA,"-year-prior-MRA.png"), gall,
        width = 8, height = 6)

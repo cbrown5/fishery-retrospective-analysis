@@ -7,7 +7,7 @@ library(ggplot2)
 library(patchwork)
 library(scales)
 
-load("Outputs/2022-02-11_processesed-assessment-data.rda")
+load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
 
 pcdat <- filter(dat_LRR, stocklong == "Pacific cod_Gulf of Alaska")
 
@@ -91,12 +91,12 @@ g2 <- ggplot(pcdat) +
   geom_line(data = filter(pcdat, finish2.x == 2014), 
                                                   color = "black", size = 0.9, 
                                                   linetype = 5) +
-  scale_y_continuous(breaks = c(0, 0.25, 0.5, 1, 2, 4),
-                     limits = c(0, 4)) +
+  scale_y_continuous(breaks = c(0, 0.25, 0.4, 0.5, 0.75, 1),
+                     limits = c(0, 1)) +
   # scale_y_log10(breaks = c(0.25, 0.5, 1,2, 3)) +
   theme_classic() +
   xlab("Year") + 
-  ylab(expression('Depletion (B/B'[1]*')')) +
+  ylab(expression('Depletion (B/B'[max]*')')) +
   xlim(1972, 2020) +
   theme(axis.title.y = element_text(lineheight = 0.5),
         legend.position = "none")

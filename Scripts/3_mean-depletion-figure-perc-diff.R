@@ -11,6 +11,7 @@ library(patchwork)
 # load("Outputs/2022-02-11_processesed-assessment-data.rda")
 load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
 
+number_of_years_prior_MRA <- 5
 
 dat_LRR2 <- dat_LRR %>%
   #Select just those stocks with full time-series from 1980 to 2010 or after
@@ -31,12 +32,12 @@ dat_LRR2 <- dat_LRR %>%
 #axes limits 
 xmin <- 1980 #1980
 xmax <- 2020
-ymin <- 0.8
-ymax <- 2.2
+ymin <- 0.2
+ymax <- 1
 
-yaxis <- scale_y_continuous(breaks = seq(0.8, 2.2, by = 0.2),
+yaxis <- scale_y_continuous(breaks = seq(0.2, 1, by = 0.2),
                             limits = c(ymin, ymax),
-                            labels = seq(0.8, 2.2, by = 0.2))
+                            labels = seq(0.2, 1, by = 0.2))
 
 #
 # ALL STOCKS 
@@ -48,12 +49,14 @@ dat_assess_mean <- dat_LRR2 %>%
   # mutate(Brel_diff = 100*(Brel - Brel_MRA)/Brel_MRA) %>%
   #LRR diff
   mutate(Brel_diff = (log(Brel) - log(Brel_MRA))) %>%
+  group_by(tsyear, assess_age, stocklong) %>%
+  summarize(Brel_diff = (mean(Brel_diff))) %>%
   group_by(tsyear, assess_age) %>%
   summarize(Depletion = (mean(Brel_diff)),
             n = n(),
             Dep_SE = (sd(Brel_diff)/sqrt(n))) %>%
   ungroup() %>%
-  filter(n>14) %>%
+  filter(n>9) %>%
   #Remove year/group combos with <4 assessments
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
@@ -82,7 +85,7 @@ g1 <- dat_assess_mean %>%
               color = NA,
               alpha = 0.5)+
   theme_classic() + 
-  ylab(expression(Delta*'B/B'[1])) +
+  ylab(expression(Delta*'B/B'[max])) +
   xlab("Year") + 
   xlim(xmin, xmax) +
   # yaxis +
@@ -90,7 +93,6 @@ g1 <- dat_assess_mean %>%
                      values = pal) + 
   scale_fill_manual("Assessment age", 
                      values = pal)  
-  
 g1
 # ggsave("Outputs/mean-depletion-perc-diff.png")
 
@@ -131,7 +133,7 @@ stock_status_MRAMRY <- dat_LRR2 %>%
   #just the MRAs
   filter(finish2.y == finish2.x) %>%
   #stock status X years before MRY of the MRA
-  mutate(MRAMRY_min5 = finish2.y - 0)  %>%
+  mutate(MRAMRY_min5 = finish2.y - number_of_years_prior_MRA)  %>%
   filter(tsyear == MRAMRY_min5) %>% 
   # filter(tsyear == finish2.y) %>% #deactivate if I want
   # to have status in year of ts. finish2.y is final year of MRA
@@ -148,11 +150,13 @@ stock_status_MRAMRY <- dat_LRR2 %>%
 dat_assess_mean_status <- dat_LRR2 %>%
   left_join(stock_status_MRAMRY) %>%
   mutate(Brel_diff = (log(Brel) - log(Brel_MRA))) %>%
+  group_by(tsyear, assess_age, status, stocklong) %>%
+  summarize(Brel_diff = mean(Brel_diff)) %>%
   group_by(tsyear, assess_age, status) %>%
   summarize(Depletion = mean(Brel_diff),
             n = n(),
             Dep_SE = sd(Brel_diff)/sqrt(n)) %>%
-  filter(n>14) %>%
+  filter(n>9) %>%
   ungroup() %>%
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
@@ -181,11 +185,11 @@ g2 <-
               color = NA,
               alpha = 0.5)+
   theme_classic() + 
-  ylab(expression(Delta*'B/B'[1])) +
+  ylab(expression(Delta*'B/B'[max])) +
   xlab("Year") + 
   xlim(xmin, xmax) +
   # ylim(1980, 2020) +
-  yaxis +
+  # yaxis +
   scale_color_manual("Assessment age", 
                      values = pal) + 
   scale_fill_manual("Assessment age", 
@@ -208,18 +212,19 @@ g3 <-
               color = NA,
               alpha = 0.5)+
   theme_classic() + 
-  ylab(expression(Delta*'B/B'[1])) +
+  ylab(expression(Delta*'B/B'[max])) +
   xlab("Year") + 
   xlim(xmin, xmax) +
   # ylim(1980, 2020) +
-   yaxis +
+   # yaxis +
   scale_color_manual("Assessment age", 
                      values = pal) + 
   scale_fill_manual("Assessment age", 
                     values = pal) +
   theme(legend.position = "none")
 
- 
+g2
+g3
 #
 # Stocks with >10yr old assessments 
 #
@@ -271,5 +276,13 @@ g4 <- dat_assess_mean_10yrold %>%
   theme(legend.position = "none")
 
 dat_status_diff <- dat_assess_mean_status
-save(g1, g2, g3, g4, dat_status_diff,file = "Outputs/timeseries-diff-plots.rda")
+save(g1, g2, g3, g4, dat_status_diff, 
+     file = paste0("Outputs/timeseries-diff-plots-Bmax-",number_of_years_prior_MRA,"year.rda"))
 
+# 
+# 
+# + 
+#   theme(legend.position = c(0.8, 0.),
+#         legend.key.size = unit(0.3, "cm"),
+#         legend.text = element_text(size=8),
+#         legend.title = element_text(size=10))

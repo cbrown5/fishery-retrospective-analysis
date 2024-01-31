@@ -36,8 +36,8 @@ dat_LRR2 <- dat_LRR %>%
 #      row.names = FALSE)
 
 #axes limits 
-xmin <- 0 #1980
-xmax <- 40
+xmin <- 1980
+xmax <- 2020
 ymin <- 0
 ymax <- 1
 
@@ -50,11 +50,14 @@ yaxis <- scale_y_continuous(breaks = seq(0, 1, by = 0.25),
 #
 
 dat_assess_mean <- dat_LRR2 %>%
-  group_by(years_before_assessment, assess_age) %>%
+  group_by(tsyear, assess_age, stocklong) %>%
+  summarize(Brel = exp(mean(log(Brel))),
+    n = n()) %>%
+  group_by(tsyear, assess_age) %>%
   summarize(Depletion = exp(mean(log(Brel))),
             n = n()) %>%
   ungroup() %>%
-  filter(n>4) %>%
+  filter(n>10) %>%
   #Remove year/group combos with <4 assessments
   group_by(assess_age) 
 #change order
@@ -67,7 +70,7 @@ levels = c("MRA",
 pal <- c("black", "#E69F00", "#56B4E9", "#009E73")#, "#0072B2")
 
 g1 <- ggplot(dat_assess_mean) +
-  aes(x = years_before_assessment, y = (Depletion),
+  aes(x = tsyear, y = (Depletion),
       color = assess_age, group = assess_age) + 
   geom_hline(yintercept = 1, color = "grey60") +
   geom_hline(yintercept = 0.4, color = "grey60", 
@@ -78,7 +81,6 @@ g1 <- ggplot(dat_assess_mean) +
   xlab("Year") + 
   xlim(xmin, xmax) +
   yaxis +
-  scale_x_reverse()
   scale_color_manual("Assessment age", 
                      values = pal)
 g1
@@ -176,12 +178,12 @@ stock_status_MRAMRY %>%
 
 dat_assess_mean_status <- dat_LRR2 %>%
   left_join(stock_status_MRAMRY) %>%
-  # group_by(years_before_assessment, assess_age, status, stocklong) %>%
-  # summarize(Brel =
-              # exp(mean(log(Brel))),
-            # n = n()) %>%
+  group_by(tsyear, assess_age, status, stocklong) %>%
+  summarize(Brel =
+              exp(mean(log(Brel))),
+            n = n()) %>%
   ungroup() %>%
-  group_by(years_before_assessment, assess_age, status) %>%
+  group_by(tsyear, assess_age, status) %>%
   summarize(Depletion = 
               exp(mean(log(Brel))),
             n = n()) %>%
@@ -205,7 +207,7 @@ for (i in status_names){
     filter(status == i) %>% 
     ggplot() + 
     #Filter out dip in final year (due to small sample bias)
-    aes(x = years_before_assessment, y = (Depletion),
+    aes(x = tsyear, y = (Depletion),
         color = assess_age, group = assess_age) + 
     geom_hline(yintercept = 1, color = "grey60") +
     geom_hline(yintercept = 0.4, color = "grey60", 
@@ -214,8 +216,8 @@ for (i in status_names){
     theme_classic() + 
     ylab(expression('Depletion (B/B'[1]*')')) +
     xlab("Year") + 
+    xlim(xmin, xmax) + 
     yaxis +
-    scale_x_reverse(limits = c(xmax,xmin)) + 
     scale_color_manual("Assessment age", 
                        values = 
                          pal)

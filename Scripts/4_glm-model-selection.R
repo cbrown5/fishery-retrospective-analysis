@@ -17,6 +17,10 @@ library(forcats)
 
 dat <- read.csv("Outputs/2024-01-10glm-data-Bmax.csv")
 load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
+
+# dat <- read.csv("Outputs/2024-01-10glm-data-B1.csv")
+# load("Outputs/2024-01-10_processesed-assessment-data-B1.rda")
+
 datcovar <- read.csv("Data/glm-covariates-Hadley.csv")
 stock_groups <- read.csv("Data/stock_groups.csv")
 regions <- read.csv("Data/regions.csv")
@@ -57,6 +61,13 @@ ivar <- response_vars[1]
 #
 # Summaries by stocks 
 #
+
+#number of old assessments with more than 1.5 bias
+sum(exp(dat2$Delta_Brel)>1.5)/nrow(dat2)
+sum(exp(dat2$Delta_Brel)>2)/nrow(dat2)
+#% of stocks within 5%
+sum((exp(dat2$Delta_Brel)  < 1.05) & (exp(dat2$Delta_Brel)  > 0.95))/nrow(dat2)
+sum((exp(dat2$Delta_Brel)  < 1.32) & (exp(dat2$Delta_Brel)  > 0.9))/nrow(dat2)
 
 dat_MRA_MRY <- filter(dat_MRA, tsyear == finish2) %>%
   select(stocklong, Brel_MRA)

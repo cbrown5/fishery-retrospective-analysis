@@ -9,8 +9,9 @@ library(ggplot2)
 library(brms)
 library(forcats)
 
-dat <- read.csv("Outputs/2022-02-11_glm-data.csv")
-load("Outputs/2022-02-11_processesed-assessment-data.rda")
+dat <- read.csv("Outputs/2024-01-10glm-data-Bmax.csv")
+load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
+
 datcovar <- read.csv("Data/glm-covariates-Hadley.csv")
 stock_groups <- read.csv("Data/stock_groups.csv")
 regions <- read.csv("Data/regions.csv")
@@ -223,13 +224,13 @@ g1 <- ggplot(pdat1) +
   geom_ribbon(aes(ymin = exp(`2.5%`),
                   ymax = exp(`97.5%`)), 
               color = NA, alpha = 0.7) +
-  ylab(expression(Delta*'B/B'[1])) +
+  ylab(expression(Delta*'B/B'[max])) +
   xlab("Year of MRA") +
   # xlim(0, 15) + 
   # scale_y_continuous(breaks = seq(0.5, 3, by = 0.5),
                      # labels = seq(0.5, 3, by = 0.5),
                      # limits = c(0.5, 3.2)) +
-  scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
+  scale_fill_manual(expression('B/B'[max]), values = c("#d41515", "black", "#0537ab"))
 
 
 g2 <- ggplot(pdat2) + 
@@ -246,7 +247,7 @@ g2 <- ggplot(pdat2) +
   # scale_y_continuous(breaks = seq(0.5, 3, by = 0.5),
   # labels = seq(0.5, 3, by = 0.5),
   # limits = c(0.5, 3.2)) +
-  scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
+  scale_fill_manual(expression('B/B'[max]), values = c("#d41515", "black", "#0537ab"))
 
 g3 <- ggplot(pdat3) + 
   aes(x = Year_MRA_unscaled, y = exp(`50%`), fill = factor(status),
@@ -256,22 +257,20 @@ g3 <- ggplot(pdat3) +
   geom_ribbon(aes(ymin = exp(`2.5%`),
                   ymax = exp(`97.5%`)), 
               color = NA, alpha = 0.7) +
-  ylab(expression(Delta*'B'[1])) +
+  ylab(expression(Delta*'B'[max])) +
   xlab("Year of MRA") +
   # xlim(0, 15) + 
   # scale_y_continuous(breaks = seq(0.5, 3, by = 0.5),
   # labels = seq(0.5, 3, by = 0.5),
   # limits = c(0.5, 3.2)) +
-  scale_fill_manual(expression('B/B'[1]), values = c("#d41515", "black", "#0537ab"))
+  scale_fill_manual(expression('B/B'[max]), values = c("#d41515", "black", "#0537ab"))
 
 gall <- (g1 + g2 + g3)+
-  plot_annotation(tag_levels = "a",
-                  tag_prefix = "(",
-                  tag_suffix = ")") + 
+  plot_annotation(tag_levels = "A") + 
   plot_layout(guides='collect') 
 gall
 
 ggsave(gall, file =paste0("Outputs/years-of-MRA-Brelative.png"),
        width = 8, height =3)
 
-save(pdat1, pdat2, pdat3, file = "Outputs/2023-03-10_predicitions-with-year-MRA.rda")
+save(pdat1, pdat2, pdat3, file = "Outputs/2024-01-30_predicitions-with-year-MRA.rda")

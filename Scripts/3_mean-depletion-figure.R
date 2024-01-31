@@ -50,11 +50,19 @@ yaxis <- scale_y_continuous(breaks = seq(0, ymax, by = 0.25),
 #   length()
 
 dat_assess_mean <- dat_LRR2 %>%
-  group_by(tsyear, assess_age) %>%
-  summarize(Depletion = exp(median(log(Brel))),
+  group_by(tsyear, assess_age, stocklong) %>%
+  summarize(Brel = exp(mean(log(Brel))),
             n = n()) %>%
+  group_by(tsyear, assess_age) %>%
+  summarize(lnDepletion = mean(log(Brel)),
+            n = n(),
+            sdlnBrel = sd(log(Brel))) %>%
   ungroup() %>%
-  filter(n>14) %>%
+  mutate(Dep_CI = 1.96 * sdlnBrel/sqrt(n), 
+         Depletion = exp(lnDepletion),
+         lwr = exp(lnDepletion - Dep_CI),
+         upr = exp(lnDepletion + Dep_CI)) %>%
+  filter(n>9) %>%
   #Remove year/group combos with <4 assessments
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
@@ -71,23 +79,28 @@ pal <- c("black", "#E69F00", "#56B4E9", "#009E73")#, "#0072B2")
 g1 <- ggplot(dat_assess_mean) +
   aes(x = tsyear, y = (Depletion),
       color = assess_age, group = assess_age) + 
-  geom_hline(yintercept = 1, color = "grey60") +
+  # geom_hline(yintercept = 1, color = "grey60") +
   geom_hline(yintercept = 0.4, color = "grey60", 
              linetype = 2) +
-  geom_line() +
+  geom_line()+
   theme_classic() + 
   ylab(expression('Depletion (B/B'[1]*')')) +
   xlab("Year") + 
   xlim(xmin, xmax) + 
   yaxis +
   scale_color_manual("Assessment age", 
-                     values = pal)
+                     values = pal) + 
+  theme(legend.position = c(0.8, 0.9),
+          legend.key.size = unit(0.3, "cm"),
+         legend.text = element_text(size=8),
+         legend.title = element_text(size=10))
 
+g1
 # ggsave("Outputs/mean-depletion.png")
 
 #Check status in particular years
 (filter(dat_assess_mean, tsyear == 1980))
-(filter(dat_assess_mean, tsyear == 2005))
+(filter(dat_assess_mean, tsyear == 2007))
 (filter(dat_assess_mean, tsyear == 2008))
 (filter(dat_assess_mean, tsyear == 2016))
 
@@ -168,10 +181,13 @@ stock_status_MRAMRY %>%
 
 dat_assess_mean_status <- dat_LRR2 %>%
   left_join(stock_status_MRAMRY) %>%
+  group_by(tsyear, assess_age, stocklong, status) %>%
+  summarize(Brel = exp(mean(log(Brel))),
+            n = n()) %>%
   group_by(tsyear, assess_age, status) %>%
   summarize(Depletion = exp(mean(log(Brel))),
             n = n()) %>%
-  filter(n>14) %>%
+  filter(n>9) %>%
   ungroup() %>%
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
@@ -203,7 +219,9 @@ g2 <-
   yaxis +
   scale_color_manual("Assessment age", 
                      values = 
-                       pal)
+                       pal) +
+  theme(legend.position = "none")
+
 
 g3 <- 
   dat_assess_mean_status %>%
@@ -234,10 +252,13 @@ g3 <-
 
 dat_assess_mean_10yrold <- dat_LRR2 %>%
   inner_join(stock_assess_morethan_10yr) %>%
+  group_by(tsyear, assess_age, stocklong) %>%
+  summarize(Brel = exp(mean(log(Brel))),
+            n = n()) %>%
   group_by(tsyear, assess_age) %>%
   summarize(Depletion = exp(mean(log(Brel))),
             n = n()) %>%
-  filter(n>14) %>%
+  filter(n>9) %>%
   ungroup() %>%
   group_by(assess_age) %>%
   mutate(maxyr = max(tsyear),
@@ -272,23 +293,107 @@ g4 <- dat_assess_mean_10yrold %>%
 # ggsave("Outputs/mean-depletion-10yrold-assessments.png", g4,
        # width = 5, height = 3)
 
+# 
+# gall <- (g1 + g4) / (g2 + g3) + 
+#   plot_annotation(tag_levels = "A") + 
+#   plot_layout(guides='collect') 
 
-gall <- (g1 + g4) / (g2 + g3) + 
-  plot_annotation(tag_levels = "A") + 
-  plot_layout(guides='collect') 
+gall <- g1/g2/g3 + 
+  plot_annotation(tag_levels = "A")
 
-
-
+gall
 
 
 ggsave("Outputs/depletion_timeseries-figures-all-scales-same-bmax.png", gall,
-       width = 8, height = 4)
+       width = 4, height = 6)
 
 save(g1, g2, g3, g4, 
      dat_assess_mean,
      dat_assess_mean_10yrold,
      dat_assess_mean_status,
      file = "Outputs/timeseries-plots-1980_2010.rda")
+
+
+#
+# Sample size plots 
+#
+xmin <- 1980
+xmax <- 2020
+ymin <- 0
+ymax <- 250
+yaxis <- scale_y_continuous(breaks = seq(0, ymax, by = 50),
+                            limits = c(ymin, ymax),
+                            labels = seq(0, ymax, by = 50))
+
+pal <- c("black", "#E69F00", "#56B4E9", "#009E73")#, "#0072B2")
+
+gA <- dat_assess_mean %>%
+  filter(n>9) %>%
+  ggplot() + 
+  aes(x = tsyear, y = n,
+      color = assess_age, group = assess_age) +
+  geom_line() +
+  theme_classic() + 
+  ylab("Number of stocks") +
+  xlab("Year") + 
+  xlim(xmin, xmax) + 
+  yaxis +  
+  scale_color_manual("Assessment age", 
+                     values = pal) + 
+  theme(legend.position = "none")
+
+gA
+
+x <- filter(dat_assess_mean_status, status == "Sustainable") %>%
+  filter(n>9) %>%
+  filter(assess_age == "MRA") 
+
+
+gB <- dat_assess_mean_status %>%
+  filter(status == "Sustainable") %>%
+  filter(n>9) %>%
+  ggplot() + 
+  aes(x = tsyear, y = n,
+      color = assess_age, group = assess_age) +
+  geom_line() +
+  theme_classic() + 
+  ylab("Number of stocks") +
+  xlab("Year") + 
+  xlim(xmin, xmax) + 
+  yaxis +  
+  scale_color_manual("Assessment age", 
+                     values = pal) + 
+  theme(legend.position = "none")
+
+gB
+
+gC <- dat_assess_mean_status %>%
+  filter(status == "Depleted") %>%
+  filter(n>9) %>%
+  ggplot() + 
+  aes(x = tsyear, y = n,
+      color = assess_age, group = assess_age) +
+  geom_line() +
+  theme_classic() + 
+  ylab("Number of stocks") +
+  xlab("Year") + 
+  xlim(xmin, xmax) + 
+  yaxis +  
+  scale_color_manual("Assessment age", 
+                     values = pal) + 
+  theme(legend.position = "none")
+
+gC
+
+
+gall <- (gA / gB / gC)  + 
+  plot_annotation(tag_levels = "A") + 
+  plot_layout(guides='collect') 
+gall
+
+ggsave("Outputs/depletion_timeseries-figures-sample-size-all-scales-same.png", gall,
+       width = 6, height = 6)
+
 
 
 #

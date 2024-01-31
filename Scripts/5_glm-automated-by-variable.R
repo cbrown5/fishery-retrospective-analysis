@@ -35,7 +35,41 @@ response_names <- c(expression(Delta*'B/B'[max]),
                     expression(Delta*'B'[max])
 )
 
-gfixie <- fixef_save <- gpreds <- gpredsvalue <- gpostdists <- NULL #lists to save key plots
+gfixie <- fixef_save <- gpreds <- gpredsvalue <- gpostdists <- gpostdists_scaled <- NULL #lists to save key plots
+
+
+#
+# Dataframe of SDs of each covariable 
+#
+
+
+SDs_of_covariables <- data.frame(
+  param = c(
+    "b_stock_value" ,
+    "b_year.diff" ,
+    "b_lnBrel_MRA" , 
+    "b_start.diff", 
+    "b_trend.50yr.coef.cap",
+    "b_HADISSTmean.5yr",
+    "b_clupeoidClupeid",
+    "b_stock_value:lnBrel_MRA",                                            
+    "b_year.diff:lnBrel_MRA"
+  ),
+  sd = with(dat2, 
+            c(
+              sd(stock_value),
+              sd(year.diff),
+              sd(lnBrel_MRA),
+              sd(start.diff),
+              sd(trend.50yr.coef.cap),
+              sd(HADISSTmean.5yr),
+              1,
+              sd(stock_value*lnBrel_MRA),
+              sd(year.diff * lnBrel_MRA)
+            )
+  )
+)
+
 
 # ------------ 
 # Runs models for the three bias stats
@@ -154,7 +188,7 @@ for (ivar in response_vars){
   # Fixed effects as distributions
   #
 
-  x <- m1 %>%
+  x <- m1  %>%
     spread_draws(b_stock_value, b_year.diff,
                  b_lnBrel_MRA, b_start.diff, 
                  b_trend.50yr.coef.cap,
@@ -162,7 +196,8 @@ for (ivar in response_vars){
                  b_clupeoidClupeid,
                  `b_stock_value:lnBrel_MRA`,                                            
                 `b_year.diff:lnBrel_MRA`) %>%
-    pivot_longer(cols = b_stock_value:`b_year.diff:lnBrel_MRA`)  %>%
+    pivot_longer(cols = b_stock_value:`b_year.diff:lnBrel_MRA`)  %>% 
+    left_join(SDs_of_covariables, by = c("name" = "param")) %>%
     mutate(params = fct_recode(factor(name),
                                "Duration" = "b_start.diff",
                                "Mean SST" = "b_HADISSTmean.5yr",
@@ -171,8 +206,8 @@ for (ivar in response_vars){
                                "Value" = "b_stock_value",
                                "Age" = "b_year.diff",
                                "Depletion" = "b_lnBrel_MRA",
-                               "Value by depletion" = "b_stock_value:lnBrel_MRA",
-                               "Depletion by age" = "b_year.diff:lnBrel_MRA"
+                               "Value x depletion" = "b_stock_value:lnBrel_MRA",
+                               "Age x depletion" = "b_year.diff:lnBrel_MRA"
     ))%>%
     mutate(params = factor(params, levels = c(
       "Duration",
@@ -182,9 +217,10 @@ for (ivar in response_vars){
       "Value",
       "Age",
       "Depletion",
-      "Value by depletion",
-      "Depletion by age"
-    )))
+      "Value x depletion",
+      "Age x depletion"
+    ))) %>%
+    mutate(value_scaled = value * sd)
   
   sig_names <- paste0("b_", fixef$rowname[sign(fixef$Q2.5) == sign(fixef$Q97.5)])
   x$sig <- 'a'
@@ -201,10 +237,27 @@ for (ivar in response_vars){
     theme(legend.position = "none") +
     scale_color_manual(values = c("grey30", "red")) +
     # scale_color_manual(values = c("#273254", "#405427")) + 
-    ylab("")
-  # g1
+    ylab("") + 
+    xlab("Effect size")
+   
   gpostdists <- c(gpostdists, list(g1))
   
+  
+  g1 <- x %>%
+    ggplot() +
+    aes(y = params, x = value_scaled, color = sig) +
+    geom_vline(xintercept = 0) + 
+    # stat_halfeye(normalize = "xy", fill_type = "segments", alpha = 0.8) +
+    stat_pointinterval(.width = c(0.5, 0.8, 0.95),
+                       interval_size_domain = c(1, 5)) +
+    # scale_color_brewer(palette = 1) +
+    theme(legend.position = "none") +
+    scale_color_manual(values = c("grey30", "red")) +
+    # scale_color_manual(values = c("#273254", "#405427")) + 
+    ylab("") + 
+    xlab("Effect size (scaled)")
+  
+  gpostdists_scaled <- c(gpostdists_scaled, list(g1))
   
   #
   # predicted effects
@@ -265,6 +318,7 @@ for (ivar in response_vars){
   
   pdat$status <- exp(pdat$lnBrel_MRA)
   
+  
   #
   #Figure 4 in the paper
   #
@@ -279,9 +333,9 @@ for (ivar in response_vars){
     ylab(response_names[ivar == response_vars]) +
     xlab("Survey age (yrs)") +
     xlim(0, 15) + 
-    scale_y_continuous(breaks = seq(0.5, 3, by = 0.5),
-                       labels = seq(0.5, 3, by = 0.5),
-                       limits = c(0.5, 3.2)) +
+    scale_y_continuous(breaks = seq(0.5, 2.75, by = 0.5),
+                       labels = seq(0.5, 2.75, by = 0.5),
+                       limits = c(0.5, 2.75)) +
     # scale_y_log10(breaks = c(0.6, 0.8, 1, 1.2,1.5, 2, 2.5,3,4),
                   # labels = c(0.6, 0.8, 1, 1.2,1.5, 2, 2.5,3,4),
     # scale_y_log10(breaks = 10^(seq(-1, 1, by = 0.5)),
@@ -294,6 +348,28 @@ for (ivar in response_vars){
   
   if(saveplots)
     ggsave(g1, file =paste0("Outputs/",ivar,"/years-to-MRA-Brelative.png"))
+  
+  #
+  #Mean delta Brel for 12 years, current status 0.05
+  #
+  newdata2 <- with(dat2, expand.grid(
+    lnBrel_MRA = c(log(0.1)),
+    year.diff = 12,
+    start.diff = mean(start.diff),
+    HADISSTmean.5yr = mean(HADISSTmean.5yr),
+    trend.50yr.coef.cap = mean(trend.50yr.coef.cap),
+    stock_value = mean(stock_value),
+    clupeoid = "Other",
+    stocklong = NA,
+    Group = NA
+  ))
+  print("Bias for stock 12 years ago")
+  posterior_epred(m1, newdata = newdata2,
+                          re.form = NA) %>%
+    apply(2,quantile, c(0.025, 0.5, 0.975)) %>%
+    t() %>%
+    exp() %>%
+  print()
   
   
   #
@@ -357,11 +433,11 @@ save(gpreds, gfixie, fixef_save,gpostdists,
      file = "Outputs/2024-01-20_plots-main-models.rda")
 
 gall <- gpreds[[1]] + gpreds[[2]] +
-  gpreds[[3]] + 
+  gpreds[[3]]+ 
+  plot_layout(guides='collect', ncol = 3) + 
   plot_annotation(tag_levels = 'A') &
-  theme(plot.tag = element_text(face = 'bold'))
-  # plot_annotation(tag_levels ="a") + 
-  plot_layout(guides='collect') 
+  theme(plot.tag = element_text(face = 'bold')) 
+
 
 ggsave("Outputs/Obsolesence-deltas-same-scale.png",
        gall,
@@ -377,7 +453,8 @@ ggsave("Outputs/fixed-effects-deltas.png",
        gallfix,
        width = 8, height =3)
 
-gall_postdists <- gpostdists[[1]] + 
+gall_postdists <- 
+  (gpostdists[[1]] + theme(axis.text.y = element_text(size = 12))) + 
   (gpostdists[[2]] + theme(axis.text.y = element_blank())) +
   (gpostdists[[3]]+ theme(axis.text.y = element_blank())) + 
   plot_annotation(tag_levels ="A") +   plot_layout(guides='collect') 
@@ -386,6 +463,16 @@ ggsave("Outputs/fixed-effects-posteriors.png",
        gall_postdists,
        width = 12, height =4)
 
+
+gall_postdists_scaled <- 
+  (gpostdists_scaled[[1]] + theme(axis.text.y = element_text(size = 12))) + 
+  (gpostdists_scaled[[2]] + theme(axis.text.y = element_blank())) +
+  (gpostdists_scaled[[3]]+ theme(axis.text.y = element_blank())) + 
+  plot_annotation(tag_levels ="A") +   plot_layout(guides='collect') 
+
+ggsave("Outputs/fixed-effects_scaled-posteriors.png",
+       gall_postdists_scaled,
+       width = 12, height =4)
 
 gall <- gpredsvalue[[1]] + gpredsvalue[[2]] +
   gpredsvalue[[3]] + 
