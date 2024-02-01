@@ -31,12 +31,12 @@ filter(dat_LRR2, tsyear>2015) %>%
 #axes limits 
 xmin <- 1980 #1980
 xmax <- 2020
-ymin <- 0
-ymax <- 1
+ymin <- 0.2
+ymax <- 0.8
 
-yaxis <- scale_y_continuous(breaks = seq(0, ymax, by = 0.25),
+yaxis <- scale_y_continuous(breaks = seq(0.2, ymax, by = 0.2),
                             limits = c(ymin, ymax),
-                            labels = seq(0, ymax, by = 0.25))
+                            labels = seq(0.2, ymax, by = 0.2))
 
 #
 # ALL STOCKS 
@@ -52,10 +52,11 @@ yaxis <- scale_y_continuous(breaks = seq(0, ymax, by = 0.25),
 dat_assess_mean <- dat_LRR2 %>%
   group_by(tsyear, assess_age, stocklong) %>%
   summarize(Brel = exp(mean(log(Brel))),
-            n = n()) %>%
+            n2 = n()) %>%
   group_by(tsyear, assess_age) %>%
   summarize(lnDepletion = mean(log(Brel)),
             n = n(),
+            n2 = sum(n2),
             sdlnBrel = sd(log(Brel))) %>%
   ungroup() %>%
   mutate(Dep_CI = 1.96 * sdlnBrel/sqrt(n), 
@@ -85,7 +86,7 @@ g1 <- ggplot(dat_assess_mean) +
   geom_line()+
   theme_classic() + 
   ylab(expression('Depletion (B/B'[1]*')')) +
-  xlab("Year") + 
+  xlab("") + 
   xlim(xmin, xmax) + 
   yaxis +
   scale_color_manual("Assessment age", 
@@ -214,7 +215,7 @@ g2 <-
   geom_line() +
   theme_classic() + 
   ylab(expression('Depletion (B/B'[1]*')')) +
-  xlab("Year") + 
+  xlab("") + 
   xlim(xmin, xmax) + 
   yaxis +
   scale_color_manual("Assessment age", 
@@ -222,7 +223,7 @@ g2 <-
                        pal) +
   theme(legend.position = "none")
 
-
+g2
 g3 <- 
   dat_assess_mean_status %>%
   filter(notmax & status == "Depleted") %>% 
@@ -299,7 +300,9 @@ g4 <- dat_assess_mean_10yrold %>%
 #   plot_layout(guides='collect') 
 
 gall <- g1/g2/g3 + 
-  plot_annotation(tag_levels = "A")
+  plot_annotation(tag_levels = "A") + 
+  plot_layout(heights = c(0.1,0.1,0.1)) & 
+  theme(plot.margin = margin(0, 5, 0.1, 5, "pt"))
 
 gall
 
