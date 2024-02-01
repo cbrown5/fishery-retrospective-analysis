@@ -5,52 +5,83 @@
 # Assumes we are in 2030 looking back to MRA, what 
 # bias is inferred in the MRA? 
 
-# CJ Brown 2022-07-26
+# CJ Brown 2024-01-31
+
+rm(list = ls())
 
 library(dplyr)
 library(ggplot2)
 library(brms)
 library(forcats)
 load(file = paste0("Outputs/Delta_Brel/best-model-fit.rda"))
-dat2 <- read.csv("Outputs/glm-covariates-merged.csv")
+load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
+dat2 <- read.csv("Outputs/glm-covariates-merged-Bmax.csv")
 ivar <- "Delta_Brel"
 m1$formula
-datprednew <- dat2
+
+dat_MRA_MRY <- filter(dat_MRA, tsyear == finish2) 
+datprednew <- dat_MRA_MRY
+
+sum(datprednew$Brel_MRA<0.1)
+sum(datprednew$Brel_MRA<0.4)
+sum(datprednew$Brel_MRA>0.4)
+
+#Make covariates for MRA
+#select covariates
+MRA_covars <- dat2 %>%
+  select(stocklong, start.diff.MRA, stock_value, HADISSTmean.5yr,
+         HADISSTtrend.50yr.coef, clupeoid, tsyear) %>%
+  group_by(stocklong) %>%
+  filter(tsyear == max(tsyear)) %>%
+  ungroup() %>%
+  #TS length for the assessment is TS length at the MRA
+  mutate(start.diff = start.diff.MRA,
+         trend.50yr.coef.cap = ifelse(HADISSTtrend.50yr.coef>0.05, 0.05,
+                                      HADISSTtrend.50yr.coef)*100)
+nrow(MRA_covars)
+length(unique(MRA_covars$stocklong))
 
 #
 # Raw bias stats
 #
 
-dat2 %>% group_by(stocklong) %>%
-  summarize(x = mean(Delta_Brel)) %>%
-  summarize(sum(x>0),
-            sum(x<0),
-            sum(x>0)/230,
-            sum(x<0)/230,
-            sum(x>0.5),
-            sum(x>1)) %>%
-  data.frame()
-
-
-#
-
+years_in_future <- 10
 #Project year.diff for MRA to 2030
-datprednew$year.diff <- 10#2030 - dat2$Year_MRA
-#add years to 2030 to start.diff
-datprednew$start.diff <- dat2$start.diff.MRA + dat2$year.diff
+datprednew$year.diff <- years_in_future
+
+#add covariates
+datprednew <- datprednew %>%
+  left_join(MRA_covars, by = "stocklong") 
 
 #filter for just one assessment per stock
+# use values of covaraites for each stock
 datprednew <- datprednew %>%
-  group_by(stocklong) %>%
-  mutate(final_assessment = ifelse(tsyear == max(tsyear), 1, 0)) %>%
-  filter(final_assessment == 1) %>% 
+  mutate(lnBrel_MRA = log(Brel_MRA)) %>%
   select(year.diff, start.diff, 
-         lnBrel_MRA, 
+         lnBrel_MRA,
+         Brel_MRA,
          trend.50yr.coef.cap, HADISSTmean.5yr,
          stock_value, 
-         stocklong, tsyear,
-         clupeoid) %>%
-  distinct()
+         stocklong,
+         clupeoid) 
+
+if(FALSE){
+  #as a comparison, use the means of assessments like in figure 4
+  # and condition on the average stock
+  
+datprednew <- dat_MRA_MRY %>% mutate(
+  year.diff = years_in_future,
+  start.diff = mean(dat2$start.diff),
+  HADISSTmean.5yr = mean(dat2$HADISSTmean.5yr),
+  trend.50yr.coef.cap = mean(dat2$trend.50yr.coef.cap),
+  stock_value = mean(dat2$stock_value),
+  clupeoid = "Other",
+  lnBrel_MRA = log(Brel_MRA),
+  stocklong = NA
+)
+
+}
+
 nrow(datprednew)
 
 mpred <- posterior_epred(m1, datprednew) %>%
@@ -68,8 +99,8 @@ g1 <- ggplot(mpred) +
   xlim(0, 3) + 
   xlab("B/B1") + 
   ylab("Density")
-
-ggsave(g1, file = paste0("Outputs/",ivar,"/status-adjusted.png"))
+g1
+# ggsave(g1, file = paste0("Outputs/",ivar,"/status-adjusted.png"))
 
 x1 <- quantile(mpred$status_estimate, probs = c(0.025, 0.25, 0.5, 0.75, 0.975))
 x2 <- quantile(mpred$status, probs = c(0.025, 0.25, 0.5, 0.75, 0.975))
@@ -77,7 +108,7 @@ x2 <- quantile(mpred$status, probs = c(0.025, 0.25, 0.5, 0.75, 0.975))
 status_q <- rbind(x1, x2) %>% data.frame() %>% round(2)
 status_q$val <- c("Estimated unbiased", "Current")  
 
-write.csv(status_q, paste0("Outputs/",ivar,"/status_unbiased.csv"))
+# write.csv(status_q, paste0("Outputs/",ivar,"/status_unbiased.csv"))
 
 status_prop <- mpred %>%
   summarize(sum(status_estimate<0.1)/n(),
@@ -97,8 +128,9 @@ status_prop <- mpred %>%
             sum(status<0.3),
             sum(status<0.4)) %>%
   signif(2)
+status_prop
 
-write.csv(status_prop, paste0("Outputs/",ivar,"/proportion-stock-status.csv"))
+# write.csv(status_prop, paste0("Outputs/",ivar,"/proportion-stock-status.csv"))
 
 #
 # Stats for paper 

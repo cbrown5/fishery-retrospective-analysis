@@ -8,6 +8,12 @@ Repeatable code for the study "Complex stock assessment models overstate sustain
 
 ## Data
 
+Figure 2: scales 0.2 to 0.8, and remove year. 
+
+Data Table S1 need year of assessment, B and delta B etc...delta Bmax
+
+
+
 Data File 1: RLSADB v4.44 bioparams-view.csv Data
 File 1 Description: The 'bioparams view' sheet from the [Ram Legacy database](https://www.ramlegacy.org/). Provided here so data workflow is repeatable. This is used just to compare B1 (initial biomass) to unfished biomass for stocks where that stat is available.  
 
