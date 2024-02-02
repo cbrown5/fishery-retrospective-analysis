@@ -9,6 +9,8 @@ library(dplyr)
 library(ggplot2)
 library(brms)
 library(forcats)
+library(tidybayes)
+library(tidyr)
 
 dat <- read.csv("Outputs/2024-01-24_glm-data-before-2011-Bmax.csv")
 load("Outputs/2024-01-24_processesed-assessment-data-before-2011-Bmax.rda")
@@ -38,6 +40,39 @@ dat2 <-
 nrow(dat2)
 
 dat2$clupeoids <- relevel(dat2$clupeoids, ref = "Other")
+
+#
+# Dataframe of SDs of each covariable 
+#
+
+
+SDs_of_covariables <- data.frame(
+  param = c(
+    "b_stock_value" ,
+    "b_year.diff" ,
+    "b_lnBrel_MRA" , 
+    "b_start.diff", 
+    "b_trend.50yr.coef.cap",
+    "b_HADISSTmean.5yr",
+    "b_clupeoidsClupeid",
+    "b_stock_value:lnBrel_MRA",                                            
+    "b_year.diff:lnBrel_MRA"
+  ),
+  sd = with(dat2, 
+            c(
+              sd(stock_value),
+              sd(year.diff),
+              sd(lnBrel_MRA),
+              sd(start.diff),
+              sd(trend.50yr.coef.cap),
+              sd(HADISSTmean.5yr),
+              1,
+              sd(stock_value*lnBrel_MRA),
+              sd(year.diff * lnBrel_MRA)
+            )
+  )
+)
+
 
 #
 # GLMM Delta_Brel
@@ -143,7 +178,7 @@ g1 <-
   coord_flip() + 
   scale_color_manual(values = c("black", "#d41515")) + 
   theme(legend.position = "none")
-
+g1
 ggsave(g1, file = paste0("Outputs/",ivar,"/fixed-effects-before-2011-inc-clupeids-Bmax.png"))
 
 #Point interval Fixef
@@ -157,6 +192,7 @@ x <- m1 %>%
                `b_stock_value:lnBrel_MRA`,                                            
                `b_year.diff:lnBrel_MRA`) %>%
   pivot_longer(cols = b_stock_value:`b_year.diff:lnBrel_MRA`)  %>%
+  left_join(SDs_of_covariables, by = c("name" = "param")) %>%
   mutate(params = fct_recode(factor(name),
                              "Duration" = "b_start.diff",
                              "Mean SST" = "b_HADISSTmean.5yr",
@@ -178,7 +214,8 @@ x <- m1 %>%
     "Depletion",
     "Value by depletion",
     "Depletion by age"
-  )))
+  ))) %>%
+  mutate(value_scaled = value * sd)
 
 sig_names <- paste0("b_", fixef$rowname[sign(fixef$Q2.5) == sign(fixef$Q97.5)])
 x$sig <- 'a'
@@ -186,7 +223,7 @@ x$sig[x$name %in% sig_names] <- 'b'
 
 g1 <- x %>%
   ggplot() +
-  aes(y = params, x = value, color = sig) +
+  aes(y = params, x = value_scaled, color = sig) +
   geom_vline(xintercept = 0) + 
   # stat_halfeye(normalize = "xy", fill_type = "segments", alpha = 0.8) +
   stat_pointinterval(.width = c(0.5, 0.8, 0.95),
@@ -195,10 +232,11 @@ g1 <- x %>%
   theme(legend.position = "none") +
   scale_color_manual(values = c("grey30", "red")) +
   # scale_color_manual(values = c("#273254", "#405427")) + 
-  ylab("")
-
+  ylab("") + 
+  xlab("Effect size (scaled)")
+g1
 #save figures
-ggsave("Outputs/fixed-effects-posteriors-before2011.png",
+ggsave("Outputs/fixed-effects-posteriors-before2011-scaled.png",
        g1,
        width = 4, height =4)
 # g1_2ndMRA <- g1
