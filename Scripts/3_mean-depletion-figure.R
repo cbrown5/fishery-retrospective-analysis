@@ -30,8 +30,8 @@ filter(dat_LRR2, tsyear>2015) %>%
 
 #axes limits 
 xmin <- 1980 #1980
-xmax <- 2020
-ymin <- 0.2
+xmax <- 2018
+ymin <- 0.18
 ymax <- 0.8
 
 yaxis <- scale_y_continuous(breaks = seq(0.2, ymax, by = 0.2),
@@ -85,7 +85,7 @@ g1 <- ggplot(dat_assess_mean) +
              linetype = 2) +
   geom_line()+
   theme_classic() + 
-  ylab(expression('Depletion (B/B'[1]*')')) +
+  ylab(expression('Depletion (B/B'[max]*')')) +
   xlab("") + 
   xlim(xmin, xmax) + 
   yaxis +
@@ -214,7 +214,7 @@ g2 <-
              linetype = 2) +
   geom_line() +
   theme_classic() + 
-  ylab(expression('Depletion (B/B'[1]*')')) +
+  ylab(expression('Depletion (B/B'[max]*')')) +
   xlab("") + 
   xlim(xmin, xmax) + 
   yaxis +
@@ -236,7 +236,7 @@ g3 <-
              linetype = 2) +
   geom_line() +
   theme_classic() + 
-  ylab(expression('Depletion (B/B'[1]*')')) +
+  ylab(expression('Depletion (B/B'[max]*')')) +
   xlab("Year") + 
   xlim(xmin, xmax) + 
   yaxis +
@@ -283,7 +283,7 @@ g4 <- dat_assess_mean_10yrold %>%
              linetype = 2) +
   geom_line() +
   theme_classic() + 
-  ylab(expression('Depletion (B/B'[1]*')')) +
+  ylab(expression('Depletion (B/B'[max]*')')) +
   xlab("Year") + 
   xlim(xmin, xmax) + 
   yaxis +

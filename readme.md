@@ -6,6 +6,13 @@ CJ Brown, GJ Edgar
 
 Repeatable code for the study "Complex stock assessment models overstate sustainability of the world’s fisheries"
 
+
+Thanks. Now if you can change the axis label to Bmax rather than B1 then it will be perfect.
+
+Wrt repeating figures with B1 as a consistency check with Bmax, then if you can do figs 3-5 with B1 rather than Bmax for the supps then that would be great.
+
+Not important, but for consistency with Fig 4 and a comparable fig with B1, then it is probably good to have Fig S4 with B and Bmax also included as well as B/Bmax. Oh, and the model fit plot at the end of supps with regression or no line.
+
 ## Data
 
 Data File 1: RLSADB v4.44 bioparams-view.csv Data
