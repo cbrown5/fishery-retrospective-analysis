@@ -16,7 +16,11 @@ Contact: Dr Chris Brown c.j.brown@utas.edu.au
 
 It is recommended you look up the peer-reviewed study by the same title and cite that. 
 
-Brown, C.J., Edgar, G.J., 2024. R code to support the study: stock assessment models overstate sustainability of the world’s fisheries. 
+Brown, C.J., Edgar, G.J., 2024. R code to support the study: stock assessment models overstate sustainability of the world’s fisheries. Zenodo. DOI: 10.5281/zenodo.12043237
+
+
+[![DOI](https://zenodo.org/badge/816561171.svg)](https://zenodo.org/doi/10.5281/zenodo.12043236)
+
 
 ## Overview and Aims
 
