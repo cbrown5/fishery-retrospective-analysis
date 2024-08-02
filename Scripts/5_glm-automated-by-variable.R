@@ -431,7 +431,7 @@ for (ivar in response_vars){
 #
 
 save(gpreds, gfixie, fixef_save,gpostdists,
-     file = "Outputs/2024-01-20_plots-main-models.rda")
+     file = "Outputs/2024-08-02_plots-main-models.rda")
 
 gall <- 
   (gpreds[[1]] + 
@@ -515,7 +515,7 @@ gall_postdists_scaled <-
            legend.position = "none")) +
   (gpostdists_scaled[[3]]+ 
      coord_cartesian(ylim = c(0, 9), # This focuses the x-axis on the range of interest
-                     clip = 'off')+
+                     clip = 'off') + 
      annotate("text", x = -0.08, y = 9.8,
               label = as.character(response_names[3]),
               color = "black", size = 10, fontface = "plain",
@@ -525,7 +525,8 @@ gall_postdists_scaled <-
            axis.text = element_text(color = "black"),
            legend.position = "none")) + 
   plot_annotation(tag_levels ="A") +   plot_layout(guides='collect') &
-  theme(plot.tag = element_text(face = 'bold')) 
+  theme(plot.tag = element_text(face = 'bold'))#&
+  # scale_colour_manual(values = c("grey80", "grey30")) 
 gall_postdists_scaled
 
 ggsave("Outputs/fixed-effects_scaled-posteriors.pdf", gall_postdists_scaled,

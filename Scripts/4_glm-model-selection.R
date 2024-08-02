@@ -15,7 +15,7 @@ library(ggplot2)
 library(brms)
 library(forcats)
 
-dat <- read.csv("Outputs/2024-01-10glm-data-Bmax.csv")
+dat <- read.csv("Outputs/2024-08-02glm-data-Bmax.csv")
 load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
 
 # dat <- read.csv("Outputs/2024-01-10glm-data-B1.csv")
