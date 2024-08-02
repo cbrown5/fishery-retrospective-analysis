@@ -8,7 +8,7 @@ library(patchwork)
 library(scales)
 library(readr)
 
-load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
+load("Outputs/2024-08-02_processesed-assessment-data-Bmax.rda")
 
 pcdat <- filter(dat_LRR, stocklong == "Pacific cod_Gulf of Alaska")
 

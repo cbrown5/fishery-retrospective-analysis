@@ -7,7 +7,7 @@ library(ggplot2)
 library(patchwork)
 
  # load("Outputs/2022-02-11_processesed-assessment-data.rda")
-load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
+load("Outputs/2024-08-02_processesed-assessment-data-Bmax.rda")
 # load("Outputs/2024-01-10_processesed-assessment-data-B1.rda")
 dat_LRR2 <- dat_LRR %>%
   # filter(stocklong == "Pacific cod_Gulf of Alaska") %>%
@@ -198,10 +198,13 @@ dat_assess_mean_status <- dat_LRR2 %>%
 
 dat_assess_mean_status$assess_age <- 
   factor(dat_assess_mean_status$assess_age,
-         levels = c("Most recent",
-                    "1-3 yr old",
+         levels = c("MRA", "1-3 yr old",
                     "4-8 yr old",
-                    ">8 yr old"))
+                    ">8 yr old"),
+         labels = c("1-3 yr old",
+                    "4-8 yr old",
+                    ">8 yr old",
+                    "Most recent"))
 
 
 g2 <- 
@@ -273,10 +276,13 @@ dat_assess_mean_10yrold <- dat_LRR2 %>%
 
 dat_assess_mean_10yrold$assess_age <- 
   factor(dat_assess_mean_10yrold$assess_age,
-         levels = c("MRA",
-                    "1-3 yr old",
+         levels = c("MRA", "1-3 yr old",
                     "4-8 yr old",
-                    ">8 yr old"))
+                    ">8 yr old"),
+         labels = c("1-3 yr old",
+                    "4-8 yr old",
+                    ">8 yr old",
+                    "Most recent"))
 
 g4 <- dat_assess_mean_10yrold %>%
   filter(notmax) %>%

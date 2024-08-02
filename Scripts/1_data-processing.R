@@ -301,7 +301,7 @@ dat_B0 <- dat_B0_2
 
 save(dat_B0, dat_MRA, dat_LRR, 
      dat_MRY, dat_MRY_stock_means, 
-     file = paste0("Outputs/2024-01-10_processesed-assessment-data-",suffix,".rda"))
+     file = paste0("Outputs/2024-08-02_processesed-assessment-data-",suffix,".rda"))
 
 #
 # Data frame for GLMMs
@@ -339,7 +339,7 @@ dat_glm <- dat_MRY %>%
          minyear
   )
 
-write.csv(dat_glm, paste0("Outputs/2024-01-10glm-data-",suffix,".csv"),
+write.csv(dat_glm, paste0("Outputs/2024-08-02glm-data-",suffix,".csv"),
           row.names = FALSE)
 
 
@@ -368,7 +368,7 @@ dat_glm_bystock <- dat6_bystock %>%
         B0_MRA
   )
 
-write.csv(dat_glm_bystock, paste0("Outputs/2024-01-10_glm-data-stock-means-",suffix,".csv"),
+write.csv(dat_glm_bystock, paste0("Outputs/2024-08-02_glm-data-stock-means-",suffix,".csv"),
           row.names = FALSE)
 
 
