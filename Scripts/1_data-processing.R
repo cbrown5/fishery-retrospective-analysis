@@ -23,7 +23,7 @@ library(DataGLMRepeat)
 dat <- read_csv("Data/stock-timeseries-databases.csv")
 
 #RAM data to compare Bmax to B0 from assessments where available. 
-RLSADB <- read_csv("Data/RLSADB v4.44 bioparams-view.csv")
+RLSADB <- read_csv("Data/bioparams-view.csv")
 
 useB1_asB0 <- FALSE
 #Set to FALSE to use max(SSB), so to TRUE to use SSB in first year
@@ -266,24 +266,44 @@ dat_MRA_MRY <- filter(dat_MRA, tsyear == finish2)
 # Comparison to B0 as calculated from assessments 
 # ------------ 
 
-#This uses TB0 if available and SSB0 if not
+#remove rockfish, which is an egg prodcution not SSB
+RLSADB$SSB0[RLSADB$stocklong == "Yelloweye rockfish Pacific Coast"] <- NA
+#This uses  SSB0 if available and TB0 if not
 adb_B0 <- RLSADB %>% filter(!is.na(TB0) | !is.na(SSB0)) %>% 
-  mutate(B0_assessment = ifelse(is.na(TB0), SSB0, TB0)) %>%
-           select(stocklong, B0_assessment) 
+  mutate(B0_assessment = ifelse(is.na(SSB0), TB0/2, SSB0)) %>%
+           select(stocklong, B0_assessment) %>%
+  #strip underscores and whitespaces from stocklong
+  mutate(stocklong2 = gsub("_| ", "", stocklong)) 
 nrow(adb_B0)
-dat_B0_2 <- left_join(dat_B0, adb_B0)
+dat_B0_2 <- dat_B0 %>%
+  mutate(stocklong2 = gsub("_| ", "", stocklong)) %>%
+  left_join(adb_B0, by = "stocklong2")
 nrow(dat_B0)
 nrow(dat_B0_2)
 
 #Compare B initial (our 'B0') to 
 # B0 in assessment database, for available stocks
+MRAb0 <- dat_B0_2 %>% 
+  filter(!is.na(B0_assessment)) %>%
+  #filter for stocklong with max year
+  group_by(stocklong2) %>%
+  mutate(maxyear2 = max(maxyear)) %>%
+  ungroup() %>%
+  filter(maxyear == maxyear2) %>%
+  filter(stocklong2 != "PacificoceanperchPacificCoast") #erronious B0, or egg production B0
 
-plot(log10(dat_B0_2$B0_assessment),log10(dat_B0_2$B0))
+nrow(MRAb0)
+plot(log10(MRAb0$B0_assessment),log10(MRAb0$B0), xlab = expression(log(B[0])),
+     #make label with subscript
+     ylab = expression(log(B[max])), pch = 19)
 abline(0,1)
-abline(lm(log(B0)~log(B0_assessment), data = dat_B0_2), col = 'red')
+# abline(lm(log(B0)~log(B0_assessment), data = MRAb0), col = 'blue')
 
-summary(lm(log(B0)~log(B0_assessment), data = dat_B0_2))
+#percent difference
+with(MRAb0, exp(mean(log(B0/B0_assessment))))
 
+summary(lm(log(B0)~log(B0_assessment), data = MRAb0))
+dat_B0_2 %>% nrow()
 #average difference
 mean(with(dat_B0_2, {
   (B0-B0_assessment)/B0_assessment

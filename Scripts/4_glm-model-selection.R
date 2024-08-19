@@ -47,6 +47,15 @@ dat2 <-
 nrow(dat2)
 dat2$clupeoid <- relevel(dat2$clupeoid, ref = "Other")
 
+dat_LRR %>% 
+  distinct(stocklong, scientificname, commonname) %>%
+  left_join(datcovar) %>%
+  mutate(x = duplicated(Species.name),
+         xmatch = scientificname == Species.name) %>%
+  select(xmatch, Species.name, scientificname, commonname, stocklong) %>%
+  View()
+
+
 #Write data for supplemental file 
  write.csv(dat2, "Outputs/glm-covariates-merged-Bmax.csv",
           row.names = FALSE)
@@ -109,7 +118,7 @@ datoutput <- dat_by_stock[,c("Common.name", "Region",
 sum(dat_by_stock$`mean(Delta_Brel)` > 0)
 sum(dat_by_stock$`mean(Delta_Brel)` < 0)
 
-sum(exp(dat_by_stock$`mean(Delta_Brel)`)  > 1.05)
+sum(exp(dat_by_stock$`mean(Delta_Brel)`)  > 2)
 sum(exp(dat_by_stock$`mean(Delta_Brel)`)  < 0.95)
 
 sum(exp(dat_by_stock$`mean(Delta_Brel)`)  > 2)

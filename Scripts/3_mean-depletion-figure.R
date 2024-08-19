@@ -102,10 +102,10 @@ g1
 # ggsave("Outputs/mean-depletion.png")
 
 #Check status in particular years
-(filter(dat_assess_mean, tsyear == 1980))
-(filter(dat_assess_mean, tsyear == 2007))
+(filter(dat_assess_mean, tsyear == 1980)) %>% data.frame()
+(filter(dat_assess_mean, tsyear == 2007)) %>% data.frame()
 (filter(dat_assess_mean, tsyear == 2008))
-(filter(dat_assess_mean, tsyear == 2016))
+(filter(dat_assess_mean, tsyear == 2017))%>% data.frame()
 
 #
 # Stocks that rise in last 5 years of MRA

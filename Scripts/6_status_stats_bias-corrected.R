@@ -14,7 +14,7 @@ library(ggplot2)
 library(brms)
 library(forcats)
 load(file = paste0("Outputs/Delta_Brel/best-model-fit.rda"))
-load("Outputs/2024-01-10_processesed-assessment-data-Bmax.rda")
+load("Outputs/2024-08-02_processesed-assessment-data-Bmax.rda")
 dat2 <- read.csv("Outputs/glm-covariates-merged-Bmax.csv")
 ivar <- "Delta_Brel"
 m1$formula
